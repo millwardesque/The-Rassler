@@ -1,0 +1,51 @@
+<!doctype html5>
+<html>
+	<head>
+		<title>The Rassler</title>
+
+		<link href="/css/sandbox.css" rel="stylesheet" />
+		<script src="/js/WebUtils.js"></script>
+		<script src="/js/GameEvent.js"></script>
+		<script src="/js/EventDispatcher.js"></script>
+		<script src="/js/GameClock.js"></script>
+		<script src="/js/GameScene.js"></script>
+		<script src="/js/GameEngine.js"></script>
+
+		<script src="/js/Command.js"></script>
+		<script src="/js/SleepCommand.js"></script>
+
+		<script src="/js/CommandsUI.js"></script>
+		<script src="/js/DescriptionUI.js"></script>
+		<script src="/js/GameClockUI.js"></script>
+
+		<script src="/js/Territory.js"></script>
+		<script src="/js/sandbox.js"></script>
+	</head>
+	<body>
+		<h1>The Rassler</h1>
+
+		<h2>Status</h2>
+		<div class="status">
+			<div id="gameClock-container"></div>
+		</div>
+
+		<h2>Description</h2>
+		<div id="description"></div>
+
+		<h2>Commands</h2>
+		<ul id="commands">
+		</ul>
+
+		<div class="templates" style="display:none">
+			<li class="template command">
+				<a>
+					<div class="label"></div>
+				</a>
+			</li>
+
+			<div class="template gameClock">
+				<span class="hour"></span>:<span class="minute"></span>
+			</div>
+		</div>
+	</body>
+</html>

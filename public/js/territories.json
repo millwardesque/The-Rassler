@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Mid-south Wrestling",
+        "rosterCapacity": 16,
+        "wrestlers": []
+    },
+    {
+        "name": "Georgia Championship Wrestling",
+        "rosterCapacity": 8,
+        "wrestlers": []
+    }
+]
