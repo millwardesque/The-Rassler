@@ -1,0 +1,40 @@
+{
+	"scenes": [
+		{ 
+			"id": "t1",
+			"description": "You're at the door to the locker room. It's your first time here since joining the company.",
+			"commands": [ 
+				{ 
+					"label": "Push open door gently", 
+					"nextScene": "t2a"
+				},
+				{ 
+					"label": "Walk through the door with confidence", 
+					"nextScene": "t2b"
+				},
+				{ 
+					"label": "Knock on the door", 
+					"nextScene": "t2c"
+				}
+			]
+		},
+		{ 
+			"id": "t2a",
+			"description": "You slide the door open and timidly poke your head in.\nJim McHeel: \"Way to be on time, kid\"",
+			"commands": [ 
+				{ 
+					"label": "Ignore Jim",
+					"nextScene": "t3a"
+				},
+				{ 
+					"label": "\"I got stuck in traffic\"",
+					"nextScene": "t3b"
+				},
+				{ 
+					"label": "Apologize",
+					"nextScene": "t3c"
+				}
+			]
+		}
+	]
+}

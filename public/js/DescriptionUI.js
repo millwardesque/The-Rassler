@@ -14,6 +14,15 @@ class DescriptionUI {
 
 	render(description) {
 		webUtils.removeAllChildren(this.container);
-		this.container.textContent = description;
+
+		// Remove any injected HTML
+		description = webUtils.stripHtml(description);
+
+		// Render new-lines
+		description = description.replace("\n", "<br />");
+
+		// @TODO Render placeholders
+
+		this.container.innerHTML = description;
 	}
 }

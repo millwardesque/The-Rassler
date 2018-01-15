@@ -5,14 +5,14 @@ class EventDispatcher {
 	}
 
 	dispatchEvent(event) {
-		if (this.listeners.hasOwnProperty(event.name)) {
-			console.log(event.name, this.listeners[event.name].length);
-			for (let listener of this.listeners[event.name]) {
+		if (this.listeners.hasOwnProperty(event.id)) {
+			console.log(`[EventDispatcher] Dispatching ${event.id} to ${this.listeners[event.id].length} listeners.`);
+			for (let listener of this.listeners[event.id]) {
 				listener.handleEvent(event);
 			}
 		}
 		else {
-			console.debug(`Event dispatched without a listener: ${event.name}`);
+			console.debug(`Event dispatched without a listener: ${event.id}`);
 		}
 	}
 
@@ -31,24 +31,25 @@ class EventDispatcher {
 		}
 	}
 
-	addListener(eventName, newListener) {
+	addListener(eventId, newListener) {
 		if (typeof (newListener.handleEvent) !== "function") {
-			throw new Error(`Listener for event ${eventName} has no 'handleEvent' function`);
+			throw new Error(`Listener for event ${eventId} has no 'handleEvent' function`);
 		}
 
-		if (!this.listeners.hasOwnProperty(eventName)) {
-			this.listeners[eventName] = new Array();
-			this.listeners[eventName].push(newListener);
+		if (!this.listeners.hasOwnProperty(eventId)) {
+			this.listeners[eventId] = new Array();
+			this.listeners[eventId].push(newListener);
 		}
 		else {
-			for (let listener of this.listeners[eventName]) {
+			for (let listener of this.listeners[eventId]) {
 				if (listener == newListener) {
 					return;
 				}
 			}
 
-			this.listeners[eventName].push(newListener);
+			this.listeners[eventId].push(newListener);
 		}
+		console.log(`[EventDispatcher] Added listener to ${eventId}`);
 	}
 
 	removeListener(listener) {

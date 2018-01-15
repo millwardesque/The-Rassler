@@ -61,4 +61,10 @@
 		return s;
 	}
 
+	exports.stripHtml = function(html) {
+		html = html.replace(/onerror/ig, 'safeonerror')
+		let tempElement = document.createElement("div");
+		tempElement.innerHTML = html;
+		return tempElement.textContent;
+	}
 })(this.webUtils = {});

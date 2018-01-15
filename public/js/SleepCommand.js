@@ -1,6 +1,6 @@
 class SleepCommand extends Command {
-	constructor(name, label, sleepMinutes) {
-		super(name, label);
+	constructor(name, label, sceneAfterExecution, sleepMinutes) {
+		super(name, label, sceneAfterExecution);
 
 		this.sleepMinutes = sleepMinutes;
 	}

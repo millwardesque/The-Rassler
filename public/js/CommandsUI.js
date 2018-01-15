@@ -9,7 +9,7 @@ class CommandsUI {
 	}
 
 	handleEvent(event) {
-		if (event.name == "Scene Change") {
+		if (event.id == "Scene Change") {
 			this.render(event.data.commands);
 		}
 	}
@@ -26,7 +26,7 @@ class CommandsUI {
 		commandNode.querySelector('.label').textContent = command.label;
 
 		commandNode.addEventListener('click', function(clickEvent) {
-			engine.eventDispatcher.dispatchEvent(new GameEvent('Execute Command-' + command.name));
+			engine.eventDispatcher.dispatchEvent(new GameEvent('Execute Command-' + command.id));
 		});
 
 		this.container.appendChild(commandNode);

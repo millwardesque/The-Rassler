@@ -1,22 +1,38 @@
 class Command {
-	constructor(name, label) {
-		this.name = name;
+	constructor(id, label, nextScene) {
+		this.id = id;
 		this.label = label;
+		this.nextScene = nextScene;
 
 		engine.eventDispatcher.addListener(this.executeCommandName, this);
 	}
 
-	execute(gameWorld) {
-		throw new Error("You must override the execute() method when inheriting the Command class.");
+	execute(gameWorld) { 
+		// Overrideable for custom command behaviour
 	}
 
 	handleEvent(gameEvent) {
-		if (gameEvent.name == this.executeCommandName) {
+		console.log(gameEvent);
+		console.log(gameEvent.id + ": HERE : " + this.executeCommandName);
+		if (gameEvent.id == this.executeCommandName) {
 			this.execute(gameEvent.gameWorld);
+
+			if (this.nextScene) {
+				engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", this.nextScene));
+			}
 		}
 	}
 
 	get executeCommandName() {
-		return "Execute Command-" + this.name;
+		return "Execute Command-" + this.id;
+	}
+
+	static load(obj) {
+		try {
+			return new Command(obj.id, obj.label, obj.nextScene)
+		}
+		catch(err) {
+			throw new Error(`Unable to load command from object: ${err}`);
+		}
 	}
 }

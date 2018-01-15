@@ -1,6 +1,6 @@
 class GameEvent {
-	constructor(name, data) {
-		this.name = name;
+	constructor(id, data) {
+		this.id = id;
 		this.data = data;
 	}
 }
