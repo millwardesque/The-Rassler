@@ -1,10 +1,12 @@
-class Command {
-	constructor(id, label, nextScene) {
+class Command extends GameObject {
+	constructor(id, isEnabled, label, nextScene) {
+		super(id, isEnabled);
+
 		this.id = id;
 		this.label = label;
 		this.nextScene = nextScene;
 
-		engine.eventDispatcher.addListener(this.executeCommandName, this);
+		engine.eventDispatcher.addListener(this.executeCommandEventName, this);
 	}
 
 	execute(gameWorld) { 
@@ -12,9 +14,7 @@ class Command {
 	}
 
 	handleEvent(gameEvent) {
-		console.log(gameEvent);
-		console.log(gameEvent.id + ": HERE : " + this.executeCommandName);
-		if (gameEvent.id == this.executeCommandName) {
+		if (gameEvent.id == this.executeCommandEventName) {
 			this.execute(gameEvent.gameWorld);
 
 			if (this.nextScene) {
@@ -23,13 +23,16 @@ class Command {
 		}
 	}
 
-	get executeCommandName() {
+	get executeCommandEventName() {
 		return "Execute Command-" + this.id;
 	}
 
+	/**
+	 * Loads a command via an object literal instead of a list of params
+	 */
 	static load(obj) {
 		try {
-			return new Command(obj.id, obj.label, obj.nextScene)
+			return new Command(obj.id, obj.isEnabled, obj.label, obj.nextScene)
 		}
 		catch(err) {
 			throw new Error(`Unable to load command from object: ${err}`);

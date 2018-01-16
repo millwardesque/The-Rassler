@@ -24,30 +24,36 @@ window.onload = async function() {
 
 	// Load the starting scene.
 	engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", "t1"));
-
 	engine.gameClock.setTime(0, 0);
 
 	/**
 	  TODO:
-	  [Milestone] Write a test locker room interraction with another wrestler
-	   Rich HTML markup
-	   Write content
+	  [Milestone] Write a test locker room interaction with another wrestler
+	   Only load commands into command objects for active commands
+	   Make things GameObjects
+	   Add alternate scenarios to locker room interaction
 
 	  Engine:
-	   Game calendar
 	   Documentation
-	   Placeholders in scene text.
+	   Placeholder replacement in scene text.
+	   Timed events
+	   Game calendar
+	   Save progress
+	   Scene description markup
+	   Scene editor
+	   Player
+	   NPCs
 
 	  Dynamic story extension:
 	   Determine commands on scene load instead of fixed list.
 	   Systems for plot
+	   Responses / commands based on relationships and status
 	
 	  If needed:
 	   Game states?
 	   Game loop?
 	   Player?
 	   Inventory?
-	   Save place
 
 	  Content:
 	   Scenes
@@ -66,7 +72,7 @@ function loadGameData() {
 
 			// Load the territories
 			gameData.territories = [];
-			let response = await webUtils.getRequest('./js/territories.json');
+			let response = await webUtils.getRequest('/gamedata/territories.json');
 			response = JSON.parse(response);
 			for (let row of response) {
 				let territory = new Territory(row.name, row.rosterCapacity);
@@ -75,7 +81,7 @@ function loadGameData() {
 
 			// Load the test story
 			gameData.scenes = [];
-			response = await webUtils.getRequest('./js/test-story.json');
+			response = await webUtils.getRequest('/gamedata/test-story.json');
 			response = JSON.parse(response);
 
 			if (response.hasOwnProperty('scenes')) {

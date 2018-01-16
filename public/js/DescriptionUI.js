@@ -19,7 +19,7 @@ class DescriptionUI {
 		description = webUtils.stripHtml(description);
 
 		// Render new-lines
-		description = description.replace("\n", "<br />");
+		description = description.replace(/\n/g, "<br />");
 
 		// @TODO Render placeholders
 

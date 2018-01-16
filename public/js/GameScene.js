@@ -1,8 +1,26 @@
 class GameScene {
 	constructor(id, description, commands) {
 		this.id = id;
+		this.isActiveScene = false;
 		this.description = description;
 		this.commands = commands;
+
+		engine.eventDispatcher.addListener("Scene Change", this);
+	}
+
+	handleEvent(event) {
+		if (event.data.id == this.id) {
+			for (let command of this.commands) {
+				command.isEnabled = true;
+			}
+			this.isActiveScene = true;
+		}
+		else if (this.isActiveScene) {
+			for (let command of this.commands) {
+				command.isEnabled = false;
+			}
+			this.isActiveScene = false;
+		}
 	}
 
 	static loadScenes(scenesData) {
@@ -14,7 +32,8 @@ class GameScene {
 
 				for (let i in sceneData.commands) {
 					let command = sceneData.commands[i];
-					command.id = "SceneCommand" + i;
+					command.id = `Scene-${sceneData.id}-Command-${i}`;
+					command.isEnabled = false;
 					commands.push(Command.load(command));
 				}
 				let scene = new GameScene(sceneData.id, sceneData.description, commands);

@@ -1,0 +1,68 @@
+{
+	"scenes": [
+		{ 
+			"id": "t1",
+			"description": "You're standing in front of the door to the locker room. It's your first time here since joining the company.",
+			"commands": [ 
+				{ 
+					"label": "Push open door gently", 
+					"nextScene": "t2a"
+				}
+			]
+		},
+		{ 
+			"id": "t2a",
+			"description": "You slide the door open and timidly poke your head in.\nJim McHeel: \"Way to be on time, kid\"",
+			"commands": [ 
+				{ 
+					"label": "Ignore Jim and walk to locker",
+					"nextScene": "t3a"
+				}
+			]
+		},
+		{ 
+			"id": "t3a",
+			"description": "Jim McHeel grabs you by the shoulder and spins you around\nJim McHeel: \"HEY! You got a hearin' problem, boy?\"",
+			"commands": [ 
+				{ 
+					"label": "Ignore Jim",
+					"nextScene": "t3a"
+				},
+				{ 
+					"label": "Apologize",
+					"nextScene": "t4a"
+				}
+			]
+		},
+		{ 
+			"id": "t4a",
+			"description": "Jim McHeel: \"You'd damn well better apologize boy. Now pick up my hat.\"\nJim McHeel throws his hat on the ground at your feet.",
+			"commands": [ 
+				{ 
+					"label": "Pick up Jim's hat",
+					"nextScene": "t5a"
+				}
+			]
+		},
+		{ 
+			"id": "t5a",
+			"description": "Jim McHeel: \"That's a good boy. Now, put it on my head. GENTLY.\"\nJim McHeel throws his hat on the ground at your feet.",
+			"commands": [ 
+				{ 
+					"label": "Smash hat on Jim's head.",
+					"nextScene": "t6a"
+				}
+			]
+		},
+		{ 
+			"id": "t6a",
+			"description": "The locker room goes mostly quiet. Small chuckles can be heard.\nJim McHeel: \"Kid... You. Will. Regret. This.\"\n\nTim Bookerman walks in clutching a piece of paper.\nTim Bookerman: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\nJim McHeel glares at you, then hurriedly stomps out the door.",
+			"commands": [ 
+				{ 
+					"label": "<restart scene>",
+					"nextScene": "t1"
+				}
+			]
+		}
+	]
+}

@@ -8,7 +8,17 @@ class EventDispatcher {
 		if (this.listeners.hasOwnProperty(event.id)) {
 			console.log(`[EventDispatcher] Dispatching ${event.id} to ${this.listeners[event.id].length} listeners.`);
 			for (let listener of this.listeners[event.id]) {
-				listener.handleEvent(event);
+				if (listener.hasOwnProperty('isEnabled')) {
+					if (listener.isEnabled) {
+						listener.handleEvent(event);
+					}
+					else {
+						console.log(`[EventDispatcher] Listener isn't enabled`);
+					}
+				}
+				else {
+					listener.handleEvent(event);
+				}
 			}
 		}
 		else {
