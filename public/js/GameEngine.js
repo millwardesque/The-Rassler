@@ -2,7 +2,8 @@ class GameEngine {
 	constructor() {
 		this.eventDispatcher = new EventDispatcher();
 		this.gameClock = new GameClock();
-		this.scenes = {}
+		this.scenes = {};
+		this.registry = new Registry();
 
 		this.eventDispatcher.addListener("Load Scene", this);
 	}

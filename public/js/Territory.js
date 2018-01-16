@@ -1,8 +1,12 @@
-class Territory {
-	constructor(name, rosterCapacity) {
+class Territory extends GameObject {
+	constructor(id, name, rosterCapacity) {
+		super(id, true);
+
 		this.name = name;
 		this.rosterCapacity = rosterCapacity;
 		this.roster = [];
+
+		engine.registry.append('territories', this.name);
 	}
 
 	hasCapacity() {

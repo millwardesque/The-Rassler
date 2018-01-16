@@ -28,15 +28,12 @@ window.onload = async function() {
 
 	/**
 	  TODO:
-	  [Milestone] Write a test locker room interaction with another wrestler
-	   Only load commands into command objects for active commands
-	   Make things GameObjects
-	   Add alternate scenarios to locker room interaction
+	  Figure out next milestone.
 
 	  Engine:
-	   Documentation
+	   Make things GameObjects
 	   Placeholder replacement in scene text.
-	   Timed events
+	   Stat-changing events
 	   Game calendar
 	   Save progress
 	   Scene description markup
@@ -45,6 +42,8 @@ window.onload = async function() {
 	   NPCs
 
 	  Dynamic story extension:
+	   Reusable snippets of text for similar scene segments.
+	   Tweak command text based on status and previous interactions.
 	   Determine commands on scene load instead of fixed list.
 	   Systems for plot
 	   Responses / commands based on relationships and status
@@ -70,12 +69,21 @@ function loadGameData() {
 		try {
 			let gameData = {};
 
-			// Load the territories
-			gameData.territories = [];
-			let response = await webUtils.getRequest('/gamedata/territories.json');
+			// Load the people
+			gameData.people = [];
+			let response = await webUtils.getRequest('/gamedata/people.json');
 			response = JSON.parse(response);
 			for (let row of response) {
-				let territory = new Territory(row.name, row.rosterCapacity);
+				let person = new Person(row.first, row.last);
+				gameData.people.push(person);
+			}
+
+			// Load the territories
+			gameData.territories = [];
+			response = await webUtils.getRequest('/gamedata/territories.json');
+			response = JSON.parse(response);
+			for (let row of response) {
+				let territory = new Territory(row.name, row.name, row.rosterCapacity);
 				gameData.territories.push(territory);
 			}
 
