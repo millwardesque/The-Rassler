@@ -6,6 +6,8 @@ class GameEngine {
 		this.registry = new Registry();
 
 		this.eventDispatcher.addListener("Load Scene", this);
+		this.eventDispatcher.addListener("Registry Set", this);
+		this.eventDispatcher.addListener("Registry Append", this);
 	}
 
 	addScene(scene) {
@@ -16,6 +18,12 @@ class GameEngine {
 	handleEvent(event) {
 		if (event.id == "Load Scene") {
 			this.loadScene(event.data);
+		}
+		else if (event.id == "Registry Set") {
+			this.registry.set(event.data.key, event.data.value);
+		}
+		else if (event.id == "Registry Append") {
+			this.registry.append(event.data.key, event.data.value);
 		}
 	}
 

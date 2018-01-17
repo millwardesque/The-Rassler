@@ -2,7 +2,7 @@
 	"scenes": [
 		{ 
 			"id": "t1",
-			"description": "You're standing in front of the door to the locker room. It's your first time here since joining the company.",
+			"description": "You're standing in front of the door to the locker room by [% currentTerritory.name %]. It's your first time here since joining the company.",
 			"commands": [ 
 				{ 
 					"label": "Gently push door open",

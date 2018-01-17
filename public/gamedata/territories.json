@@ -1,12 +1,12 @@
 [
     {
-        "name": "Mid-south Wrestling",
-        "rosterCapacity": 16,
+        "name": "Georgia Championship Wrestling",
+        "rosterCapacity": 8,
         "wrestlers": []
     },
     {
-        "name": "Georgia Championship Wrestling",
-        "rosterCapacity": 8,
+        "name": "Mid-south Wrestling",
+        "rosterCapacity": 16,
         "wrestlers": []
     }
 ]

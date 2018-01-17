@@ -19,4 +19,33 @@ class Registry {
 			throw new Error(`[Registry] Unable to append '${value}' to '${key}'`);
 		}
 	}
+
+	findValue(key) {
+		let tokens = key.split('.');
+
+		let root = tokens.shift();
+		if (root in this.registry) {
+			let currentObject = this.registry[root];
+			for (let token of tokens) {
+				if (token in currentObject) {
+					if (typeof(currentObject[token]) === "function") {
+						currentObject = currentObject[token].call(currentObject);
+					}
+					else {
+						currentObject = currentObject[token];
+					}
+				}
+				else {
+					throw new Error(`Unable to find ${key} in registry: Couldn't resolve ${token}`);
+				}
+			}
+
+			if (typeof(currentObject) === "function") {
+				return currentObject.call(currentObject);
+			}
+			else {
+				return currentObject;
+			}
+		}
+	}
 }

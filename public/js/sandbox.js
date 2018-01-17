@@ -9,7 +9,7 @@ window.onload = async function() {
 	let commandsUI = new CommandsUI(document.querySelector('#commands'));
 	let descriptionUI = new DescriptionUI(document.querySelector('#description'));
 
-	// Load the territories
+	// Load the game data.
 	let gameData;
 	try {
 		gameData = await loadGameData();
@@ -17,10 +17,15 @@ window.onload = async function() {
 		for (let scene of gameData.scenes) {
 			engine.addScene(scene);
 		}
+
+		engine.gameData = gameData;
 	}
 	catch(err) {
-		throw new Error(`Error loading game data: ${err}`);
+		console.log(`Error loading game data: ${err}`);
+		throw err;
 	}
+
+	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentTerritory', value: engine.gameData.territories[0] }))
 
 	// Load the starting scene.
 	engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", "t1"));
@@ -28,18 +33,21 @@ window.onload = async function() {
 
 	/**
 	  TODO:
-	  Figure out next milestone.
+	  Milestone: Add actual characters / territories to conversation.
+	  	Make existing things game objects
+		Add people
+		Add territories
+		Add locations
+		Update test script with data-driven names
 
 	  Engine:
-	   Make things GameObjects
-	   Placeholder replacement in scene text.
 	   Stat-changing events
 	   Game calendar
 	   Save progress
 	   Scene description markup
 	   Scene editor
-	   Player
-	   NPCs
+	   Use better JS file loader (Webpack, etc.)
+
 
 	  Dynamic story extension:
 	   Reusable snippets of text for similar scene segments.
