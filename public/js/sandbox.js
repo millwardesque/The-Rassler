@@ -37,9 +37,6 @@ window.onload = async function() {
 	  TODO:
 	  Milestone: Add actual characters / territories to conversation.
 	  	Make existing things game objects
-		Add people
-		Add territories
-		Add locations
 		Update test script with data-driven names
 
 	  Engine:
@@ -49,7 +46,6 @@ window.onload = async function() {
 	   Scene description markup
 	   Scene editor
 	   Use better JS file loader (Webpack, etc.)
-
 
 	  Dynamic story extension:
 	   Reusable snippets of text for similar scene segments.
@@ -70,6 +66,8 @@ window.onload = async function() {
 	   Other wrestlers
 	   Stories
 	   Matches
+	   Locations
+	   Venues
 	   Bookers
 	*/
 }
