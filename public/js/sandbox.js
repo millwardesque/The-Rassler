@@ -25,7 +25,9 @@ window.onload = async function() {
 		throw err;
 	}
 
-	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentTerritory', value: engine.gameData.territories[0] }))
+	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentTerritory', value: engine.gameData.territories[0] }));
+	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentAntagonist', value: engine.gameData.people[0] }));
+	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentBooker', value: engine.gameData.people[2] }));
 
 	// Load the starting scene.
 	engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", "t1"));

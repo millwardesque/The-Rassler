@@ -2,7 +2,7 @@
 	"scenes": [
 		{ 
 			"id": "t1",
-			"description": "You're standing in front of the door to the locker room by [% currentTerritory.name %]. It's your first time here since joining the company.",
+			"description": "You're standing in front of the door to the locker room. It's your first time here since joining [% currentTerritory.name %].",
 			"commands": [ 
 				{ 
 					"label": "Gently push door open",
@@ -12,20 +12,20 @@
 		},
 		{ 
 			"id": "t2a",
-			"description": "You slide the door open and timidly poke your head in. A man says from across the room\nJim McHeel: \"Way to be on time, kid.\nGreat impression on your first day.\"",
+			"description": "You slide the door open and timidly poke your head in.\nA man bellows at you from across the room.\n[% currentAntagonist.fullName %]: \"Way to be on time, kid.\nGreat impression on your first day.\"",
 			"commands": [ 
 				{ 
-					"label": "Ignore Jim and walk to locker",
+					"label": "Ignore [% currentAntagonist.firstName %] and walk to locker",
 					"nextScene": "t3a"
 				}
 			]
 		},
 		{ 
 			"id": "t3a",
-			"description": "Jim McHeel: \"Don't ignore me, punk!\"",
+			"description": "[% currentAntagonist.fullName %]: \"Don't ignore me, punk!\"",
 			"commands": [ 
 				{ 
-					"label": "Keep ignoring Jim",
+					"label": "Keep ignoring [% currentAntagonist.firstName %]",
 					"nextScene": "t3b"
 				},
 				{ 
@@ -36,7 +36,7 @@
 		},
 		{ 
 			"id": "t3b",
-			"description": "Jim McHeel grabs you by the shoulder and spins you around\nJim McHeel: \"HEY! You got a hearin' problem, boy?\"",
+			"description": "[% currentAntagonist.fullName %] grabs you by the shoulder and spins you around\n[% currentAntagonist.fullName %]: \"HEY! You got a hearin' problem, boy?\"",
 			"commands": [ 
 				{ 
 					"label": "Apologize",
@@ -50,24 +50,24 @@
 		},
 		{ 
 			"id": "t4a",
-			"description": "Player: \"Sorry, I -\"\nJim McHeel: \"Yeah, you'd damn well better apologize boy. Now pick up my hat.\"\nJim McHeel throws his hat on the ground at your feet.",
+			"description": "Player: \"Sorry, I -\"\n[% currentAntagonist.fullName %]: \"Yeah, you'd damn well better apologize boy. Now pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
 			"commands": [ 
 				{ 
-					"label": "Pick up Jim's hat",
+					"label": "Pick up [% currentAntagonist.firstName %]'s hat",
 					"nextScene": "t5a"
 				},
 				{ 
 					"label": "Continue getting changed",
-					"nextScene": "t5a"
+					"nextScene": "t5b"
 				}
 			]
 		},
 		{ 
 			"id": "t4b",
-			"description": "Jim McHeel: \"Oh great, deaf and mute. You're gonna be a blast to work with in the ring.\nI bet you can't even follow simple directions. Pick up my hat.\"\nJim McHeel throws his hat on the ground at your feet.",
+			"description": "[% currentAntagonist.fullName %]: \"Oh great, deaf and mute. You're gonna be a blast to work with in the ring.\nI bet you can't even follow simple directions. Pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
 			"commands": [ 
 				{ 
-					"label": "Pick up Jim's hat",
+					"label": "Pick up [% currentAntagonist.firstName %]'s hat",
 					"nextScene": "t5a"
 				},
 				{ 
@@ -78,27 +78,27 @@
 		},
 		{ 
 			"id": "t5a",
-			"description": "Jim McHeel: \"That's a good boy. Now, put it on my head. GENTLY.\"\nJim McHeel throws his hat on the ground at your feet.",
+			"description": "[% currentAntagonist.fullName %]: \"That's a good boy. Now, put it on my head. GENTLY.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
 			"commands": [ 
 				{ 
-					"label": "Smash hat on Jim's head.",
+					"label": "Smash hat on [% currentAntagonist.firstName %]'s head.",
 					"nextScene": "t6a"
 				}
 			]
 		},
 		{ 
 			"id": "t5b",
-			"description": "Jim McHeel: \"I SAID PICK. UP. MY. HAT.\"\nJim McHeel gestures towards his hat, resting on the ground near your feet.\n\nTim Bookerman walks in to the room clutching a piece of paper.\nTim Bookerman: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\nJim McHeel glares at you, then hurriedly stomps out the door.",
+			"description": "[% currentAntagonist.fullName %]: \"I SAID PICK. UP. MY. HAT.\"\n[% currentAntagonist.fullName %] gestures towards his hat, resting on the ground near your feet.\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
 			"commands": [ 
 				{ 
-					"label": "Pick up Jim's hat.",
+					"label": "Pick up [% currentAntagonist.firstName %]'s hat.",
 					"nextScene": "t7a"
 				}
 			]
 		},
 		{ 
 			"id": "t6a",
-			"description": "The locker room goes mostly quiet. Small chuckles can be heard.\nJim McHeel: \"Kid... You. Will. Regret. This.\"\n\nTim Bookerman walks in to the room clutching a piece of paper.\nTim Bookerman: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\nJim McHeel glares at you, then hurriedly stomps out the door.",
+			"description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
 			"commands": [ 
 				{ 
 					"label": "<restart scene>",
@@ -108,7 +108,7 @@
 		},
 		{ 
 			"id": "t7a",
-			"description": "You pick up Jim's hat.",
+			"description": "You pick up [% currentAntagonist.firstName %]'s hat.",
 			"commands": [ 
 				{ 
 					"label": "Throw it in the trash.",
@@ -118,7 +118,7 @@
 		},
 		{ 
 			"id": "t8a",
-			"description": "You cram Jim's hat in the mostly full trashcan, covering it in all sorts of God-knows-what but leaving enough of it sticking out the top so he'll notice.",
+			"description": "You cram [% currentAntagonist.firstName %]'s hat in the mostly full trashcan, covering it in all sorts of God-knows-what but leaving enough of it sticking out the top so he'll notice.",
 			"commands": [ 
 				{ 
 					"label": "<restart scene>",

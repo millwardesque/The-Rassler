@@ -23,7 +23,9 @@ class CommandsUI {
 
 	renderCommand(command) {
 		let commandNode = webUtils.cloneTemplate('command');
-		commandNode.querySelector('.label').textContent = command.label;
+		console.log(command.label);
+		let label = GameUtils.processTemplate(command.label);
+		commandNode.querySelector('.label').textContent = label;
 
 		commandNode.addEventListener('click', function(clickEvent) {
 			engine.eventDispatcher.dispatchEvent(new GameEvent('Execute Command-' + command.id));
