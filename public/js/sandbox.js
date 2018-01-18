@@ -35,11 +35,13 @@ window.onload = async function() {
 
 	/**
 	  TODO:
-	  Determine next milestone.
+	  MIlestone: Create a dynamic story experience by executing scenes at random
+	   Redefine Scene to be a collection of speech interactions.
+	   Add multiple scenes
+	   Stat-changing events (time in particular)
+	   Fill gaps when current scene is done
 
 	  Engine:
-	   Redefine Scene to be a collection of speech interactions.
-	   Stat-changing events
 	   Game calendar
 	   Save progress
 	   Scene description markup
