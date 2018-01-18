@@ -1,6 +1,6 @@
 class GameObject {
-	constructor(id, isEnabled = true) {
+	constructor(id) {
 		this.id = id;
-		this.isEnabled = isEnabled;
+		this.isEnabled = true;
 	}
 }

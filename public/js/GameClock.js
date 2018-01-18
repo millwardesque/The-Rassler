@@ -1,5 +1,6 @@
-class GameClock {
-	constructor() {
+class GameClock extends GameObject {
+	constructor(id) {
+		super(id);
 		this.hour = 0;
 		this.minute = 0;
 	}

@@ -1,6 +1,7 @@
-class GameScene {
+class GameScene extends GameObject {
 	constructor(id, description, commands) {
-		this.id = id;
+		super(id);
+
 		this.isActiveScene = false;
 		this.description = description;
 		this.commands = commands;
@@ -9,18 +10,20 @@ class GameScene {
 	}
 
 	handleEvent(event) {
-		if (event.data.id == this.id) {
-			for (let command of this.commands) {
-				command.isEnabled = true;
+		if (event.id == "Scene Change") {
+			if (event.data.id == this.id) {
+				for (let command of this.commands) {
+					command.isEnabled = true;
+				}
+				this.isActiveScene = true;
 			}
-			this.isActiveScene = true;
-		}
-		else if (this.isActiveScene) {
-			for (let command of this.commands) {
-				command.isEnabled = false;
-			}
-			this.isActiveScene = false;
-		}
+			else if (this.isActiveScene) {
+				for (let command of this.commands) {
+					command.isEnabled = false;
+				}
+				this.isActiveScene = false;
+			}	
+		}		
 	}
 
 	static loadScenes(scenesData) {

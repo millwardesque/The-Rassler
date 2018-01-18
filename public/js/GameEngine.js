@@ -1,7 +1,7 @@
 class GameEngine {
 	constructor() {
 		this.eventDispatcher = new EventDispatcher();
-		this.gameClock = new GameClock();
+		this.gameClock = new GameClock("Game Clock");
 		this.scenes = {};
 		this.registry = new Registry();
 

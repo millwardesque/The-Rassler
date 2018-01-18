@@ -5,9 +5,9 @@ window.onload = async function() {
 	engine = new GameEngine();
 
 	// Set up UI
-	let clockUI = new GameClockUI(document.querySelector('#gameClock-container'));
-	let commandsUI = new CommandsUI(document.querySelector('#commands'));
-	let descriptionUI = new DescriptionUI(document.querySelector('#description'));
+	let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
+	let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
+	let descriptionUI = new DescriptionUI("Description UI", document.querySelector('#description'));
 
 	// Load the game data.
 	let gameData;
@@ -35,11 +35,10 @@ window.onload = async function() {
 
 	/**
 	  TODO:
-	  Milestone: Add actual characters / territories to conversation.
-	  	Make existing things game objects
-		Update test script with data-driven names
+	  Determine next milestone.
 
 	  Engine:
+	   Redefine Scene to be a collection of speech interactions.
 	   Stat-changing events
 	   Game calendar
 	   Save progress

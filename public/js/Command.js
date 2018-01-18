@@ -1,6 +1,6 @@
 class Command extends GameObject {
-	constructor(id, isEnabled, label, nextScene) {
-		super(id, isEnabled);
+	constructor(id, label, nextScene) {
+		super(id);
 
 		this.id = id;
 		this.label = label;
@@ -32,7 +32,11 @@ class Command extends GameObject {
 	 */
 	static load(obj) {
 		try {
-			return new Command(obj.id, obj.isEnabled, obj.label, obj.nextScene)
+			let command = new Command(obj.id, obj.label, obj.nextScene)
+			if (obj.hasOwnProperty('isEnabled')) {
+				command.isEnabled = obj.isEnabled;
+			}
+			return command;
 		}
 		catch(err) {
 			throw new Error(`Unable to load command from object: ${err}`);

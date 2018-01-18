@@ -13,7 +13,7 @@ class EventDispatcher {
 						listener.handleEvent(event);
 					}
 					else {
-						console.log(`[EventDispatcher] Listener isn't enabled`);
+						console.log(`[EventDispatcher] Listener ${listener.id} isn't enabled`);
 					}
 				}
 				else {
@@ -42,8 +42,13 @@ class EventDispatcher {
 	}
 
 	addListener(eventId, newListener) {
-		if (typeof (newListener.handleEvent) !== "function") {
-			throw new Error(`Listener for event ${eventId} has no 'handleEvent' function`);
+		let listenerId = "<unknown";
+		if ('id' in newListener) {
+			listenerId = newListener.id;
+		}
+
+		if (typeof (newListener.handleEvent) !== "function") {a
+			throw new Error(`Listener ${listenerId} for event ${eventId} has no 'handleEvent' function`);
 		}
 
 		if (!this.listeners.hasOwnProperty(eventId)) {
@@ -59,7 +64,7 @@ class EventDispatcher {
 
 			this.listeners[eventId].push(newListener);
 		}
-		console.log(`[EventDispatcher] Added listener to ${eventId}`);
+		console.log(`[EventDispatcher] Added listener ${listenerId} to ${eventId}`);
 	}
 
 	removeListener(listener) {

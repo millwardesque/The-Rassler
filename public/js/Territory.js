@@ -1,6 +1,6 @@
 class Territory extends GameObject {
 	constructor(id, name, rosterCapacity) {
-		super(id, true);
+		super(id);
 
 		this.name = name;
 		this.rosterCapacity = rosterCapacity;

@@ -1,5 +1,7 @@
-class DescriptionUI {
-	constructor(container) {
+class DescriptionUI extends GameObject {
+	constructor(id, container) {
+		super(id);
+
 		if (container == null) {
 			throw new Error("Null container passed to constructor.");
 		}

@@ -1,5 +1,7 @@
-class CommandsUI {
-	constructor(container) {
+class CommandsUI extends GameObject{
+	constructor(id, container) {
+		super(id);
+
 		if (container == null) {
 			throw new Error("Null container passed to constructor.");
 		}
@@ -23,7 +25,6 @@ class CommandsUI {
 
 	renderCommand(command) {
 		let commandNode = webUtils.cloneTemplate('command');
-		console.log(command.label);
 		let label = GameUtils.processTemplate(command.label);
 		commandNode.querySelector('.label').textContent = label;
 
