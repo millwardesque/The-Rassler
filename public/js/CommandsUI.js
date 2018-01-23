@@ -29,7 +29,7 @@ class CommandsUI extends GameObject{
 		commandNode.querySelector('.label').textContent = label;
 
 		commandNode.addEventListener('click', function(clickEvent) {
-			engine.eventDispatcher.dispatchEvent(new GameEvent('Execute Command-' + command.id));
+			engine.eventDispatcher.dispatchEvent(new GameEvent("Execute Command", command));
 		});
 
 		this.container.appendChild(commandNode);

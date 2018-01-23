@@ -91,7 +91,7 @@
 				},
 				{ 
 					"id": "t5b",
-					"description": "[% currentAntagonist.fullName %]: \"I SAID PICK. UP. MY. HAT.\"\n[% currentAntagonist.fullName %] gestures towards his hat, resting on the ground near your feet.\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
+					"description": "[% currentAntagonist.fullName %]: \"I SAID PICK. UP. MY. HAT.\"\n[% currentAntagonist.fullName %] gestures towards his hat, resting on the ground near your feet.\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
 					"commands": [ 
 						{ 
 							"label": "Pick up [% currentAntagonist.firstName %]'s hat.",
@@ -101,7 +101,7 @@
 				},
 				{ 
 					"id": "t6a",
-					"description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"McHeel! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
+					"description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
 					"commands": [ 
 						{ 
 							"label": "<restart scene>",

@@ -6,14 +6,14 @@ class EventDispatcher {
 
 	dispatchEvent(event) {
 		if (this.listeners.hasOwnProperty(event.id)) {
-			console.log(`[EventDispatcher] Dispatching ${event.id} to ${this.listeners[event.id].length} listeners.`);
+			console.debug(`[EventDispatcher] Dispatching ${event.id} to ${this.listeners[event.id].length} listeners.`);
 			for (let listener of this.listeners[event.id]) {
 				if (listener.hasOwnProperty('isEnabled')) {
 					if (listener.isEnabled) {
 						listener.handleEvent(event);
 					}
 					else {
-						console.log(`[EventDispatcher] Listener ${listener.id} isn't enabled`);
+						console.debug(`[EventDispatcher] Listener ${listener.id} isn't enabled`);
 					}
 				}
 				else {
@@ -42,7 +42,7 @@ class EventDispatcher {
 	}
 
 	addListener(eventId, newListener) {
-		let listenerId = "<unknown";
+		let listenerId = "<unknown>";
 		if ('id' in newListener) {
 			listenerId = newListener.id;
 		}
@@ -64,7 +64,7 @@ class EventDispatcher {
 
 			this.listeners[eventId].push(newListener);
 		}
-		console.log(`[EventDispatcher] Added listener ${listenerId} to ${eventId}`);
+		console.debug(`[EventDispatcher] Added listener ${listenerId} to ${eventId}`);
 	}
 
 	removeListener(listener) {

@@ -34,9 +34,9 @@ window.onload = async function() {
 	/**
 	  TODO:
 	  Milestone: Create a dynamic story experience by executing scenes at random
-	   Relocate scene-node activation to Scene object
-	   Make GameEngine hold multiple scenes
 	   Add multiple scenes
+	   Make GameEngine hold multiple scenes
+	   Change between scenes
 	   Stat-changing events (time in particular)
 	   Decide what to do next when current scene is done
 
@@ -59,6 +59,7 @@ window.onload = async function() {
 	   Game loop?
 	   Player?
 	   Inventory?
+	   Better logger?
 
 	  Content:
 	   Scenes
@@ -103,7 +104,7 @@ function loadGameData() {
 			if (response.hasOwnProperty('scenes')) {
 				gameData.scenes = [];
 				for (let scene of response.scenes) {
-					gameData.scenes.push(Scene.loadScene(scene));
+					gameData.scenes.push(Scene.load(scene));
 				}
 			}
 

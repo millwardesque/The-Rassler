@@ -1,17 +1,30 @@
 class Scene extends GameObject{
-	constructor(id) {
+	constructor(id, nodes) {
 		super(id);
-
-		this.nodes = null;
-	}
-
-	setSceneNodes(nodes) {
 		this.nodes = nodes;
+
+		engine.eventDispatcher.addListener("Activate Scene Node", this);
 	}
 
-	static loadScene(sceneData) {
+	handleEvent(event) {
+		if (event.id == "Activate Scene Node") {
+			this.activateSceneNode(event.data);
+		}
+	}
+
+	activateSceneNode(sceneNodeId) {
+		for (let node of this.nodes) {
+			if (node.id == sceneNodeId) {
+				engine.eventDispatcher.dispatchEvent(new GameEvent("SceneNode Change", node));
+				return;	
+			}
+		}
+
+		throw new Error(`SceneNode '${sceneNodeId}' wasn't found`);
+	}
+
+	static load(sceneData) {
 		try {
-			console.log(sceneData);
 			let sceneId = sceneData.id;
 
 			let nodes = new Array();
@@ -28,10 +41,9 @@ class Scene extends GameObject{
 				nodes.push(sceneNode);
 			}
 
-			let scene = new Scene(sceneId);
-			scene.setSceneNodes(nodes);
+			let scene = new Scene(sceneId, nodes);
 
-			console.log(`Loaded scene ${sceneId}`);
+			console.log(`[Scene] Loaded '${sceneId}'`);
 			return scene;
 		}
 		catch(err) {

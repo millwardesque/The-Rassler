@@ -6,7 +6,7 @@ class Command extends GameObject {
 		this.label = label;
 		this.nextSceneNode = nextSceneNode;
 
-		engine.eventDispatcher.addListener(this.executeCommandEventName, this);
+		engine.eventDispatcher.addListener("Execute Command", this);
 	}
 
 	execute(gameWorld) { 
@@ -14,18 +14,13 @@ class Command extends GameObject {
 	}
 
 	handleEvent(gameEvent) {
-		if (gameEvent.id == this.executeCommandEventName) {
-			console.log(this);
+		if (gameEvent.id == "Execute Command" && gameEvent.data.id == this.id) {
 			this.execute(gameEvent.gameWorld);
 
 			if (this.nextSceneNode) {
 				engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", this.nextSceneNode));
 			}
 		}
-	}
-
-	get executeCommandEventName() {
-		return "Execute Command-" + this.id;
 	}
 
 	/**
