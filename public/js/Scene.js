@@ -3,12 +3,16 @@ class Scene extends GameObject{
 		super(id);
 		this.nodes = nodes;
 
+		for (let node of this.nodes) {
+			node.parentScene = this;
+		}
+
 		engine.eventDispatcher.addListener("Activate Scene Node", this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Activate Scene Node") {
-			this.activateSceneNode(event.data);
+		if (event.id == "Activate Scene Node" && event.data.sceneId == this.id) {
+			this.activateSceneNode(event.data.nodeId);
 		}
 	}
 
@@ -37,13 +41,11 @@ class Scene extends GameObject{
 					command.isEnabled = false;
 					commands.push(Command.load(command));
 				}
-				let sceneNode = new SceneNode(node.id, node.description, commands);
+				let sceneNode = new SceneNode(node.id, null, node.description, commands);
 				nodes.push(sceneNode);
 			}
 
 			let scene = new Scene(sceneId, nodes);
-
-			console.log(`[Scene] Loaded '${sceneId}'`);
 			return scene;
 		}
 		catch(err) {

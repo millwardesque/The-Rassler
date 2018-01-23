@@ -18,7 +18,7 @@ class Command extends GameObject {
 			this.execute(gameEvent.gameWorld);
 
 			if (this.nextSceneNode) {
-				engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", this.nextSceneNode));
+				engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", { sceneId: engine.activeScene.id, nodeId: this.nextSceneNode }));
 			}
 		}
 	}

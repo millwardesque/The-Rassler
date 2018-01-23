@@ -2,6 +2,7 @@ class GameEngine {
 	constructor() {
 		this.eventDispatcher = new EventDispatcher();
 		this.gameClock = new GameClock("Game Clock");
+		this.activeScene = null;
 		this.sceneNodes = {};
 		this.registry = new Registry();
 		
@@ -10,10 +11,9 @@ class GameEngine {
 	}
 
 	setScene(scene) {
-		for (let sceneNode of scene.nodes) {
-			this.sceneNodes[sceneNode.id] = sceneNode;	
-		}
-		console.log(`[GameEngine] Set scene '${scene.id}'`);
+		this.activeScene = scene;	
+		console.log(`[GameEngine] Set scene '${this.activeScene.id}'`);
+		this.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", { sceneId: this.activeScene.id, nodeId: this.activeScene.nodes[0].id }));
 	}
 
 	handleEvent(event) {

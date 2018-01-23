@@ -14,8 +14,6 @@ window.onload = async function() {
 	try {
 		gameData = await loadGameData();
 
-		engine.setScene(gameData.scenes[0]);
-
 		engine.gameData = gameData;
 	}
 	catch(err) {
@@ -28,13 +26,12 @@ window.onload = async function() {
 	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentBooker', value: engine.gameData.people[2] }));
 
 	// Load the starting scene.
-	engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", "t1"));
+	engine.setScene(engine.gameData.scenes[0]);
 	engine.gameClock.setTime(0, 0);
 
 	/**
 	  TODO:
 	  Milestone: Create a dynamic story experience by executing scenes at random
-	   Add multiple scenes
 	   Make GameEngine hold multiple scenes
 	   Change between scenes
 	   Stat-changing events (time in particular)
@@ -46,6 +43,8 @@ window.onload = async function() {
 	   Scene description markup
 	   Scene editor
 	   Use better JS file loader (Webpack, etc.)
+	   Be smarter about enabled / disabled game objects.
+	   Hardcoded list of events
 
 	  Dynamic story extension:
 	   Reusable snippets of text for similar scene segments.

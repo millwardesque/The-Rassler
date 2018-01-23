@@ -1,7 +1,8 @@
 class SceneNode extends GameObject {
-	constructor(id, description, commands) {
+	constructor(id, parentScene, description, commands) {
 		super(id);
 
+		this.parentScene = parentScene;
 		this.isActiveSceneNode = false;
 		this.description = description;
 		this.commands = commands;
@@ -11,7 +12,7 @@ class SceneNode extends GameObject {
 
 	handleEvent(event) {
 		if (event.id == "SceneNode Change") {
-			if (event.data.id == this.id) {
+			if (event.data.id == this.id && this.parentScene == event.data.parentScene) {
 				for (let command of this.commands) {
 					command.isEnabled = true;
 				}
