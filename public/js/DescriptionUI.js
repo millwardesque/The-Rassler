@@ -7,7 +7,7 @@ class DescriptionUI extends GameObject {
 		}
 
 		this.container = container;
-		engine.eventDispatcher.addListener('Scene Change', this);
+		engine.eventDispatcher.addListener('SceneNode Change', this);
 	}
 
 	handleEvent(event) {

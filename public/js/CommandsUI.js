@@ -7,11 +7,11 @@ class CommandsUI extends GameObject{
 		}
 
 		this.container = container;
-		engine.eventDispatcher.addListener('Scene Change', this);
+		engine.eventDispatcher.addListener('SceneNode Change', this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Scene Change") {
+		if (event.id == "SceneNode Change") {
 			this.render(event.data.commands);
 		}
 	}

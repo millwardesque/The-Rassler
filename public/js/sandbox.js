@@ -14,9 +14,7 @@ window.onload = async function() {
 	try {
 		gameData = await loadGameData();
 
-		for (let scene of gameData.scenes) {
-			engine.addScene(scene);
-		}
+		engine.setScene(gameData.scenes[0]);
 
 		engine.gameData = gameData;
 	}
@@ -30,16 +28,17 @@ window.onload = async function() {
 	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentBooker', value: engine.gameData.people[2] }));
 
 	// Load the starting scene.
-	engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", "t1"));
+	engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", "t1"));
 	engine.gameClock.setTime(0, 0);
 
 	/**
 	  TODO:
-	  MIlestone: Create a dynamic story experience by executing scenes at random
-	   Redefine Scene to be a collection of speech interactions.
+	  Milestone: Create a dynamic story experience by executing scenes at random
+	   Relocate scene-node activation to Scene object
+	   Make GameEngine hold multiple scenes
 	   Add multiple scenes
 	   Stat-changing events (time in particular)
-	   Fill gaps when current scene is done
+	   Decide what to do next when current scene is done
 
 	  Engine:
 	   Game calendar
@@ -102,7 +101,10 @@ function loadGameData() {
 			response = JSON.parse(response);
 
 			if (response.hasOwnProperty('scenes')) {
-				gameData.scenes = GameScene.loadScenes(response.scenes);
+				gameData.scenes = [];
+				for (let scene of response.scenes) {
+					gameData.scenes.push(Scene.loadScene(scene));
+				}
 			}
 
 			resolve(gameData);

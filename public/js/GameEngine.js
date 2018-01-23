@@ -2,22 +2,24 @@ class GameEngine {
 	constructor() {
 		this.eventDispatcher = new EventDispatcher();
 		this.gameClock = new GameClock("Game Clock");
-		this.scenes = {};
+		this.sceneNodes = {};
 		this.registry = new Registry();
 
-		this.eventDispatcher.addListener("Load Scene", this);
+		this.eventDispatcher.addListener("Activate Scene Node", this);
 		this.eventDispatcher.addListener("Registry Set", this);
 		this.eventDispatcher.addListener("Registry Append", this);
 	}
 
-	addScene(scene) {
-		this.scenes[scene.id] = scene;
-		console.log(`[GameEngine] Added scene ${scene.id}`);
+	setScene(scene) {
+		for (let sceneNode of scene.nodes) {
+			this.sceneNodes[sceneNode.id] = sceneNode;	
+		}
+		console.log(`[GameEngine] Set scene ${scene.id}`);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Load Scene") {
-			this.loadScene(event.data);
+		if (event.id == "Activate Scene Node") {
+			this.activateSceneNode(event.data);
 		}
 		else if (event.id == "Registry Set") {
 			this.registry.set(event.data.key, event.data.value);
@@ -27,14 +29,14 @@ class GameEngine {
 		}
 	}
 
-	loadScene(sceneId) {
-		if (this.scenes.hasOwnProperty(sceneId)) {
-			let scene = this.scenes[sceneId];
+	activateSceneNode(sceneNodeId) {
+		if (this.sceneNodes.hasOwnProperty(sceneNodeId)) {
+			let sceneNode = this.sceneNodes[sceneNodeId];
 			
-			this.eventDispatcher.dispatchEvent(new GameEvent("Scene Change", scene));
+			this.eventDispatcher.dispatchEvent(new GameEvent("SceneNode Change", sceneNode));
 		}
 		else {
-			throw new Error(`Scene '${sceneId}' wasn't found`);
+			throw new Error(`SceneNode '${sceneNodeId}' wasn't found`);
 		}
 	}
 }

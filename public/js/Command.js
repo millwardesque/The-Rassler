@@ -1,10 +1,10 @@
 class Command extends GameObject {
-	constructor(id, label, nextScene) {
+	constructor(id, label, nextSceneNode) {
 		super(id);
 
 		this.id = id;
 		this.label = label;
-		this.nextScene = nextScene;
+		this.nextSceneNode = nextSceneNode;
 
 		engine.eventDispatcher.addListener(this.executeCommandEventName, this);
 	}
@@ -15,10 +15,11 @@ class Command extends GameObject {
 
 	handleEvent(gameEvent) {
 		if (gameEvent.id == this.executeCommandEventName) {
+			console.log(this);
 			this.execute(gameEvent.gameWorld);
 
-			if (this.nextScene) {
-				engine.eventDispatcher.dispatchEvent(new GameEvent("Load Scene", this.nextScene));
+			if (this.nextSceneNode) {
+				engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", this.nextSceneNode));
 			}
 		}
 	}
@@ -32,7 +33,7 @@ class Command extends GameObject {
 	 */
 	static load(obj) {
 		try {
-			let command = new Command(obj.id, obj.label, obj.nextScene)
+			let command = new Command(obj.id, obj.label, obj.nextSceneNode)
 			if (obj.hasOwnProperty('isEnabled')) {
 				command.isEnabled = obj.isEnabled;
 			}
