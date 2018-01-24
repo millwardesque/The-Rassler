@@ -1,28 +1,28 @@
 class GameEngine extends GameObject {
-	constructor(id, eventDispatcher) {
+	constructor(id, gameClock) {
 		super(id);
 
 		this.eventDispatcher = new EventDispatcher();
-		this.gameClock = new GameClock("Game Clock");
+		this.gameClock = gameClock;
 		this.activeScene = null;
 		this.registry = new Registry();
 		
-		this.eventDispatcher.addListener("Registry Set", this);
-		this.eventDispatcher.addListener("Registry Append", this);
-		this.eventDispatcher.addListener("Set Scene", this);
+		this.eventDispatcher.addListener(GameEvents.RegistrySet, this);
+		this.eventDispatcher.addListener(GameEvents.RegistryAppend, this);
+		this.eventDispatcher.addListener(GameEvents.SetScene, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Registry Set") {
+		if (event.id == GameEvents.RegistrySet) {
 			this.registry.set(event.data.key, event.data.value);
 		}
-		else if (event.id == "Registry Append") {
+		else if (event.id == GameEvents.RegistryAppend) {
 			this.registry.append(event.data.key, event.data.value);
 		}
-		else if (event.id == "Set Scene") {
+		else if (event.id == GameEvents.SetScene) {
 			this.activeScene = event.data;
 			this.log(`Set scene '${this.activeScene.id}'`);
-			this.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", { sceneId: this.activeScene.id, nodeId: this.activeScene.nodes[0].id }));
+			this.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateSceneNode, { sceneId: this.activeScene.id, nodeId: this.activeScene.nodes[0].id }));
 		}
 	}
 }

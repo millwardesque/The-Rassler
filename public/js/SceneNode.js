@@ -7,11 +7,11 @@ class SceneNode extends GameObject {
 		this.description = description;
 		this.commands = commands;
 
-		engine.eventDispatcher.addListener("SceneNode Change", this);
+		engine.eventDispatcher.addListener(GameEvents.OnSceneNodeChange, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "SceneNode Change") {
+		if (event.id == GameEvents.OnSceneNodeChange) {
 			if (event.data.id == this.id && this.parentScene == event.data.parentScene) {
 				for (let command of this.commands) {
 					command.isEnabled = true;

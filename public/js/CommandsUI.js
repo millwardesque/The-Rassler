@@ -7,11 +7,11 @@ class CommandsUI extends GameObject{
 		}
 
 		this.container = container;
-		engine.eventDispatcher.addListener('SceneNode Change', this);
+		engine.eventDispatcher.addListener(GameEvents.OnSceneNodeChange, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "SceneNode Change") {
+		if (event.id == GameEvents.OnSceneNodeChange) {
 			this.render(event.data.commands);
 		}
 	}
@@ -29,7 +29,7 @@ class CommandsUI extends GameObject{
 		commandNode.querySelector('.label').textContent = label;
 
 		commandNode.addEventListener('click', function(clickEvent) {
-			engine.eventDispatcher.dispatchEvent(new GameEvent("Execute Command", command));
+			engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
 		});
 
 		this.container.appendChild(commandNode);

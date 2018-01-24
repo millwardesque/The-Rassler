@@ -2,11 +2,11 @@ class SceneSelector extends GameObject {
 	constructor(id) {
 		super(id);
 
-		engine.eventDispatcher.addListener("Select Next Scene", this);
+		engine.eventDispatcher.addListener(GameEvents.SelectNextScene, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Select Next Scene") {
+		if (event.id == GameEvents.SelectNextScene) {
 			this.selectScene(event.data);
 		}
 	}
@@ -20,7 +20,6 @@ class SceneSelector extends GameObject {
 
 		// Produce a list of possible scenes to choose from
 		for (let scene of availableScenes) {
-			this.log(`Checking scene ${scene.id} for validity`);
 			if (scene == engine.activeScene) {
 				continue;
 			}
@@ -28,7 +27,6 @@ class SceneSelector extends GameObject {
 			// Make sure all prerequisites are present and satisfied.
 			let arePrerequisitesSatisified = true;
 			for (let prereq of scene.prerequisites) {
-				this.log(`Checking prerequisite ${prereq.key}`);
 				try {
 					let value = engine.registry.findValue(prereq.key);
 					if (value != prereq.value) {
@@ -47,7 +45,6 @@ class SceneSelector extends GameObject {
 				continue;
 			}
 
-			this.log(`Including ${scene.id} in scene selection possibilities.`);
 			possibleScenes.push(scene);
 		}
 		

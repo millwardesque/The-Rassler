@@ -108,7 +108,10 @@
 					"commands": [ 
 						{ 
 							"label": "Finish getting ready",
-							"nextSceneNode": "<end>"
+							"nextSceneNode": "<end>",
+							"onExecute": [
+								{ "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
+							]
 						}
 					]
 				},
@@ -128,7 +131,10 @@
 					"commands": [ 
 						{ 
 							"label": "Finish getting ready",
-							"nextSceneNode": "<end>"
+							"nextSceneNode": "<end>",
+							"onExecute": [
+								{ "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
+							]
 						}
 					]
 				}
@@ -139,35 +145,6 @@
 			"prerequisites": [
 				{ "key": "scene complete: test-scene-2", "value": null },
 				{ "key": "scene complete: test-scene-1", "value": true }
-			],
-			"nodes": [
-				{ 
-					"id": "t1",
-					"description": "Your first [% currentTerritory.name %] show is over! It didn't go too badly, all things considered. What do you want to do now?",
-					"commands": [ 
-						{ 
-							"label": "Go get some food",
-							"nextSceneNode": "t2a"
-						}
-					]
-				},
-				{ 
-					"id": "t2a",
-					"description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
-					"commands": [ 
-						{ 
-							"label": "<end scene>",
-							"nextSceneNode": "<end>"
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "test-scene-3",
-			"prerequisites": [
-				{ "key": "scene complete: test-scene-3", "value": null },
-				{ "key": "scene complete: test-scene-2", "value": true }
 			],
 			"nodes": [
 				{ 
@@ -183,6 +160,38 @@
 				{ 
 					"id": "t2a",
 					"description": "The crowd cheers.\nAnd then you trip over your own feet, brain yourself on the ring steps, and pass out.",
+					"commands": [ 
+						{ 
+							"label": "<end scene>",
+							"nextSceneNode": "<end>",
+							"onExecute": [
+								{ "key": "Add Game Time", "value": { "hour": 4, "minute": 5}}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "test-scene-3",
+			"prerequisites": [
+				{ "key": "scene complete: test-scene-3", "value": null },
+				{ "key": "scene complete: test-scene-2", "value": true }
+			],
+			"nodes": [
+				{ 
+					"id": "t1",
+					"description": "Your first [% currentTerritory.name %] show is over! It didn't go too badly, all things considered. What do you want to do now?",
+					"commands": [ 
+						{ 
+							"label": "Go get some food",
+							"nextSceneNode": "t2a"
+						}
+					]
+				},
+				{ 
+					"id": "t2a",
+					"description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
 					"commands": [ 
 						{ 
 							"label": "<end scene>",

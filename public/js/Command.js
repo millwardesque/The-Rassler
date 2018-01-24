@@ -5,20 +5,23 @@ class Command extends GameObject {
 		this.id = id;
 		this.label = label;
 		this.nextSceneNode = nextSceneNode;
+		this.onExecute = [];
 
-		engine.eventDispatcher.addListener("Execute Command", this);
+		engine.eventDispatcher.addListener(GameEvents.ExecuteCommand, this);
 	}
 
-	execute(gameWorld) { 
-		// Overrideable for custom command behaviour
+	execute() { 
+		for (let task of this.onExecute) {
+			engine.eventDispatcher.dispatchEvent(new GameEvent(task.key, task.value));
+		}
 	}
 
 	handleEvent(gameEvent) {
-		if (gameEvent.id == "Execute Command" && gameEvent.data.id == this.id) {
-			this.execute(gameEvent.gameWorld);
+		if (gameEvent.id == GameEvents.ExecuteCommand && gameEvent.data.id == this.id) {
+			this.execute();
 
 			if (this.nextSceneNode) {
-				engine.eventDispatcher.dispatchEvent(new GameEvent("Activate Scene Node", { sceneId: engine.activeScene.id, nodeId: this.nextSceneNode }));
+				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateSceneNode, { sceneId: engine.activeScene.id, nodeId: this.nextSceneNode }));
 			}
 		}
 	}
@@ -29,8 +32,12 @@ class Command extends GameObject {
 	static load(obj) {
 		try {
 			let command = new Command(obj.id, obj.label, obj.nextSceneNode)
-			if (obj.hasOwnProperty('isEnabled')) {
+			if ('isEnabled' in obj) {
 				command.isEnabled = obj.isEnabled;
+			}
+
+			if ('onExecute' in obj) {
+				command.onExecute = obj.onExecute;
 			}
 			return command;
 		}

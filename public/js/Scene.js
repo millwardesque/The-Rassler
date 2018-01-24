@@ -9,11 +9,11 @@ class Scene extends GameObject{
 
 		this.prerequisites = prerequisites;
 
-		engine.eventDispatcher.addListener("Activate Scene Node", this);
+		engine.eventDispatcher.addListener(GameEvents.ActivateSceneNode, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == "Activate Scene Node" && event.data.sceneId == this.id) {
+		if (event.id == GameEvents.ActivateSceneNode && event.data.sceneId == this.id) {
 			this.activateSceneNode(event.data.nodeId);
 		}
 	}
@@ -26,7 +26,7 @@ class Scene extends GameObject{
 		else {
 			for (let node of this.nodes) {
 				if (node.id == sceneNodeId) {
-					engine.eventDispatcher.dispatchEvent(new GameEvent("SceneNode Change", node));
+					engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnSceneNodeChange, node));
 					return;	
 				}
 			}
@@ -37,7 +37,7 @@ class Scene extends GameObject{
 
 	endScene() {
 		engine.registry.set(`scene complete: ${this.id}`, true);
-		engine.eventDispatcher.dispatchEvent(new GameEvent("Select Next Scene", engine.gameData.scenes));
+		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));
 	}
 
 	static load(sceneData) {

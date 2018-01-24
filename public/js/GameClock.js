@@ -3,6 +3,14 @@ class GameClock extends GameObject {
 		super(id);
 		this.hour = 0;
 		this.minute = 0;
+
+		engine.eventDispatcher.addListener(GameEvents.AddGameTime, this);
+	}
+
+	handleEvent(event) {
+		if (event.id == GameEvents.AddGameTime) {
+			this.addTime(event.data.hour, event.data.minute);
+		}
 	}
 
 	setTime(hour, minute) {
@@ -11,7 +19,7 @@ class GameClock extends GameObject {
 
 		this.normalizeDate();
 
-		engine.eventDispatcher.dispatchEvent(new GameEvent('GameClock-Change', this));
+		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnGameTimeChange, this));
 	}
 
 	addTime(deltaHours, deltaMinutes) {

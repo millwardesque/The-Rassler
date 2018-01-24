@@ -7,11 +7,13 @@ class GameClockUI extends GameObject {
 		}
 
 		this.container = container;
-		engine.eventDispatcher.addListener('GameClock-Change', this);
+		engine.eventDispatcher.addListener(GameEvents.OnGameTimeChange, this);
 	}
 
 	handleEvent(event) {
-		this.render(event.data);
+		if (event.id == GameEvents.OnGameTimeChange) {
+			this.render(event.data);	
+		}		
 	}
 
 	render(gameClock) {

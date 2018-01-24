@@ -3,7 +3,8 @@ let engine = null;
 window.onload = async function() {
 	// Set up game engine
 	engine = new GameEngine("Game Engine");
-	let sceneSelector = new SceneSelector("Scene Selector");
+	engine.gameClock = new GameClock("Game Clock");
+	engine.sceneSelector = new SceneSelector("Scene Selector");
 
 	// Set up UI
 	let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
@@ -22,23 +23,20 @@ window.onload = async function() {
 		throw err;
 	}
 
-	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentTerritory', value: engine.gameData.territories[0] }));
-	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentAntagonist', value: engine.gameData.people[0] }));
-	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentBooker', value: engine.gameData.people[2] }));
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentTerritory', value: engine.gameData.territories[0] }));
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentAntagonist', value: engine.gameData.people[0] }));
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentBooker', value: engine.gameData.people[2] }));
 
 	// Load the starting scene.
-	engine.eventDispatcher.dispatchEvent(new GameEvent('Select Next Scene', engine.gameData.scenes));
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));
 	engine.gameClock.setTime(0, 0);
 
 	/**
 	  TODO:
 	  Milestone: Simulate day one
-	   Handle no valid scenes left
-	   Stat-changing events
-	   Time-changing events
-	   Add time-based scene-completion dependency
 	   Add bedtime scene
 	   Add mid-day scenes
+	   Handle no valid scenes left
 
 	  Engine:
 	   Game calendar
