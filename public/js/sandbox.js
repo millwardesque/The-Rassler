@@ -45,7 +45,7 @@ window.onload = async function() {
 	   Scene editor
 	   Use better JS file loader (Webpack, etc.)
 	   Be smarter about enabled / disabled game objects.
-	   Hardcoded list of events
+	   Prevent unregistered event from being dispatched.
 
 	  Dynamic story extension:
 	   Add prerequisite support to scenenode commands
