@@ -17,10 +17,16 @@ class Scene extends GameObject{
 	}
 
 	activateSceneNode(sceneNodeId) {
-		for (let node of this.nodes) {
-			if (node.id == sceneNodeId) {
-				engine.eventDispatcher.dispatchEvent(new GameEvent("SceneNode Change", node));
-				return;	
+		if (sceneNodeId == "<end>") {
+			engine.eventDispatcher.dispatchEvent(new GameEvent("Select Next Scene", engine.gameData.scenes));
+			return;
+		}
+		else {
+			for (let node of this.nodes) {
+				if (node.id == sceneNodeId) {
+					engine.eventDispatcher.dispatchEvent(new GameEvent("SceneNode Change", node));
+					return;	
+				}
 			}
 		}
 

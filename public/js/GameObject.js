@@ -23,11 +23,11 @@ class GameObject {
 	}
 
 	log(message, data) {
-		Log.log_helper('log', this.fullId, message, data);
+		Log.log(this.fullId, message, data);
 	}
 
 	debug(message, data) {
-		Log.log_helper('debug', this.fullId, message, data);
+		Log.debug(this.fullId, message, data);
 	}
 
 	get fullId() {

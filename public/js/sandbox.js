@@ -2,7 +2,8 @@ let engine = null;
 
 window.onload = async function() {
 	// Set up game engine
-	engine = new GameEngine();
+	engine = new GameEngine("Game Engine");
+	let sceneSelector = new SceneSelector("Scene Selector");
 
 	// Set up UI
 	let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
@@ -26,17 +27,11 @@ window.onload = async function() {
 	engine.eventDispatcher.dispatchEvent(new GameEvent('Registry Set', { key: 'currentBooker', value: engine.gameData.people[2] }));
 
 	// Load the starting scene.
-	engine.setScene(engine.gameData.scenes[0]);
+	engine.eventDispatcher.dispatchEvent(new GameEvent('Select Next Scene', engine.gameData.scenes));
 	engine.gameClock.setTime(0, 0);
 
 	/**
 	  TODO:
-	  Milestone: Create a dynamic story experience by executing scenes at random
-	   Make GameEngine hold multiple scenes
-	   Change between scenes
-	   Stat-changing events (time in particular)
-	   Decide what to do next when current scene is done
-
 	  Engine:
 	   Game calendar
 	   Save progress
@@ -47,11 +42,15 @@ window.onload = async function() {
 	   Hardcoded list of events
 
 	  Dynamic story extension:
+	   Add prerequisite support to scene
+	   Add prerequisite support to scenenode commands
+	   Stat-changing events (time in particular)
 	   Reusable snippets of text for similar scene segments.
 	   Tweak command text based on status and previous interactions.
 	   Determine commands on scene load instead of fixed list.
 	   Systems for plot
 	   Responses / commands based on relationships and status
+	   Random command group outcomes (e.g. After choosing a command, 50% of X happening, 30% of Y happening, 20% of Z happening)
 	
 	  If needed:
 	   Game states?

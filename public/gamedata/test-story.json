@@ -104,8 +104,8 @@
 					"description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
 					"commands": [ 
 						{ 
-							"label": "<restart scene>",
-							"nextSceneNode": "t1"
+							"label": "Finish getting ready",
+							"nextSceneNode": "<end>"
 						}
 					]
 				},
@@ -124,7 +124,7 @@
 					"description": "You cram [% currentAntagonist.firstName %]'s hat in the mostly full trashcan, covering it in all sorts of God-knows-what but leaving enough of it sticking out the top so he'll notice.",
 					"commands": [ 
 						{ 
-							"label": "<end scene>",
+							"label": "Finish getting ready",
 							"nextSceneNode": "<end>"
 						}
 					]
@@ -147,6 +147,31 @@
 				{ 
 					"id": "t2a",
 					"description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
+					"commands": [ 
+						{ 
+							"label": "<end scene>",
+							"nextSceneNode": "<end>"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "test-scene-3",
+			"nodes": [
+				{ 
+					"id": "t1",
+					"description": "You're waiting at the gorilla position for your first match. Your music starts pumping.",
+					"commands": [ 
+						{ 
+							"label": "Run through the curtain and down to the ring",
+							"nextSceneNode": "t2a"
+						}
+					]
+				},
+				{ 
+					"id": "t2a",
+					"description": "The crowd cheers.\nAnd then you trip over your own feet, brain yourself on the ring steps, and pass out.",
 					"commands": [ 
 						{ 
 							"label": "<end scene>",
