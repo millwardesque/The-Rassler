@@ -14,12 +14,41 @@ class SceneSelector extends GameObject {
 	selectScene(availableScenes) {
 		let possibleScenes = [];
 
+		if (availableScenes.length == 0) {
+			throw new Error("Unable to select a scene. No scenes were provided.");
+		}
+
 		// Produce a list of possible scenes to choose from
 		for (let scene of availableScenes) {
-			// Choose the first scene that isn't already active.
-			if (scene != engine.activeScene) {
-				possibleScenes.push(scene);
+			this.log(`Checking scene ${scene.id} for validity`);
+			if (scene == engine.activeScene) {
+				continue;
 			}
+
+			// Make sure all prerequisites are present and satisfied.
+			let arePrerequisitesSatisified = true;
+			for (let prereq of scene.prerequisites) {
+				this.log(`Checking prerequisite ${prereq.key}`);
+				try {
+					let value = engine.registry.findValue(prereq.key);
+					if (value != prereq.value) {
+						arePrerequisitesSatisified = false;
+						break;
+					}
+				}
+				catch (err) {
+					this.log(err);
+					arePrerequisitesSatisified = false;
+					break;
+				}
+			}
+
+			if (!arePrerequisitesSatisified) {
+				continue;
+			}
+
+			this.log(`Including ${scene.id} in scene selection possibilities.`);
+			possibleScenes.push(scene);
 		}
 		
 		if (possibleScenes.length > 0) {
@@ -27,7 +56,7 @@ class SceneSelector extends GameObject {
 			engine.eventDispatcher.dispatchEvent(new GameEvent('Set Scene', possibleScenes[index]));
 		}
 		else {
-			throw new Error("Unable to select a scene. No scenes were provided.");
+			throw new Error("Unable to select a scene. No scenes meet all criteria.");
 		}
 	}
 }

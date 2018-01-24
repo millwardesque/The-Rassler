@@ -36,7 +36,7 @@ class Registry {
 					}
 				}
 				else {
-					throw new Error(`Unable to find ${key} in registry: Couldn't resolve ${token}`);
+					return null;
 				}
 			}
 

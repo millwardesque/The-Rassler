@@ -1,11 +1,13 @@
 class Scene extends GameObject{
-	constructor(id, nodes) {
+	constructor(id, nodes, prerequisites = []) {
 		super(id);
-		this.nodes = nodes;
 
+		this.nodes = nodes;
 		for (let node of this.nodes) {
 			node.parentScene = this;
 		}
+
+		this.prerequisites = prerequisites;
 
 		engine.eventDispatcher.addListener("Activate Scene Node", this);
 	}
@@ -18,7 +20,7 @@ class Scene extends GameObject{
 
 	activateSceneNode(sceneNodeId) {
 		if (sceneNodeId == "<end>") {
-			engine.eventDispatcher.dispatchEvent(new GameEvent("Select Next Scene", engine.gameData.scenes));
+			this.endScene();
 			return;
 		}
 		else {
@@ -31,6 +33,11 @@ class Scene extends GameObject{
 		}
 
 		throw new Error(`SceneNode '${sceneNodeId}' wasn't found`);
+	}
+
+	endScene() {
+		engine.registry.set(`scene complete: ${this.id}`, true);
+		engine.eventDispatcher.dispatchEvent(new GameEvent("Select Next Scene", engine.gameData.scenes));
 	}
 
 	static load(sceneData) {
@@ -51,7 +58,16 @@ class Scene extends GameObject{
 				nodes.push(sceneNode);
 			}
 
-			let scene = new Scene(sceneId, nodes);
+			let prerequisites = new Array();
+			if ("prerequisites" in sceneData) {
+				for (let prereq of sceneData.prerequisites) {
+					if ("key" in prereq && "value" in prereq) {
+						prerequisites.push(prereq);	
+					}
+				}
+			}
+
+			let scene = new Scene(sceneId, nodes, prerequisites);
 			return scene;
 		}
 		catch(err) {

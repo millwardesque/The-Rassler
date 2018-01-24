@@ -2,6 +2,9 @@
 	"scenes": [
 		{
 			"id": "test-scene-1",
+			"prerequisites": [
+				{ "key": "scene complete: test-scene-1", "value": null }
+			],
 			"nodes": [
 				{ 
 					"id": "t1",
@@ -133,6 +136,10 @@
 		},
 		{
 			"id": "test-scene-2",
+			"prerequisites": [
+				{ "key": "scene complete: test-scene-2", "value": null },
+				{ "key": "scene complete: test-scene-1", "value": true }
+			],
 			"nodes": [
 				{ 
 					"id": "t1",
@@ -158,6 +165,10 @@
 		},
 		{
 			"id": "test-scene-3",
+			"prerequisites": [
+				{ "key": "scene complete: test-scene-3", "value": null },
+				{ "key": "scene complete: test-scene-2", "value": true }
+			],
 			"nodes": [
 				{ 
 					"id": "t1",

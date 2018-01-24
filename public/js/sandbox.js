@@ -32,6 +32,14 @@ window.onload = async function() {
 
 	/**
 	  TODO:
+	  Milestone: Simulate day one
+	   Handle no valid scenes left
+	   Stat-changing events
+	   Time-changing events
+	   Add time-based scene-completion dependency
+	   Add bedtime scene
+	   Add mid-day scenes
+
 	  Engine:
 	   Game calendar
 	   Save progress
@@ -42,15 +50,13 @@ window.onload = async function() {
 	   Hardcoded list of events
 
 	  Dynamic story extension:
-	   Add prerequisite support to scene
 	   Add prerequisite support to scenenode commands
-	   Stat-changing events (time in particular)
 	   Reusable snippets of text for similar scene segments.
 	   Tweak command text based on status and previous interactions.
 	   Determine commands on scene load instead of fixed list.
 	   Systems for plot
 	   Responses / commands based on relationships and status
-	   Random command group outcomes (e.g. After choosing a command, 50% of X happening, 30% of Y happening, 20% of Z happening)
+	   Random next-node command outcomes (e.g. After choosing a command, 50% of X happening, 30% of Y happening, 20% of Z happening)
 	
 	  If needed:
 	   Game states?
