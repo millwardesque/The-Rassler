@@ -1,42 +1,17 @@
 let engine = null;
 
 window.onload = async function() {
-	// Set up game engine
 	engine = new GameEngine("Game Engine");
-	engine.gameClock = new GameClock("Game Clock");
-	engine.sceneSelector = new SceneSelector("Scene Selector");
-
-	// Set up UI
-	let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
-	let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
-	let descriptionUI = new DescriptionUI("Description UI", document.querySelector('#description'));
-
-	// Load the game data.
-	let gameData;
-	try {
-		gameData = await loadGameData();
-
-		engine.gameData = gameData;
-	}
-	catch(err) {
-		console.log(`Error loading game data: ${err}`);
-		throw err;
-	}
-
-	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentTerritory', value: engine.gameData.territories[0] }));
-	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentAntagonist', value: engine.gameData.people[0] }));
-	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentBooker', value: engine.gameData.people[2] }));
-
-	// Load the starting scene.
-	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));
-	engine.gameClock.setTime(0, 0);
-
+	engine.initialize();
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'main menu'))
+	
 	/**
 	  TODO:
 	  Milestone: Simulate day one
 	   Add bedtime scene
 	   Add mid-day scenes
 	   Handle no valid scenes left
+	   Handle transition from main menu to ingame and back
 
 	  Engine:
 	   Game calendar
@@ -46,6 +21,7 @@ window.onload = async function() {
 	   Use better JS file loader (Webpack, etc.)
 	   Be smarter about enabled / disabled game objects.
 	   Prevent unregistered event from being dispatched.
+	   Different renderer by game state
 
 	  Dynamic story extension:
 	   Add prerequisite support to scenenode commands
@@ -73,47 +49,4 @@ window.onload = async function() {
 	   Venues
 	   Bookers
 	*/
-}
-
-function loadGameData() {
-	return new Promise(async function (resolve, reject) {
-		try {
-			let gameData = {};
-
-			// Load the people
-			gameData.people = [];
-			let response = await webUtils.getRequest('/gamedata/people.json');
-			response = JSON.parse(response);
-			for (let row of response) {
-				let person = new Person(row.first, row.last);
-				gameData.people.push(person);
-			}
-
-			// Load the territories
-			gameData.territories = [];
-			response = await webUtils.getRequest('/gamedata/territories.json');
-			response = JSON.parse(response);
-			for (let row of response) {
-				let territory = new Territory(row.name, row.name, row.rosterCapacity);
-				gameData.territories.push(territory);
-			}
-
-			// Load the test story
-			gameData.scenes = [];
-			response = await webUtils.getRequest('/gamedata/test-story.json');
-			response = JSON.parse(response);
-
-			if (response.hasOwnProperty('scenes')) {
-				gameData.scenes = [];
-				for (let scene of response.scenes) {
-					gameData.scenes.push(Scene.load(scene));
-				}
-			}
-
-			resolve(gameData);
-		}
-		catch(err) {
-			reject(err);
-		}
-	});
 }

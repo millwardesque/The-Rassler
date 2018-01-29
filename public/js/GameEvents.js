@@ -5,6 +5,7 @@ let GameEvents = {
 	AddGameTime: "Add Game Time",
 	ActivateSceneNode: "Activate Scene Node",
 	ExecuteCommand: "Execute Command",
+	LoadGameState: "Load Game State",
 	OnGameTimeChange: "On Game Time Changed",
 	OnSceneNodeChange: "On Scene Node Change",
 	RegistrySet: "Registry Set",

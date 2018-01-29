@@ -194,8 +194,10 @@
 					"description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
 					"commands": [ 
 						{ 
-							"label": "<end scene>",
-							"nextSceneNode": "<end>"
+							"label": "Main menu",
+							"onExecute": [
+								{ "key": "Load Game State", "value": "main menu" }
+							]
 						}
 					]
 				}

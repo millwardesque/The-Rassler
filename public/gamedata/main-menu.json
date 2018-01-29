@@ -1,0 +1,21 @@
+{
+	"scenes": [
+		{
+			"id": "main-menu",
+			"nodes": [
+				{ 
+					"id": "main-menu-1",
+					"description": "Come learn about the Rassler. The one who changed the ring.",
+					"commands": [ 
+						{ 
+							"label": "Start game",
+							"onExecute": [
+								{ "key": "Load Game State", "value": "ingame" }
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
