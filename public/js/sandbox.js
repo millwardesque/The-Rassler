@@ -10,8 +10,6 @@ window.onload = async function() {
 	  Milestone: Simulate day one
 	   Add bedtime scene
 	   Add mid-day scenes
-	   Handle no valid scenes left
-	   Handle transition from main menu to ingame and back
 
 	  Engine:
 	   Game calendar
@@ -22,6 +20,8 @@ window.onload = async function() {
 	   Be smarter about enabled / disabled game objects.
 	   Prevent unregistered event from being dispatched.
 	   Different renderer by game state
+	   Find more elegant place to catch the LoadGameState event
+	   Detect error when no valid scenes are available
 
 	  Dynamic story extension:
 	   Add prerequisite support to scenenode commands
