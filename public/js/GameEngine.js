@@ -37,8 +37,11 @@ class GameEngine extends GameObject {
 			else if (newGameState == 'main menu') {
 				GameStates.loadMainMenu(this);
 			}
+			else if (newGameState == 'scene editor') {
+				GameStates.loadSceneEditor(this);
+			}
 			else {
-				throw new Error(`Unable to load game state ${newGameState}: No matching state was found.`);
+				throw new Error(`Unable to load game state '${newGameState}': No matching state was found.`);
 			}
 		}
 	}

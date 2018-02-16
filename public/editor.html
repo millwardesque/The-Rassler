@@ -1,0 +1,45 @@
+<!doctype html5>
+<html>
+	<head>
+		<title>[Editor] The Rassler</title>
+
+		<script src="/js/WebUtils.js"></script>
+		<script src="/js/Log.js"></script>
+		<script src="/js/GameObject.js"></script>
+		<script src="/js/Storage.js"></script>
+
+		<script src="/js/GameEngine.js"></script>
+		<script src="/js/EventDispatcher.js"></script>
+		<script src="/js/Registry.js"></script>
+
+		<script src="/js/GameStates.js"></script>
+		<script src="/js/GameUtils.js"></script>
+		<script src="/js/GameEvent.js"></script>
+		<script src="/js/GameEvents.js"></script>
+
+		<script src="/js/SceneNode.js"></script>
+		<script src="/js/Scene.js"></script>
+		<script src="/js/SceneSelector.js"></script>
+
+		<script src="/js/Command.js"></script>
+
+		<script src="/js/FileLoaderUI.js"></script>
+		<script src="/js/browser-editor.js"></script>
+	</head>
+	<body>
+		<h1>[Editor] The Rassler <small><a href="/index.html">Play</a></small></h1>
+
+		<h2>Files</h2>
+		<div id="file-loader">
+			<form id="file-loader-form">
+				<div class="form-item">
+					<label for="file-url">
+						File URL
+					</label>
+					<input type="text" id="file-url" value="test-story.json" />
+				</div>
+				<button type="submit" value="Load">Load</button>
+			</form>
+		</div>
+	</body>
+</html>

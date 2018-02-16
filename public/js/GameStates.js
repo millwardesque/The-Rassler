@@ -75,6 +75,22 @@ class GameStates {
 		});
 	}
 
+	static loadSceneEditor(engine) {
+		return new Promise(async function(resolve, reject) {
+			try {
+				// Set up game engine
+				engine.initialize();
+
+				// Set up UI
+				let fileLoaderUI = new FileLoaderUI("File Loader UI", document.querySelector('#file-loader'));
+				resolve();
+			}
+			catch(err) {
+				reject(err);
+			}
+		});
+	}
+
 	static _loadMainMenuData() {
 		return new Promise(async function (resolve, reject) {
 			try {
@@ -82,9 +98,7 @@ class GameStates {
 				
 				// Load the main menu
 				gameData.scenes = [];
-				let response = await webUtils.getRequest('/gamedata/main-menu.json');
-				response = JSON.parse(response);
-
+				let response = await Storage.getStorageEngine().getItem('main-menu.json');
 				if ('scenes' in response) {
 					gameData.scenes = [];
 					for (let scene of response.scenes) {
@@ -107,8 +121,7 @@ class GameStates {
 
 				// Load the people
 				gameData.people = [];
-				let response = await webUtils.getRequest('/gamedata/people.json');
-				response = JSON.parse(response);
+				let response = await Storage.getStorageEngine().getItem('people.json');
 				for (let row of response) {
 					let person = new Person(row.first, row.last);
 					gameData.people.push(person);
@@ -116,8 +129,7 @@ class GameStates {
 
 				// Load the territories
 				gameData.territories = [];
-				response = await webUtils.getRequest('/gamedata/territories.json');
-				response = JSON.parse(response);
+				response = await Storage.getStorageEngine().getItem('territories.json');
 				for (let row of response) {
 					let territory = new Territory(row.name, row.name, row.rosterCapacity);
 					gameData.territories.push(territory);
@@ -125,9 +137,7 @@ class GameStates {
 
 				// Load the test story
 				gameData.scenes = [];
-				response = await webUtils.getRequest('/gamedata/test-story.json');
-				response = JSON.parse(response);
-
+				response = await Storage.getStorageEngine().getItem('test-story.json');
 				if ('scenes' in response) {
 					gameData.scenes = [];
 					for (let scene of response.scenes) {
