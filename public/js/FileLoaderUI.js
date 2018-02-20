@@ -24,20 +24,22 @@ class FileLoaderUI extends GameObject {
 		if (event.id == GameEvents.LoadFile) {
 			return new Promise(async function (resolve, reject) {
 				try {
-					let filename = event.data;
-					let response = await Storage.getStorageEngine().getItem(filename);
+					let name = event.data;
+					let content = await Storage.getStorageEngine().getItem(name);
 					
-					engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnFileLoaded, { filename, response }))
+					engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnFileLoaded, { name, content }))
 
 					resolve();
 				}
 				catch(err) {
 					reject(err);
-				}				
+				}
 			});
 		}
 		else if (event.id == GameEvents.OnFileLoaded) {
-			this.log("Event", event);
+			return new Promise(async function (resolve, reject) {
+				await (new LocalStorage()).setItem(event.data.name, event.data.content);
+			});
 		}
 	}
 }

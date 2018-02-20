@@ -22,7 +22,7 @@ class Storage extends GameObject {
 	}
 
 	static getStorageEngine() {
-		return new WebStorage('Storage Engine');
+		return new ServerStorage('Storage Engine');
 	}
 }
 
@@ -35,17 +35,53 @@ class NullStorage extends Storage {
 	}
 
 	setItem(name, value) {
-		this.log(`Setting ${name}`, value);
+		this.debug(`[FAKE] Setting item '${name}'`, value);
 		return Promise.resolve();
 	}
 
 	getItem(name) {
-		this.log(`Getting ${name}`);
+		this.debug(`[FAKE] Getting item '${name}'`);
 		return Promise.resolve();
 	}
 
 	removeItem(name) {
-		this.log(`Removing ${name}`);
+		this.debug(`[FAKE] Removing item '${name}'`);
+		return Promise.resolve();
+	}
+}
+
+class LocalStorage extends Storage {
+	constructor(id) {
+		super(id);
+
+		if (!window.localStorage) {
+			throw new Exception("Unable to instantatiate LocalStorage: Current environment doesn't support localStorage");
+		}
+
+		this.localStorage = window.localStorage;
+	}
+
+	setItem(name, value) {
+		this.debug(`Setting item '${name}'`, value);
+		this.localStorage.setItem(name, JSON.stringify(value));
+		this.debug(`Set item '${name}'`);
+		return Promise.resolve();
+	}
+
+	getItem(name) {
+		this.debug(`Getting item '${name}'`);
+		let item = this.localStorage.getItem(name);
+		item = JSON.parse(item);
+		this.debug(`Got item '${name}'`, item);
+
+		return Promise.resolve(item);
+	}
+
+	removeItem(name) {
+		this.debug(`Removing item '${name}'`);
+		this.localStorage.removeItem(name);
+		this.debug(`Removed item '${name}'`);
+
 		return Promise.resolve();
 	}
 }
@@ -53,13 +89,16 @@ class NullStorage extends Storage {
 /**
  * Storage engine using the webserver.
  */
-class WebStorage extends Storage {
+class ServerStorage extends Storage {
 	constructor(id) {
 		super(id);
 	}
 
 	setItem(name, value) {
-		this.warning(`Unable to set ${name}: Web storage can't do this yet.`, value);
+		this.debug(`Setting item '${name}'`, value);
+		(new NullStorage()).setItem(name, value);
+		this.debug(`Set item '${name}'`);
+
 		return Promise.resolve();
 	}
 
@@ -67,16 +106,24 @@ class WebStorage extends Storage {
 		let self = this;
 		return new Promise(async function (resolve, reject) {
 			try {
-				self.log(`Loading item '${name}'`);
+				self.debug(`Getting item '${name}'`);
 				let response = await webUtils.getRequest(`/gameData/${name}`);
 				response = JSON.parse(response);
 
-				self.log(`Loaded item '${name}'`);
+				self.debug(`Got item '${name}'`, response);
 				resolve(response);
 			}
 			catch (err) {
 				reject(err);
 			}
 		});
+	}
+
+	removeItem(name) {
+		this.debug(`Removing item '${name}'`);
+		(new NullStorage()).removeItem(name);
+		this.debug(`Removed item '${name}'`);
+		
+		return Promise.resolve();
 	}
 }

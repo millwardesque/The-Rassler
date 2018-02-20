@@ -8,12 +8,8 @@ window.onload = async function() {
 	/**
 	  TODO:
 
-	  Milestone: Load / Save JSON
-		Build engine interaction scaffolding
-		Write JSON to local storage
-	   	Dump JSON to console
+	  Milestone: Load / Save objects
 	   	Load from local storage
-	   	Load from file asset
 
 	  Editor engine:	    
 		Scene-editing form
