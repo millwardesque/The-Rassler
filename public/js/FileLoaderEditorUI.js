@@ -1,4 +1,4 @@
-class FileLoaderUI extends GameObject {
+class FileLoaderEditorUI extends GameObject {
 	constructor(id, container) {
 		super(id);
 
@@ -26,7 +26,6 @@ class FileLoaderUI extends GameObject {
 				try {
 					let name = event.data;
 					let content = await Storage.getStorageEngine().getItem(name);
-					
 					engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnFileLoaded, { name, content }))
 
 					resolve();
@@ -37,9 +36,17 @@ class FileLoaderUI extends GameObject {
 			});
 		}
 		else if (event.id == GameEvents.OnFileLoaded) {
-			return new Promise(async function (resolve, reject) {
-				await (new LocalStorage()).setItem(event.data.name, event.data.content);
-			});
+			if ('scenes' in event.data.content) {
+				for (let scene of event.data.content.scenes) {
+					for (let node of scene.nodes) {
+						engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnSceneNodeLoadEditor, node));
+					}
+				}
+			}
+			else {
+				this.log("No scenes found");
+				// @TODO Process other kinds of files here.
+			}
 		}
 	}
 }

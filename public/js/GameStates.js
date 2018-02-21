@@ -82,7 +82,9 @@ class GameStates {
 				engine.initialize();
 
 				// Set up UI
-				let fileLoaderUI = new FileLoaderUI("File Loader UI", document.querySelector('#file-loader'));
+				let fileLoaderEditorUI = new FileLoaderEditorUI("File Loader Editor UI", document.querySelector('#file-loader'));
+				let sceneNodeEditorUI = new SceneNodeEditorUI('Scene Node Editor UI', document.querySelector('#sceneNodes'));
+
 				resolve();
 			}
 			catch(err) {

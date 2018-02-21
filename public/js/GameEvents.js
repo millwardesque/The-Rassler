@@ -10,6 +10,7 @@ let GameEvents = {
 	OnFileLoaded: "On File Loaded",
 	OnGameTimeChange: "On Game Time Changed",
 	OnSceneNodeChange: "On Scene Node Change",
+	OnSceneNodeLoadEditor: "On Scene Node Load Editor",
 	RegistrySet: "Registry Set",
 	RegistryAppend: "Registry Append",
 	SelectNextScene: "Select Next Scene",

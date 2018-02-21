@@ -1,7 +1,13 @@
-<!doctype html5>
-<html>
+<!doctype html>
+<html lang="en">
 	<head>
 		<title>[Editor] The Rassler</title>
+
+		<link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
+
+		<script src="/js/vendors/jquery-3.2.1.slim.min.js"></script>
+		<script src="/js/vendors/popper-1.12.9.min.js"></script>
+		<script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
 
 		<script src="/js/WebUtils.js"></script>
 		<script src="/js/Log.js"></script>
@@ -23,23 +29,85 @@
 
 		<script src="/js/Command.js"></script>
 
-		<script src="/js/FileLoaderUI.js"></script>
+		<script src="/js/FileLoaderEditorUI.js"></script>
+		<script src="/js/SceneNodeEditorUI.js"></script>
 		<script src="/js/browser-editor.js"></script>
 	</head>
 	<body>
-		<h1>[Editor] The Rassler <small><a href="/index.html">Play</a></small></h1>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">The Rassler [Editor]</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-		<h2>Files</h2>
-		<div id="file-loader">
-			<form id="file-loader-form">
-				<div class="form-item">
-					<label for="file-url">
-						File URL
-					</label>
-					<input type="text" id="file-url" value="test-story.json" />
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/index.html">Play</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/editor.html">Editor</a>
+						</li>
+					</ul>
 				</div>
-				<button type="submit" value="Load">Load</button>
-			</form>
+			</nav>
+		</header>
+
+		<div class="container-fluid">
+			<div class="row">
+				<main class="col-12">
+					<h2>Files</h2>
+					<div id="file-loader">
+						<form id="file-loader-form">
+							<div class="form-group">
+								<label for="file-url">File URL</label>
+								<input type="text" class="form-control" id="file-url" value="test-story.json" />
+							</div>
+							<button type="submit" class="btn btn-primary" value="Load">Load</button>
+						</form>
+					</div>
+
+					<h2>Scene</h2>
+					<ul id="sceneNodes">
+
+					</ul>
+
+					<div class="templates" style="display:none">
+						<li class="template sceneNode">
+							<form>
+								<div class="form-group">
+									<label>ID</label>
+									<input type="text" id class="sceneNode-id"></input>
+								</div>
+								<div class="form-group">
+									<label>Description</label>
+									<textarea class="sceneNode-description"></textarea>
+								</div>
+
+								<h4>Commands</h4>
+								<ul class="sceneNode-commands"></ul>
+
+								<button class="btn btn-primary" type="submit">Save changes</button>
+							</form>
+						</li>
+
+						<li class="template sceneNode-command">
+							<div class="form-group">
+								<label>Label</label>
+								<input type="text" id class="sceneNode-command-label"></input>
+							</div>
+
+							<div class="form-group">
+								<label>Next Scene Node</label>
+								<input type="text" id class="sceneNode-command-next-scene-node"></input>
+							</div>
+							
+							<p>@TODO: onExecute</p>
+						</li>
+					</div>
+				</main>
+			</div>
 		</div>
 	</body>
 </html>

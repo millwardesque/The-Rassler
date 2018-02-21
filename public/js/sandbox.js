@@ -9,17 +9,13 @@ window.onload = async function() {
 	  TODO:
 
 	  Milestone: Scene editor
-		Write JSON to cookie
-	   	Dump JSON to console
-	   	Load from cookie
-		Editing form 
-	   	Load from file asset  
 
 	  Milestone: Waiting for editor: Simulate day one
 	   Add bedtime scene
 	   Add mid-day scenes
 
 	  Engine:
+	   All event handles should return promises.
 	   Game calendar
 	   Save progress
 	   Scene description markup

@@ -7,13 +7,10 @@ window.onload = async function() {
 
 	/**
 	  TODO:
-
-	  Milestone: Load / Save objects
-	   	Load from local storage
-
 	  Editor engine:	    
 		Scene-editing form
 		Extract scene-selector from engine
+		Load from local storage
 		Integrate back into index.js
 	*/
 }
