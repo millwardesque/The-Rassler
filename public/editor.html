@@ -47,7 +47,7 @@
 							<a class="nav-link" href="/index.html">Play</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/editor.html">Editor</a>
+							<a class="nav-link active" href="/editor.html">Editor</a>
 						</li>
 					</ul>
 				</div>
@@ -69,38 +69,47 @@
 					</div>
 
 					<h2>Scene</h2>
-					<ul id="sceneNodes">
+					<ul id="sceneNodes" class="list-group">
 
 					</ul>
 
 					<div class="templates" style="display:none">
-						<li class="template sceneNode">
+						<li class="template sceneNode list-group-item">
 							<form>
-								<div class="form-group">
-									<label>ID</label>
-									<input type="text" id class="sceneNode-id"></input>
-								</div>
-								<div class="form-group">
-									<label>Description</label>
-									<textarea class="sceneNode-description"></textarea>
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">ID</label>
+									<input type="text" id class="sceneNode-id form-control col-sm-10"></input>
 								</div>
 
-								<h4>Commands</h4>
-								<ul class="sceneNode-commands"></ul>
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Description</label>
+									<textarea class="sceneNode-description form-control col-sm-10"></textarea>
+								</div>
 
-								<button class="btn btn-primary" type="submit">Save changes</button>
+								<div class="form-group row">
+									<h6 class="col-sm-2 col-form-label">Commands</h6>
+									<div class="col-sm-10 pl-0">
+										<ul class="sceneNode-commands list-group"></ul>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-10">
+										<button class="btn btn-primary" type="submit">Save changes</button>
+									</div>
+								</div>
 							</form>
 						</li>
 
-						<li class="template sceneNode-command">
-							<div class="form-group">
-								<label>Label</label>
-								<input type="text" id class="sceneNode-command-label"></input>
+						<li class="template sceneNode-command list-group-item">
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Label</label>
+								<input type="text" id class="sceneNode-command-label form-control col-sm-9"></input>
 							</div>
 
-							<div class="form-group">
-								<label>Next Scene Node</label>
-								<input type="text" id class="sceneNode-command-next-scene-node"></input>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Next Scene Node</label>
+								<input type="text" id class="sceneNode-command-next-scene-node form-control col-sm-9"></input>
 							</div>
 							
 							<p>@TODO: onExecute</p>

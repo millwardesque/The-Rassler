@@ -25,8 +25,15 @@ class SceneNodeEditorUI extends GameObject{
 		for (let command of sceneNode.commands) {
 			let commandElement = webUtils.cloneTemplate('sceneNode-command');
 			commandElement.querySelector('.sceneNode-command-label').value = command.label;
-			commandElement.querySelector('.sceneNode-command-next-scene-node').value = command.nextSceneNode;
-			
+
+			if (command.nextSceneNode) {
+				commandElement.querySelector('.sceneNode-command-next-scene-node').value = command.nextSceneNode;
+			}
+			else {
+				let nextNodeElement = commandElement.querySelector('.sceneNode-command-next-scene-node').parentNode;
+				webUtils.hideElement(nextNodeElement);
+			}
+
 			// @TODO Set form IDs
 
 			sceneNodeElement.querySelector('.sceneNode-commands').appendChild(commandElement);
