@@ -9,6 +9,9 @@ class GameStates {
 				let gameClock = new GameClock("Game Clock");
 				engine.registry.set('clock', gameClock);
 
+				let commandParser = new CommandParser("Command Parser");
+				engine.registry.set('commandParser', commandParser);
+
 				// Set up UI
 				let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
 				let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
@@ -26,6 +29,7 @@ class GameStates {
 					throw err;
 				}
 
+				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ToggleCustomCommands, true));
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentTerritory', value: engine.gameData.territories[0] }));
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentAntagonist', value: engine.gameData.people[0] }));
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentBooker', value: engine.gameData.people[2] }));
@@ -64,6 +68,8 @@ class GameStates {
 					console.log(`Error loading game data: ${err}`);
 					throw err;
 				}
+
+				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ToggleCustomCommands, false));
 
 				// Load the starting scene.
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));

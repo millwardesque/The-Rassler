@@ -7,12 +7,18 @@ class CommandsUI extends GameObject{
 		}
 
 		this.container = container;
+		this.canUseCustomCommands = false;
+
 		engine.eventDispatcher.addListener(GameEvents.OnSceneNodeChange, this);
+		engine.eventDispatcher.addListener(GameEvents.ToggleCustomCommands, this);
 	}
 
 	handleEvent(event) {
 		if (event.id == GameEvents.OnSceneNodeChange) {
 			this.render(event.data.commands);
+		}
+		else if (event.id == GameEvents.ToggleCustomCommands) {
+			this.canUseCustomCommands = event.data;
 		}
 	}
 
@@ -25,7 +31,9 @@ class CommandsUI extends GameObject{
 			this.renderCommand(command);
 		}
 
-		this.renderCustomCommand();
+		if (this.canUseCustomCommands) {
+			this.renderCustomCommand();
+		}
 	}
 
 	/**

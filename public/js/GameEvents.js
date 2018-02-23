@@ -16,4 +16,5 @@ let GameEvents = {
 	RegistryAppend: "Registry Append",
 	SelectNextScene: "Select Next Scene",
 	SetScene: "Set Scene",
+	ToggleCustomCommands: "Toggle Custom Commands",
 }
