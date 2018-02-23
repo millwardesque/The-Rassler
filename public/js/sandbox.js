@@ -15,6 +15,8 @@ window.onload = async function() {
 	   Add mid-day scenes
 
 	  Engine:
+	   Tags for object causes and effects (e.g. 'causes: fire', 'causes: kick', 'affected by: fire')
+	   Parse custom commands
 	   All event handles should return promises.
 	   Game calendar
 	   Save progress

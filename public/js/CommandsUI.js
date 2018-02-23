@@ -16,13 +16,21 @@ class CommandsUI extends GameObject{
 		}
 	}
 
+	/**
+	 * Renders the commands UI.
+	 */
 	render(commands) {
 		webUtils.removeAllChildren(this.container);
 		for (let command of commands) {
 			this.renderCommand(command);
 		}
+
+		this.renderCustomCommand();
 	}
 
+	/**
+	 * Renders a prescribed command (e.g. a line of dialogue the user could speak)
+	 */
 	renderCommand(command) {
 		let commandNode = webUtils.cloneTemplate('command');
 		let label = GameUtils.processTemplate(command.label);
@@ -30,6 +38,39 @@ class CommandsUI extends GameObject{
 
 		commandNode.addEventListener('click', function(clickEvent) {
 			engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
+		});
+
+		this.container.appendChild(commandNode);
+	}
+
+	/**
+	 * Renders a custom command form.
+	 */
+	renderCustomCommand() {
+		let commandNode = webUtils.cloneTemplate('custom-command');
+		let randomId = Math.floor(Math.random * 10000000);
+		let formId = "custom-command-form_" + randomId;
+		let fieldId = "custom-command_" + randomId;
+
+		let form = commandNode.querySelector('form');
+		form.id = formId;
+
+		let field = commandNode.querySelector('#custom-command');
+		field.id = fieldId;
+
+		form.addEventListener('submit', (submitEvent) => {
+			let userCommand = webUtils.stripHtml(field.value);
+
+			if (userCommand == "") {
+				return;
+			}
+
+			engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnUserCommand, userCommand));
+
+			field.value = "";
+
+			submitEvent.preventDefault();
+			submitEvent.stopPropagation();
 		});
 
 		this.container.appendChild(commandNode);
