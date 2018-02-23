@@ -3,7 +3,13 @@
 	<head>
 		<title>The Rassler</title>
 
+		<link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
 		<link href="/css/sandbox.css" rel="stylesheet" />
+
+		<script src="/js/vendors/jquery-3.2.1.slim.min.js"></script>
+		<script src="/js/vendors/popper-1.12.9.min.js"></script>
+		<script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
+
 
 		<script src="/js/WebUtils.js"></script>
 		<script src="/js/Log.js"></script>
@@ -35,23 +41,47 @@
 		<script src="/js/sandbox.js"></script>
 	</head>
 	<body>
-		<h1>The Rassler <small><a href="/editor.html">Edit</a></small></h1>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">The Rassler [Editor]</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-		<h2>Status</h2>
-		<div class="status">
-			<div id="gameClock-container"></div>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link active" href="/index.html">Play</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/editor.html">Editor</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<div class="container-fluid">
+			<div class="row">
+				<main class="col-12">
+					<h2>Status</h2>
+					<div class="status">
+						<div id="gameClock-container"></div>
+					</div>
+
+					<h2>Description</h2>
+					<div id="description"></div>
+
+					<h2>Commands</h2>
+					<ul id="commands" class="list-group">
+					</ul>
+				</main>
+			</div>
 		</div>
 
-		<h2>Description</h2>
-		<div id="description"></div>
-
-		<h2>Commands</h2>
-		<ul id="commands">
-		</ul>
-
 		<div class="templates" style="display:none">
-			<li class="template command">
-				<a>
+			<li class="template command list-group-item list-group-item-action">
+				<a href="#">
 					<div class="label"></div>
 				</a>
 			</li>
