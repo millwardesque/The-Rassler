@@ -4,7 +4,13 @@ class Log {
 			throw new Error(`[${id}] Unable to write log message: Log type ${log_type} isn't supported. Message: ${message}. Data: ${JSON.stringify(data)}`);
 		}
 
-		message = `[${id}]: ${message}`;
+		if (typeof(message) !== 'string') {
+			message = JSON.stringify(message);
+		}
+		else {
+			message = `[${id}]: ${message}`;
+		}
+
 		if (data) {
 			console[log_type](message, data);
 		}
