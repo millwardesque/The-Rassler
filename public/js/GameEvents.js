@@ -17,4 +17,6 @@ let GameEvents = {
 	SelectNextScene: "Select Next Scene",
 	SetScene: "Set Scene",
 	ToggleCustomCommands: "Toggle Custom Commands",
+	UpdateDescription: "Update Description",
+	UpdateCommandsUI: "Update Commands UI",
 }

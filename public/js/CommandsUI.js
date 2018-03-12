@@ -11,10 +11,14 @@ class CommandsUI extends GameObject{
 
 		engine.eventDispatcher.addListener(GameEvents.OnSceneNodeChange, this);
 		engine.eventDispatcher.addListener(GameEvents.ToggleCustomCommands, this);
+		engine.eventDispatcher.addListener(GameEvents.UpdateCommandsUI, this);
 	}
 
 	handleEvent(event) {
 		if (event.id == GameEvents.OnSceneNodeChange) {
+			this.render(event.data.commands);
+		}
+		else if (event.id == GameEvents.UpdateCommandsUI) {
 			this.render(event.data.commands);
 		}
 		else if (event.id == GameEvents.ToggleCustomCommands) {

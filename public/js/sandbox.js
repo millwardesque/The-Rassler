@@ -3,11 +3,38 @@ let engine = null;
 window.onload = async function() {
 	engine = new GameEngine("Game Engine");
 	engine.initialize();
-	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'main menu'))
 	
+	engine.eventDispatcher.addListener(GameEvents.LoadGameState, {
+		id: "__main__",
+		handleEvent: (event) => {
+			engine.log("Called");
+			if (event.id == GameEvents.LoadGameState) {
+				let newGameState = event.data;
+
+				engine.log(`Loading game state ${newGameState}`);
+				if (newGameState == 'ingame') {
+					GameStates.loadInGameState(engine);
+				}
+				else if (newGameState == 'main menu') {
+					GameStates.loadMainMenu(engine);
+				}
+				else if (newGameState == 'scene editor') {
+					GameStates.loadSceneEditor(engine);
+				}
+				else if (newGameState == 'commander') {
+					GameStates.loadCommander(engine);
+				}
+				else {
+					throw new Error(`Unable to load game state '${newGameState}': No matching state was found.`);
+				}
+			}
+		}
+	});
+
+	engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'main menu'))
+
 	/**
 	  TODO:
-
 	  Milestone: Scene editor
 
 	  Milestone: Waiting for editor: Simulate day one

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>The Rassler</title>
+		<title>Candy Wars</title>
 
 		<link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
 		<link href="/css/sandbox.css" rel="stylesheet" />
@@ -9,7 +9,6 @@
 		<script src="/js/vendors/jquery-3.2.1.slim.min.js"></script>
 		<script src="/js/vendors/popper-1.12.9.min.js"></script>
 		<script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
-
 
 		<script src="/js/WebUtils.js"></script>
 		<script src="/js/Log.js"></script>
@@ -20,7 +19,6 @@
 		<script src="/js/EventDispatcher.js"></script>
 		<script src="/js/Registry.js"></script>
 
-		<script src="/js/GameStates.js"></script>
 		<script src="/js/GameUtils.js"></script>
 		<script src="/js/GameEvent.js"></script>
 		<script src="/js/GameEvents.js"></script>
@@ -37,14 +35,18 @@
 		<script src="/js/DescriptionUI.js"></script>
 		<script src="/js/GameClockUI.js"></script>
 
-		<script src="/js/Territory.js"></script>
-		<script src="/js/Person.js"></script>
-		<script src="/js/sandbox.js"></script>
+		<script src="/js/candy-wars/CandyWars.js"></script>
+		<script src="/js/candy-wars/CustomGameEvents.js"></script>
+		<script src="/js/candy-wars/GameStates.js"></script>
+		<script src="/js/candy-wars/Location.js"></script>
+		<script src="/js/candy-wars/Merchandise.js"></script>
+		<script src="/js/candy-wars/Wealth.js"></script>
+		<script src="/js/candy-wars/WealthUI.js"></script>
 	</head>
 	<body>
 		<header>
 			<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-				<a class="navbar-brand" href="#">The Rassler [Editor]</a>
+				<a class="navbar-brand" href="#">Candy Wars</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -52,13 +54,10 @@
 				<div class="collapse navbar-collapse" id="navbarCollapse">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link active" href="/index.html">Play</a>
+							<a class="nav-link" href="/index.html">Other Games</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/editor.html">Editor</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/candy-wars.html">Candy Wars</a>
+							<a class="nav-link active" href="/candy-wars.html">Candy Wars</a>
 						</li>
 					</ul>
 				</div>
@@ -71,6 +70,9 @@
 					<h2>Status</h2>
 					<div class="status">
 						<div id="gameClock-container"></div>
+						<div id="wealth-container">
+							Wealth: <span class="wealth"></span>
+						</div>
 					</div>
 
 					<h2>Description</h2>

@@ -1,0 +1,28 @@
+{
+    "locations": [
+        {
+            "name": "Charing Cross Macs",
+            "description": "Home of slurpees, Pokémon cards, and all sorts of unhealthy snacks, this is place to go for the common, popular items.",
+            "vendor": "Amal"
+        },
+        {
+            "name": "St. George Variety",
+            "description": "This is where you go to rent NES games and buy Betty candy. 107 for $1.07, what a steal!",
+            "vendor": "Betty"
+        },
+        {
+            "name": "Terrace Hill Variety",
+            "description": "Closest to home, the Terrace Hill Variety doesn't have penny candies, but have a good selection of nickel candies and they tend to leave the top shelf of magazines exposed.",
+            "vendor": "Bob"
+        }
+    ],
+    "merchandise": [
+        { "name": "Betty candy", "base_cost": 0.01, "unit": "candy" },
+        { "name": "Nickel mix", "base_cost": 0.05, "unit": "candy" },
+        { "name": "NES game", "base_cost": 2.5, "unit": "2-day rental" },
+        { "name": "Pokémon cards", "base_cost": 5.0, "unit": "package" },
+        { "name": "Slurpee", "base_cost": 4.5, "unit": "slurpee" }
+    ],
+    "startingLocation": "Terrace Hill Variety",
+    "startingWealth": 5
+}
