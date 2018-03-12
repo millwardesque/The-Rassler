@@ -7,16 +7,16 @@ class WealthUI extends GameObject {
 		}
 
 		this.container = container;
-		engine.eventDispatcher.addListener(GameEvents.UpdateWealth, this);
+		engine.eventDispatcher.addListener(CustomGameEvents.UpdateWealth, this);
 	}
 
 	handleEvent(event) {
-		if (event.id == GameEvents.UpdateWealth) {
+		if (event.id == CustomGameEvents.UpdateWealth) {
 			this.render(event.data);
 		}	
 	}
 
 	render(wealth) {
-		this.container.innerHTML = `\$${wealth}`;
+		this.container.innerHTML = `\$${wealth.toFixed(2)}`;
 	}
 }

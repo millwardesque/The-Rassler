@@ -54,10 +54,31 @@ class GameStates {
                 // Load the game file.
                 let response = await Storage.getStorageEngine().getItem('candy-wars.json');
 
+                if ('merchandise' in response) {
+                    gameData.merchandise = [];
+                    for (let row of response.merchandise) {
+                        let merchandise = new Merchandise(row.name, row.name, row.baseCost, row.unit);
+                        gameData.merchandise.push(merchandise);
+                    }
+                }
+                else {
+                    throw new Exception("No merchandise was found in the game data.");
+                }
+
+                // Load locations after merchandise because each location depends on the merch being instantiated already.
                 if ('locations' in response) {
                     gameData.locations = [];
                     for (let row of response.locations) {
                         let location = new Location(row.name, row.name, row.description, row.vendor);
+
+                        for (let itemName of row['merchandise']) {
+                            for (let merchandise of gameData.merchandise) {
+                                if (itemName == merchandise.name) {
+                                    location.addMerchandise(merchandise);
+                                }
+                            }
+                        }
+
                         gameData.locations.push(location);
                     }
                 }
@@ -85,17 +106,6 @@ class GameStates {
                 }
                 else {
                     throw new Exception("No starting wealth was found in the game data.");
-                }
-
-                if ('merchandise' in response) {
-                    gameData.merchandise = [];
-                    for (let row of response.merchandise) {
-                        let merchandise = new Merchandise(row.name, row.name, row.base_cost, row.unit);
-                        gameData.merchandise.push(merchandise);
-                    }
-                }
-                else {
-                    throw new Exception("No merchandise was found in the game data.");
                 }
 
                 resolve(gameData);

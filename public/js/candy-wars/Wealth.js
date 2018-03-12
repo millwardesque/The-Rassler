@@ -7,11 +7,11 @@ class Wealth extends GameObject {
 
     change(delta) {
         this.wealth += delta;
-        engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateWealth, this.wealth));
+        engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.UpdateWealth, this.wealth));
     }
 
     set(newWealth) {
         this.wealth = newWealth;
-        engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateWealth, this.wealth));
+        engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.UpdateWealth, this.wealth));
     }
 }

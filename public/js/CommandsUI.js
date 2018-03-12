@@ -49,6 +49,9 @@ class CommandsUI extends GameObject{
 		commandNode.querySelector('.label').textContent = label;
 
 		commandNode.addEventListener('click', function(clickEvent) {
+			clickEvent.preventDefault();
+			clickEvent.stopPropagation();
+
 			engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
 		});
 

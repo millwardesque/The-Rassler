@@ -7,11 +7,10 @@ window.onload = async function() {
     
     /**
       TODO:
-        Milestone: Add vendor with merchandise for sale
-        - Add merchandise list to location
-        - Generate merchandise price on travel
-        - Add command to buy single unit of merchandise
+        Milestone: 
 
+        Add UI for showing inventory
+        Separate description into separate updateable parts (dialog, status, location description)
         Add UI for specifying quantity
         Add price spikes and drops
         Add game-over
@@ -20,8 +19,10 @@ window.onload = async function() {
         Add game-over after robbery/death
         Package engine source into sub-folder
         Drop-down to choose location
-        Buy territory?
         Change game time based on travel
+
+        Ideas:
+        Buy territory?
     */
 }
 
@@ -36,6 +37,7 @@ class CandyWars {
         this.engine.initialize();
         this.engine.eventDispatcher.addListener(GameEvents.LoadGameState, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.ChangeLocation, this);
+        this.engine.eventDispatcher.addListener(CustomGameEvents.BuyMerchandise, this);
 
         this.activeCommands = [];
     }
@@ -59,11 +61,14 @@ class CandyWars {
         else if (event.id == CustomGameEvents.ChangeLocation) {
             let newLocation = event.data.location;
 
+            // Clean up old commands
             for (let command of this.activeCommands) {
                 this.engine.eventDispatcher.removeListener(command);
             }
 
             let commands = [];
+
+            // Generate location-move commands
             this.engine.registry.findValue('locations').forEach((location) => {
                 if (location.name != newLocation.name) {
                     let command = new Command(`travel-${location.name}`, `Travel to ${location.name}`, null);
@@ -72,15 +77,44 @@ class CandyWars {
                 }
             });
 
+            // Generate purchase commands
+            for (let item of newLocation.merchandise) {
+                let command = new Command(`buy-${item.id}`, `Buy 1 ${item.name}`, null);
+                command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: newLocation.merchandisePrice(item.name) }});
+                commands.push(command);
+            }
+
+            // Set the new commands
             this.activeCommands = commands;
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateCommandsUI, { commands: this.activeCommands }));
 
-            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateCommandsUI, { commands: commands }));
-            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "current-location", value: newLocation }));
-
-            let newDescription = `You're standing in front of ${newLocation.name}`;
-            newDescription += `\n\n${newLocation.description}`;
-            newDescription += `\n\n${newLocation.vendor}: "Hi there! What can I get you?"`;
+            // Update the description
+            let newDescription = `You're standing at the counter inside ${newLocation.name}`;
+            newDescription += `\n\n${newLocation.getFullDescription()}`;
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+
+            // Save the new location
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "current-location", value: newLocation }));
+        }
+        else if (event.id == CustomGameEvents.BuyMerchandise) {
+            let totalCost = event.data.unitPrice * event.data.quantity;
+            let wealth = this.engine.registry.findValue('wealth');
+            if (wealth == null) {
+                throw new Error("Unable to locate player wealth in registry");
+            }
+
+            let location = this.engine.registry.findValue('current-location');
+            if (wealth.wealth >= totalCost) {
+                let newDescription = `You just bought ${event.data.quantity} ${event.data.merchandise.name} for \$${totalCost.toFixed(2)}. Enjoy!`;
+                newDescription += `\n\n${location.getFullDescription()}`;
+                this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+                wealth.change(-totalCost);
+            }
+            else {    
+                let newDescription = `You don't have enough money to buy that`;
+                newDescription += `\n\n${location.getFullDescription()}`;
+                this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+            }            
         }
     }
 }

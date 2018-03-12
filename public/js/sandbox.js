@@ -42,6 +42,9 @@ window.onload = async function() {
 	   Add mid-day scenes
 
 	  Engine:
+	   Disabled commands (e.g. for items you can't afford)
+	   Move nextSceneNode out of command class and into onExecute array
+	   Pass line and file to log class for clearer log messages in console.
 	   Tags for object causes and effects (e.g. 'causes: fire', 'causes: kick', 'affected by: fire')
 	   Parse custom commands
 	   All event handles should return promises.

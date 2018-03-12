@@ -5,6 +5,10 @@ class EventDispatcher {
     }
 
     dispatchEvent(event) {
+        if (event === undefined || event.id === undefined) {
+            throw new Error(`Undefined event dispatched.`);
+        }
+
         if (this.listeners.hasOwnProperty(event.id)) {
             console.debug(`[EventDispatcher] Dispatching ${event.id} to ${this.listeners[event.id].length} listeners.`);
             for (let listener of this.listeners[event.id]) {
@@ -45,6 +49,10 @@ class EventDispatcher {
         let listenerId = "<unknown>";
         if ('id' in newListener) {
             listenerId = newListener.id;
+        }
+
+        if (eventId === undefined) {
+            throw new Error(`Unable to add listener ${listenerId}: Event ID is undefined.`);
         }
 
         if (typeof (newListener.handleEvent) !== "function") {
