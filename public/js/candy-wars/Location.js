@@ -7,6 +7,7 @@ class Location extends GameObject {
         this.vendor = vendor;
         this.merchandise = [];
         this.merchandisePriceMods = {};
+        this.buyPercentage = 0.8
 	}
 
     addMerchandise(merchandise) {
@@ -18,6 +19,8 @@ class Location extends GameObject {
         for (let item of this.merchandise) {
             this.merchandisePriceMods[item.id] = this.generatePriceMod();
         }
+
+        this.buyPercentage = Math.min(0.5 + Math.random(), 0.9)
     }
 
     generatePriceMod() {
@@ -34,7 +37,7 @@ class Location extends GameObject {
         }
 
         if (item) {
-            return (item.baseCost * this.merchandisePriceMods[merchName]).toFixed(2);
+            return (item.baseCost * this.merchandisePriceMods[merchName] * this.buyPercentage).toFixed(2);
         }
         else {
             throw new Error(`Merchandise ${merchName} not found in ${location.name}`);
@@ -51,7 +54,7 @@ class Location extends GameObject {
         }
 
         if (item) {
-            return (item.baseCost * (1 + (1 - this.merchandisePriceMods[merchName]))).toFixed(2);
+            return (item.baseCost * this.merchandisePriceMods[merchName]).toFixed(2);
         }
         else {
             throw new Error(`Merchandise ${merchName} not found in ${location.name}`);
@@ -78,7 +81,7 @@ class Location extends GameObject {
         if (this.merchandise.length) {
             description += `\n\nMerchandise`;
             for (let item of this.merchandise) {
-                description += `\n${item.name}: \$${this.merchandiseSellPrice(item.name)} / ${item.unit}`;
+                description += `\n${item.name}: Buy @ \$${this.merchandiseBuyPrice(item.name)} / Sell @ \$${this.merchandiseSellPrice(item.name)}`;
             }
         }
 

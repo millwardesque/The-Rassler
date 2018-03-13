@@ -9,7 +9,7 @@ class Inventory extends GameObject {
         engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, this));
     }
 
-    append(name, quantity) {
+    add(name, quantity) {
         if (!(name in this.items)) {
             this.items[name] = 0;
         }

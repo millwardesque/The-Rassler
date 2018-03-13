@@ -6,5 +6,6 @@ let CustomGameEvents = {
     ChangeLocation: "Change Location",
 	OnInventoryChange: "On Inventory Change",
     OnEnterLocation: "On Enter Location",
+    SellMerchandise: "Sell Merchandise",
     UpdateWealth: "Update Wealth",    
 }

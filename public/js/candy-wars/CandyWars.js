@@ -7,10 +7,8 @@ window.onload = async function() {
     
     /**
     TODO:
-    Milestone: Sell inventory
-        Sell inventory
-        Only sell quantity we have
 
+    Merge buy / sell commands
     Separate description into separate updateable parts (dialog, status, location description)
     Add cost to travel (time or money?)
     Add price spikes and drops
@@ -44,6 +42,7 @@ class CandyWars {
         this.engine.eventDispatcher.addListener(GameEvents.LoadGameState, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.ChangeLocation, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.BuyMerchandise, this);
+        this.engine.eventDispatcher.addListener(CustomGameEvents.SellMerchandise, this);
 
         this.activeCommands = [];
     }
@@ -61,6 +60,9 @@ class CandyWars {
         }
         else if (event.id == CustomGameEvents.BuyMerchandise) {
             this.buyMerchandise(event.data);
+        }
+        else if (event.id == CustomGameEvents.SellMerchandise) {
+            this.sellMerchandise(event.data);
         }
     }
 
@@ -108,7 +110,7 @@ class CandyWars {
         let location = this.engine.registry.findValue('current-location');
         if (wealth.wealth >= totalCost) {
             let inventory = this.engine.registry.findValue('inventory');
-            inventory.append(purchaseOrder.merchandise.name, purchaseOrder.quantity);
+            inventory.add(purchaseOrder.merchandise.name, purchaseOrder.quantity);
 
             let newDescription = `You just bought ${purchaseOrder.quantity} ${purchaseOrder.merchandise.name} for \$${totalCost.toFixed(2)}. Enjoy!`;
             newDescription += `\n\n${location.getFullDescription()}`;
@@ -117,6 +119,29 @@ class CandyWars {
         }
         else {    
             let newDescription = `You don't have enough money to buy that`;
+            newDescription += `\n\n${location.getFullDescription()}`;
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+        }
+
+        this.rebuildCommands();
+    }
+
+    sellMerchandise(saleOrder) {
+        let inventory = this.engine.registry.findValue('inventory');
+        let wealth = this.engine.registry.findValue('wealth');
+        let location = this.engine.registry.findValue('current-location');
+        let totalProfit = saleOrder.unitPrice * saleOrder.quantity;
+        
+        if (inventory.get(saleOrder.itemName) >= saleOrder.quantity) {
+            inventory.add(saleOrder.itemName, -saleOrder.quantity);
+
+            let newDescription = `You just sold ${saleOrder.quantity} ${saleOrder.itemName} for \$${totalProfit.toFixed(2)}.`;
+            newDescription += `\n\n${location.getFullDescription()}`;
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+            wealth.change(totalProfit);
+        }
+        else {    
+            let newDescription = `You don't have enough ${saleOrder.itemName} to sell.`;
             newDescription += `\n\n${location.getFullDescription()}`;
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
         }
