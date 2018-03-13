@@ -82,18 +82,23 @@ class CommandsUI extends GameObject{
         form.querySelector('button[type="submit"]').textContent = command.actionName;
 
         form.addEventListener('submit', (submitEvent) => {
-            let quantity = webUtils.stripHtml(field.value);
+            submitEvent.preventDefault();
+            submitEvent.stopPropagation();
+
+            let quantity = Number(webUtils.stripHtml(field.value));
             if (quantity == "") {
                 return;
             }
-            command.quantity = quantity;
 
-            engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
+            if (!Number.isInteger(quantity)) {
+                console.log(`Supplied quantity ${quantity} isn't a number. Ignoring.`);
+            }
+            else {
+                command.quantity = quantity;
+                engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
+            }
 
             field.value = "";
-
-            submitEvent.preventDefault();
-            submitEvent.stopPropagation();
         });
 
         this.container.appendChild(commandNode);

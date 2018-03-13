@@ -1,11 +1,25 @@
 class QuantityCommand extends Command {
-    constructor(id, label, nextSceneNode, quantity, actionName) {
+    constructor(id, label, nextSceneNode, quantity, actionName, onExecuteQuantityKey) {
         super(id, label, nextSceneNode);
 
         this.quantity = quantity;
         this.actionName = actionName;
+        this.onExecuteQuantityKey = onExecuteQuantityKey;
 
         engine.eventDispatcher.addListener(GameEvents.ExecuteCommand, this);
+    }
+
+    execute() { 
+        for (let task of this.onExecute) {
+            if (this.onExecuteQuantityKey in task.value) {
+                task.value[this.onExecuteQuantityKey] = this.quantity;
+            }
+            else {
+                this.debug(`Quantity key '${this.onExecuteQuantityKey}' not found`, task);
+            }
+        }
+
+        super.execute();
     }
 
     /**

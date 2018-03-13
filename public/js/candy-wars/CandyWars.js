@@ -8,7 +8,6 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: Sell inventory
-        Add UI for specifying quantity
         Sell inventory
 
     Separate description into separate updateable parts (dialog, status, location description)
@@ -85,7 +84,7 @@ class CandyWars {
 
             // Generate purchase commands
             for (let item of newLocation.merchandise) {
-                let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy');
+                let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy', 'quantity');
                 command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: newLocation.merchandisePrice(item.name) }});
                 commands.push(command);
             }
