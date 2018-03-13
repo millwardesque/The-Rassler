@@ -43,13 +43,22 @@ class Location extends GameObject {
 
     getFullDescription() {
         let description = `${this.description}`;
-        description += `\n\n${this.vendor}: "Hi there! What can I get you?"`;
 
-        description += `\n\nMerchandise`;
-        for (let item of this.merchandise) {
-            description += `\n${item.name}: \$${this.merchandisePrice(item.name).toFixed(2)} / ${item.unit}`;
+        if (this.vendor) {
+            description += `\n\n${this.vendor}: "Hi there! What can I get you?"`;    
+        }        
+
+        if (this.merchandise.length) {
+            description += `\n\nMerchandise`;
+            for (let item of this.merchandise) {
+                description += `\n${item.name}: \$${this.merchandisePrice(item.name).toFixed(2)} / ${item.unit}`;
+            }
         }
 
         return description;
+    }
+
+    travelTime(destination) {
+        return 1;
     }
 }

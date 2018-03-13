@@ -9,10 +9,14 @@ class GameStates {
                 let commandParser = new CommandParser("Command Parser");
                 engine.registry.set('commandParser', commandParser);
 
+                let inventory = new Inventory("Player inventory");
+                engine.registry.set('inventory', inventory);
+
                 // Set up UI
                 let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
                 let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
                 let descriptionUI = new DescriptionUI("Description UI", document.querySelector('#description'));
+                let inventoryUI = new InventoryUI("Inventory UI", document.querySelector('#inventory'));
                 let wealthUI = new WealthUI("Wealth UI", document.querySelector('#wealth-container .wealth'));
 
                 // Load the game data.
@@ -35,6 +39,8 @@ class GameStates {
                 let wealth = new Wealth('player-wealth');
                 engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "wealth", value: wealth }));
                 wealth.set(gameData.startingWealth);
+
+                engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, null));
 
                 gameClock.setTime(0, 0);            
 
@@ -71,10 +77,12 @@ class GameStates {
                     for (let row of response.locations) {
                         let location = new Location(row.name, row.name, row.description, row.vendor);
 
-                        for (let itemName of row['merchandise']) {
-                            for (let merchandise of gameData.merchandise) {
-                                if (itemName == merchandise.name) {
-                                    location.addMerchandise(merchandise);
+                        if (row['merchandise']) {
+                            for (let itemName of row['merchandise']) {
+                                for (let merchandise of gameData.merchandise) {
+                                    if (itemName == merchandise.name) {
+                                        location.addMerchandise(merchandise);
+                                    }
                                 }
                             }
                         }

@@ -7,11 +7,14 @@ window.onload = async function() {
     
     /**
       TODO:
-        Milestone: 
-
-        Add UI for showing inventory
+        Milestone: Inventory
+        - Add inventory
+        - Add UI for showing inventory
+        
         Separate description into separate updateable parts (dialog, status, location description)
         Add UI for specifying quantity
+        Sell inventory
+        Add cost to travel (time or money?)
         Add price spikes and drops
         Add game-over
         Add game-over after time
@@ -19,7 +22,7 @@ window.onload = async function() {
         Add game-over after robbery/death
         Package engine source into sub-folder
         Drop-down to choose location
-        Change game time based on travel
+        Generate random times between locations
 
         Ideas:
         Buy territory?
@@ -59,7 +62,16 @@ class CandyWars {
             }
         }
         else if (event.id == CustomGameEvents.ChangeLocation) {
+            let oldLocation = this.engine.registry.findValue('current-location');
             let newLocation = event.data.location;
+
+            if (oldLocation) {
+                let travelTime = oldLocation.travelTime(newLocation);
+
+                // Update the time
+                let clock = this.engine.registry.findValue('clock');
+                clock.addTime(travelTime, 0);
+            }
 
             // Clean up old commands
             for (let command of this.activeCommands) {
@@ -68,21 +80,21 @@ class CandyWars {
 
             let commands = [];
 
-            // Generate location-move commands
-            this.engine.registry.findValue('locations').forEach((location) => {
-                if (location.name != newLocation.name) {
-                    let command = new Command(`travel-${location.name}`, `Travel to ${location.name}`, null);
-                    command.onExecute.push({ key: CustomGameEvents.ChangeLocation, value: { location: location }});
-                    commands.push(command);
-                }
-            });
-
             // Generate purchase commands
             for (let item of newLocation.merchandise) {
                 let command = new Command(`buy-${item.id}`, `Buy 1 ${item.name}`, null);
                 command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: newLocation.merchandisePrice(item.name) }});
                 commands.push(command);
             }
+
+            // Generate location-move commands
+            this.engine.registry.findValue('locations').forEach((location) => {
+                if (location.name != newLocation.name) {
+                    let command = new Command(`travel-${location.name}`, `Travel to ${location.name} (${location.travelTime()}h)`, null);
+                    command.onExecute.push({ key: CustomGameEvents.ChangeLocation, value: { location: location }});
+                    commands.push(command);
+                }
+            });
 
             // Set the new commands
             this.activeCommands = commands;
@@ -105,6 +117,9 @@ class CandyWars {
 
             let location = this.engine.registry.findValue('current-location');
             if (wealth.wealth >= totalCost) {
+                let inventory = this.engine.registry.findValue('inventory');
+                inventory.append(event.data.merchandise.name, event.data.quantity);
+
                 let newDescription = `You just bought ${event.data.quantity} ${event.data.merchandise.name} for \$${totalCost.toFixed(2)}. Enjoy!`;
                 newDescription += `\n\n${location.getFullDescription()}`;
                 this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));

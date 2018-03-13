@@ -1,6 +1,12 @@
 {
     "locations": [
         {
+            "name": "Home, sweet home",
+            "description": "You live here. It's pretty rad.",
+            "vendor": null,
+            "merchandise": null
+        },
+        {
             "name": "Charing Cross Macs",
             "description": "Home of slurpees, Pokémon cards, and all sorts of unhealthy snacks, this is place to go for the common, popular items.",
             "vendor": "Amal",

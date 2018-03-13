@@ -38,6 +38,8 @@
 		<script src="/js/candy-wars/CandyWars.js"></script>
 		<script src="/js/candy-wars/CustomGameEvents.js"></script>
 		<script src="/js/candy-wars/GameStates.js"></script>
+		<script src="/js/candy-wars/Inventory.js"></script>
+		<script src="/js/candy-wars/InventoryUI.js"></script>
 		<script src="/js/candy-wars/Location.js"></script>
 		<script src="/js/candy-wars/Merchandise.js"></script>
 		<script src="/js/candy-wars/Wealth.js"></script>
@@ -81,6 +83,10 @@
 					<h2>Commands</h2>
 					<ul id="commands" class="list-group">
 					</ul>
+
+					<h2>Inventory</h2>
+					<ul id="inventory" class="list-group">
+					</ul>
 				</main>
 			</div>
 		</div>
@@ -107,6 +113,10 @@
 				<a href="#">
 					<div class="label"></div>
 				</a>
+			</li>
+
+			<li class="template inventory-item list-group-item">
+				<span class="name"></span><span class="quantity"></span>
 			</li>
 
 			<div class="template gameClock">
