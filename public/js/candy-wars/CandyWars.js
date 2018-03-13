@@ -85,7 +85,7 @@ class CandyWars {
 
             // Generate purchase commands
             for (let item of newLocation.merchandise) {
-                let command = new Command(`buy-${item.id}`, `Buy 1 ${item.name}`, null);
+                let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy');
                 command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: newLocation.merchandisePrice(item.name) }});
                 commands.push(command);
             }
