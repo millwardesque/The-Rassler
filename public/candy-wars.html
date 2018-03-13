@@ -1,127 +1,138 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Candy Wars</title>
+    <head>
+        <title>Candy Wars</title>
 
-		<link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
-		<link href="/css/sandbox.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
+        <link href="/css/sandbox.css" rel="stylesheet" />
 
-		<script src="/js/vendors/jquery-3.2.1.slim.min.js"></script>
-		<script src="/js/vendors/popper-1.12.9.min.js"></script>
-		<script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
+        <script src="/js/vendors/jquery-3.2.1.slim.min.js"></script>
+        <script src="/js/vendors/popper-1.12.9.min.js"></script>
+        <script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
 
-		<script src="/js/WebUtils.js"></script>
-		<script src="/js/Log.js"></script>
-		<script src="/js/GameObject.js"></script>
-		<script src="/js/Storage.js"></script>
+        <script src="/js/WebUtils.js"></script>
+        <script src="/js/Log.js"></script>
+        <script src="/js/GameObject.js"></script>
+        <script src="/js/Storage.js"></script>
 
-		<script src="/js/GameEngine.js"></script>
-		<script src="/js/EventDispatcher.js"></script>
-		<script src="/js/Registry.js"></script>
+        <script src="/js/GameEngine.js"></script>
+        <script src="/js/EventDispatcher.js"></script>
+        <script src="/js/Registry.js"></script>
 
-		<script src="/js/GameUtils.js"></script>
-		<script src="/js/GameEvent.js"></script>
-		<script src="/js/GameEvents.js"></script>
-		
-		<script src="/js/GameClock.js"></script>
-		<script src="/js/SceneNode.js"></script>
-		<script src="/js/Scene.js"></script>
-		<script src="/js/SceneSelector.js"></script>
+        <script src="/js/GameUtils.js"></script>
+        <script src="/js/GameEvent.js"></script>
+        <script src="/js/GameEvents.js"></script>
+        
+        <script src="/js/GameClock.js"></script>
+        <script src="/js/SceneNode.js"></script>
+        <script src="/js/Scene.js"></script>
+        <script src="/js/SceneSelector.js"></script>
 
-		<script src="/js/Command.js"></script>
-		<script src="/js/CommandParser.js"></script>
+        <script src="/js/Command.js"></script>
+        <script src="/js/QuantityCommand.js"></script>
+        <script src="/js/CommandParser.js"></script>
 
-		<script src="/js/CommandsUI.js"></script>
-		<script src="/js/DescriptionUI.js"></script>
-		<script src="/js/GameClockUI.js"></script>
+        <script src="/js/CommandsUI.js"></script>
+        <script src="/js/DescriptionUI.js"></script>
+        <script src="/js/GameClockUI.js"></script>
 
-		<script src="/js/candy-wars/CandyWars.js"></script>
-		<script src="/js/candy-wars/CustomGameEvents.js"></script>
-		<script src="/js/candy-wars/GameStates.js"></script>
-		<script src="/js/candy-wars/Inventory.js"></script>
-		<script src="/js/candy-wars/InventoryUI.js"></script>
-		<script src="/js/candy-wars/Location.js"></script>
-		<script src="/js/candy-wars/Merchandise.js"></script>
-		<script src="/js/candy-wars/Wealth.js"></script>
-		<script src="/js/candy-wars/WealthUI.js"></script>
-	</head>
-	<body>
-		<header>
-			<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-				<a class="navbar-brand" href="#">Candy Wars</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+        <script src="/js/candy-wars/CandyWars.js"></script>
+        <script src="/js/candy-wars/CustomGameEvents.js"></script>
+        <script src="/js/candy-wars/GameStates.js"></script>
+        <script src="/js/candy-wars/Inventory.js"></script>
+        <script src="/js/candy-wars/InventoryUI.js"></script>
+        <script src="/js/candy-wars/Location.js"></script>
+        <script src="/js/candy-wars/Merchandise.js"></script>
+        <script src="/js/candy-wars/Wealth.js"></script>
+        <script src="/js/candy-wars/WealthUI.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Candy Wars</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-				<div class="collapse navbar-collapse" id="navbarCollapse">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/index.html">Other Games</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link active" href="/candy-wars.html">Candy Wars</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		</header>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index.html">Other Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/candy-wars.html">Candy Wars</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
-		<div class="container-fluid">
-			<div class="row">
-				<main class="col-12">
-					<h2>Status</h2>
-					<div class="status">
-						<div id="gameClock-container"></div>
-						<div id="wealth-container">
-							Wealth: <span class="wealth"></span>
-						</div>
-					</div>
+        <div class="container-fluid">
+            <div class="row">
+                <main class="col-12">
+                    <h2>Status</h2>
+                    <div class="status">
+                        <div id="gameClock-container"></div>
+                        <div id="wealth-container">
+                            Wealth: <span class="wealth"></span>
+                        </div>
+                    </div>
 
-					<h2>Description</h2>
-					<div id="description"></div>
+                    <h2>Description</h2>
+                    <div id="description"></div>
 
-					<h2>Commands</h2>
-					<ul id="commands" class="list-group">
-					</ul>
+                    <h2>Commands</h2>
+                    <ul id="commands" class="list-group">
+                    </ul>
 
-					<h2>Inventory</h2>
-					<ul id="inventory" class="list-group">
-					</ul>
-				</main>
-			</div>
-		</div>
+                    <h2>Inventory</h2>
+                    <ul id="inventory" class="list-group">
+                    </ul>
+                </main>
+            </div>
+        </div>
 
-		<div class="templates" style="display:none">
-			<li class="template command list-group-item list-group-item-action">
-				<a href="#">
-					<div class="label"></div>
-				</a>
-			</li>
+        <div class="templates" style="display:none">
+            <li class="template command list-group-item list-group-item-action">
+                <a href="#">
+                    <div class="label"></div>
+                </a>
+            </li>
 
-			<li class="template custom-command list-group-item list-group-item-action">
-				<form>
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Command</label>
-						<input type="text" id="custom-command" class="form-control col-sm-10"></input>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-12">
-							<button class="btn btn-primary" type="submit">Submit</button>
-						</div>
-					</div>
-				</form>
-				<a href="#">
-					<div class="label"></div>
-				</a>
-			</li>
+            <li class="template quantity-command list-group-item list-group-item-action">
+                <form class="form-inline">
+                    <div class="form-group mr-sm-2 mb-2">
+                        <label class="col-form-label mr-2">Item name</label>
+                        <input type="text" id="quantity-command" class="form-control"></input>
+                    </div>
+                    <button class="btn btn-primary mb-2" type="submit">Button action</button>
+                </form>
+            </li>
 
-			<li class="template inventory-item list-group-item">
-				<span class="name"></span><span class="quantity"></span>
-			</li>
+            <li class="template custom-command list-group-item list-group-item-action">
+                <form>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Command</label>
+                        <input type="text" id="custom-command" class="form-control col-sm-10"></input>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <a href="#">
+                    <div class="label"></div>
+                </a>
+            </li>
 
-			<div class="template gameClock">
-				<span class="hour"></span>:<span class="minute"></span>
-			</div>
-		</div>
-	</body>
+            <li class="template inventory-item list-group-item">
+                <span class="name"></span><span class="quantity"></span>
+            </li>
+
+            <div class="template gameClock">
+                <span class="hour"></span>:<span class="minute"></span>
+            </div>
+        </div>
+    </body>
 </html>

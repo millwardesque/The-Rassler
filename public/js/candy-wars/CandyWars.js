@@ -6,26 +6,29 @@ window.onload = async function() {
     game.start();
     
     /**
-      TODO:
-        Milestone: Inventory
-        - Add inventory
-        - Add UI for showing inventory
-        
-        Separate description into separate updateable parts (dialog, status, location description)
+    TODO:
+    Milestone: Sell inventory
         Add UI for specifying quantity
         Sell inventory
-        Add cost to travel (time or money?)
-        Add price spikes and drops
-        Add game-over
-        Add game-over after time
-        Add robbery protection mechanism
-        Add game-over after robbery/death
-        Package engine source into sub-folder
-        Drop-down to choose location
-        Generate random times between locations
 
-        Ideas:
-        Buy territory?
+    Separate description into separate updateable parts (dialog, status, location description)
+    Add cost to travel (time or money?)
+    Add price spikes and drops
+    Add game-over
+    Add game-over after time
+    Add robbery protection mechanism
+    Add game-over after robbery/death
+    Package engine source into sub-folder
+    Drop-down to choose location
+    Generate random cost between locations on start
+    Create CommandUI classes to allow custom commands to handle their own rendering / retrieval
+
+    Ideas:
+    Buy territory?
+    Sell at school
+    Bullies who steal money and/or inventory
+    Penalty for staying out late
+    Penalty for skipping school hours
     */
 }
 
