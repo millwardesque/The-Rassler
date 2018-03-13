@@ -100,7 +100,6 @@ class CandyWars {
     buyMerchandise(purchaseOrder) {
         let totalCost = purchaseOrder.unitPrice * purchaseOrder.quantity;
 
-        console.log(purchaseOrder, totalCost);
         let wealth = this.engine.registry.findValue('wealth');
         if (wealth == null) {
             throw new Error("Unable to locate player wealth in registry");
