@@ -7,24 +7,24 @@ class Location extends GameObject {
         this.vendor = vendor;
         this.merchandise = [];
         this.merchandisePriceMods = {};
-
-        engine.eventDispatcher.addListener(CustomGameEvents.ChangeLocation, this);
 	}
 
     addMerchandise(merchandise) {
         this.merchandise.push(merchandise);
-        this.merchandisePriceMods[merchandise.name] = 1.0;
+        this.merchandisePriceMods[merchandise.id] = this.generatePriceMod();
     }
 
-    handleEvent(event) {
-        if (event.id == CustomGameEvents.ChangeLocation && event.data.location == this) {
-            for (let item of this.merchandise) {
-                this.merchandisePriceMods[item.id] = 1 + (Math.random() - 0.5);
-            }
+    generatePriceMods() {
+        for (let item of this.merchandise) {
+            this.merchandisePriceMods[item.id] = this.generatePriceMod();
         }
     }
 
-    merchandisePrice(merchName) {
+    generatePriceMod() {
+        return 1 + (Math.random() - 0.5);
+    }
+
+    merchandiseBuyPrice(merchName) {
         let item = null;
         for (let merchandise of this.merchandise) {
             if (merchandise.name == merchName) {
@@ -34,11 +34,38 @@ class Location extends GameObject {
         }
 
         if (item) {
-            return item.baseCost * this.merchandisePriceMods[merchName];    
+            return (item.baseCost * this.merchandisePriceMods[merchName]).toFixed(2);
         }
         else {
-            throw new Exception(`Merchandise ${merchName} not found in ${location.name}`);
+            throw new Error(`Merchandise ${merchName} not found in ${location.name}`);
         }        
+    }
+
+    merchandiseSellPrice(merchName) {
+        let item = null;
+        for (let merchandise of this.merchandise) {
+            if (merchandise.name == merchName) {
+                item = merchandise;
+                break;
+            }
+        }
+
+        if (item) {
+            return (item.baseCost * (1 + (1 - this.merchandisePriceMods[merchName]))).toFixed(2);
+        }
+        else {
+            throw new Error(`Merchandise ${merchName} not found in ${location.name}`);
+        }
+    }
+
+    buys(merchName) {
+        for (let merchandise of this.merchandise) {
+            if (merchandise.name == merchName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     getFullDescription() {
@@ -51,7 +78,7 @@ class Location extends GameObject {
         if (this.merchandise.length) {
             description += `\n\nMerchandise`;
             for (let item of this.merchandise) {
-                description += `\n${item.name}: \$${this.merchandisePrice(item.name).toFixed(2)} / ${item.unit}`;
+                description += `\n${item.name}: \$${this.merchandiseSellPrice(item.name)} / ${item.unit}`;
             }
         }
 

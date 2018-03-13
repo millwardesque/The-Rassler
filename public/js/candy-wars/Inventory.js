@@ -26,4 +26,8 @@ class Inventory extends GameObject {
             return 0;
         }
     }
+
+    all() {
+        return this.items;
+    }
 }
