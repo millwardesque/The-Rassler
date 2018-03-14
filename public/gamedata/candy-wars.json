@@ -24,10 +24,18 @@
             "merchandise": ["Nickel mix", "Slurpee", "Wunderbar", "Pokémon cards"]
         }
     ],
+    "lenders": [
+        {
+            "id": "pool-chicken",
+            "name": "Pool chicken",
+            "funds": 10
+        }
+    ],
     "locations": [
         {
             "name": "Home",
-            "description": "Home, sweet home! You live here. It's pretty rad."
+            "description": "Home, sweet home! You live here. It's pretty rad.",
+            "lenders": ["pool-chicken"]
         },
         {
             "name": "Charing Cross Macs",
@@ -46,6 +54,6 @@
         }
     ],
     "startingLocation": "Home",
-    "startingWealth": 0,
+    "startingWealth": 10,
     "dayStartTime": 7
 }

@@ -50,7 +50,7 @@ class Vendor extends GameObject {
         }
         else {
             throw new Error(`Merchandise ${merchName} not found in ${location.name}`);
-        }        
+        }
     }
 
     merchandiseSellPrice(merchName) {
@@ -78,5 +78,29 @@ class Vendor extends GameObject {
         }
 
         return false;
-    }	
+    }
+
+    getCommands() {
+        let inventoryItems = engine.registry.findValue('inventory').all();
+        let commands = [];
+
+        // Player-buy commands
+        for (let item of this.merchandise) {
+            let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy', 'quantity');
+            command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: this.merchandiseSellPrice(item.name) }});
+            commands.push(command);
+        }
+
+        // Player-sell commands
+        for (let name in inventoryItems) {
+            if (this.buys(name)) {
+                let value = inventoryItems[name];
+                let command = new QuantityCommand(`sell-${name}`, `${name}`, null, 1, 'Sell', 'quantity');
+                command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: this.merchandiseBuyPrice(name) }});
+                commands.push(command);
+            }
+        }
+
+        return commands;
+    }
 }

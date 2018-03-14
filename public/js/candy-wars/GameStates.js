@@ -91,8 +91,17 @@ class GameStates {
                         gameData.vendors.push(vendor);
                     }
                 }
-                else {
-                    throw new Exception("No vendors were found in the game data.");
+
+                if ('lenders' in response) {
+                    gameData.lenders = [];
+                    for (let row of response.lenders) {
+                        let startingFunds = 0;
+                        if (row['funds']) {
+                            startingFunds = row['funds']
+                        }
+                        let lender = new MoneyLender(row.id, row.name, startingFunds);
+                        gameData.lenders.push(lender);
+                    }
                 }
 
                 // Load locations after merchandise because each location depends on the merch being instantiated already.
@@ -106,6 +115,16 @@ class GameStates {
                                 for (let vendor of gameData.vendors) {
                                     if (vendorId == vendor.id) {
                                         location.addOccupant(vendor);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (row['lenders']) {
+                            for (let lenderId of row['lenders']) {
+                                for (let lender of gameData.lenders) {
+                                    if (lenderId == lender.id) {
+                                        location.addOccupant(lender);
                                     }
                                 }
                             }
