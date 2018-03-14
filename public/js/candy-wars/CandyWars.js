@@ -4,19 +4,20 @@ let engine = null;
 window.onload = async function() {
     game = new CandyWars();
     game.start();
-    
+
     /**
     TODO:
     Milestone: Make a game out of everthing
-        Locations can have occupants (vendors / money lenders)
+        Move command generation to occupants
+        Money lender occupant
         Borrow money from home
         Daily cycle and day-count in stats
-        Day ends at 6pm        
-        
+        Day ends at 6pm
+
         Player can only sell candy at school at fixed times
         Player can wait at a location for an hour
         Adjust travel times to take less than an hour
-        
+
         Player has to return money by 6pm or game over.
         Restart on game over
 
@@ -92,7 +93,11 @@ class CandyWars {
             clock.addTime(travelTime, 0);
         }
 
-        newLocation.generatePriceMods();
+        newLocation.getOccupants().forEach(occupant => {
+            if (typeof(occupant.generatePriceMods) === "function") {
+                occupant.generatePriceMods();
+            }
+        });
 
         // Set the new location
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "current-location", value: newLocation }));
@@ -123,7 +128,7 @@ class CandyWars {
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
             wealth.change(-totalCost);
         }
-        else {    
+        else {
             let newDescription = `You don't have enough money to buy that`;
             newDescription += `\n\n${location.getFullDescription()}`;
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
@@ -137,7 +142,7 @@ class CandyWars {
         let wealth = this.engine.registry.findValue('wealth');
         let location = this.engine.registry.findValue('current-location');
         let totalProfit = saleOrder.unitPrice * saleOrder.quantity;
-        
+
         if (inventory.get(saleOrder.itemName) >= saleOrder.quantity) {
             inventory.add(saleOrder.itemName, -saleOrder.quantity);
 
@@ -146,7 +151,7 @@ class CandyWars {
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
             wealth.change(totalProfit);
         }
-        else {    
+        else {
             let newDescription = `You don't have enough ${saleOrder.itemName} to sell.`;
             newDescription += `\n\n${location.getFullDescription()}`;
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
@@ -166,22 +171,27 @@ class CandyWars {
 
         let commands = [];
 
-        // Generate player buy commands
-        for (let item of currentLocation.merchandise) {
-            let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy', 'quantity');
-            command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: currentLocation.merchandiseSellPrice(item.name) }});
-            commands.push(command);
-        }
+        if (currentLocation.occupants.length) {
+            let inventoryItems = inventory.all();
 
-        // Generate player sell commands
-        let inventoryItems = inventory.all();
-        for (let name in inventoryItems) {
-            if (currentLocation.buys(name)) {
-                let value = inventoryItems[name];
-                let command = new QuantityCommand(`sell-${name}`, `${name}`, null, 1, 'Sell', 'quantity');
-                command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: currentLocation.merchandiseBuyPrice(name) }});
-                commands.push(command);    
-            }            
+            for (let vendor of currentLocation.occupants) {
+                // Generate player buy commands
+                for (let item of vendor.merchandise) {
+                    let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, null, 1, 'Buy', 'quantity');
+                    command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: vendor.merchandiseSellPrice(item.name) }});
+                    commands.push(command);
+                }
+
+                // Generate player sell commands
+                for (let name in inventoryItems) {
+                    if (vendor.buys(name)) {
+                        let value = inventoryItems[name];
+                        let command = new QuantityCommand(`sell-${name}`, `${name}`, null, 1, 'Sell', 'quantity');
+                        command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: vendor.merchandiseBuyPrice(name) }});
+                        commands.push(command);
+                    }
+                }
+            }
         }
 
         // Generate location-move commands

@@ -60,6 +60,7 @@ class GameStates {
                 // Load the game file.
                 let response = await Storage.getStorageEngine().getItem('candy-wars.json');
 
+                // Order of these is important as some types are dependent on others.
                 if ('merchandise' in response) {
                     gameData.merchandise = [];
                     for (let row of response.merchandise) {
@@ -71,17 +72,40 @@ class GameStates {
                     throw new Exception("No merchandise was found in the game data.");
                 }
 
+                // Depends on merchandise being loaded.
+                if ('vendors' in response) {
+                    gameData.vendors = [];
+                    for (let row of response.vendors) {
+                        let vendor = new Vendor(row.id, row.name);
+
+                        if (row['merchandise']) {
+                            for (let itemName of row['merchandise']) {
+                                for (let merchandise of gameData.merchandise) {
+                                    if (itemName == merchandise.name) {
+                                        vendor.addMerchandise(merchandise);
+                                    }
+                                }
+                            }
+                        }
+
+                        gameData.vendors.push(vendor);
+                    }
+                }
+                else {
+                    throw new Exception("No vendors were found in the game data.");
+                }
+
                 // Load locations after merchandise because each location depends on the merch being instantiated already.
                 if ('locations' in response) {
                     gameData.locations = [];
                     for (let row of response.locations) {
                         let location = new Location(row.name, row.name, row.description, row.vendor);
 
-                        if (row['merchandise']) {
-                            for (let itemName of row['merchandise']) {
-                                for (let merchandise of gameData.merchandise) {
-                                    if (itemName == merchandise.name) {
-                                        location.addMerchandise(merchandise);
+                        if (row['vendors']) {
+                            for (let vendorId of row['vendors']) {
+                                for (let vendor of gameData.vendors) {
+                                    if (vendorId == vendor.id) {
+                                        location.addOccupant(vendor);
                                     }
                                 }
                             }
