@@ -1,14 +1,14 @@
 class Location extends GameObject {
-	constructor(id, name, description, vendor) {
-		super(id);
+    constructor(id, name, description, vendor) {
+        super(id);
 
-		this.name = name;
+        this.name = name;
         this.description = description;
         this.vendor = vendor;
         this.merchandise = [];
         this.merchandisePriceMods = {};
         this.buyPercentage = 0.8
-	}
+    }
 
     addMerchandise(merchandise) {
         this.merchandise.push(merchandise);

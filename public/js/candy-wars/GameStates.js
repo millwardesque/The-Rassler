@@ -42,7 +42,7 @@ class GameStates {
 
                 engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, null));
 
-                gameClock.setTime(0, 0);            
+                gameClock.setTime(engine.gameData.dayStartTime, 0);
 
                 resolve();
             }
@@ -114,6 +114,13 @@ class GameStates {
                 }
                 else {
                     throw new Exception("No starting wealth was found in the game data.");
+                }
+
+                if ('dayStartTime' in response) {
+                    gameData.dayStartTime = response['dayStartTime'];
+                }
+                else {
+                    throw new Exception("No day-start time was found in the game data.");
                 }
 
                 resolve(gameData);

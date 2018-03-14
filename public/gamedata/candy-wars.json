@@ -1,8 +1,8 @@
 {
     "locations": [
         {
-            "name": "Home, sweet home",
-            "description": "You live here. It's pretty rad.",
+            "name": "Home",
+            "description": "Home, sweet home! You live here. It's pretty rad.",
             "vendor": null,
             "merchandise": null
         },
@@ -33,6 +33,7 @@
         { "name": "Slurpee", "baseCost": 4.5, "unit": "slurpee" },
         { "name": "Wunderbar", "baseCost": 1.0, "unit": "bar" }
     ],
-    "startingLocation": "Terrace Hill Variety",
-    "startingWealth": 5
+    "startingLocation": "Home",
+    "startingWealth": 0,
+    "dayStartTime": 7
 }

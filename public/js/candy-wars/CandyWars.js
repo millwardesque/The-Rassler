@@ -7,25 +7,31 @@ window.onload = async function() {
     
     /**
     TODO:
+    Milestone: Make a game out of everthing
+        Locations can have occupants (vendors / money lenders)
+        Borrow money from home
+        Daily cycle and day-count in stats
+        Day ends at 6pm        
+        
+        Player can only sell candy at school at fixed times
+        Player can wait at a location for an hour
+        Adjust travel times to take less than an hour
+        
+        Player has to return money by 6pm or game over.
+        Restart on game over
 
+    Time-of-day description (e.g. "Parents have just laft for the day"
     Merge buy / sell commands
     Separate description into separate updateable parts (dialog, status, location description)
-    Add cost to travel (time or money?)
     Add price spikes and drops
-    Add game-over
-    Add game-over after time
-    Add robbery protection mechanism
-    Add game-over after robbery/death
     Package engine source into sub-folder
     Drop-down to choose location
-    Generate random cost between locations on start
+    Generate random travel time between locations on start
     Create CommandUI classes to allow custom commands to handle their own rendering / retrieval
 
     Ideas:
     Buy territory?
-    Sell at school
     Bullies who steal money and/or inventory
-    Penalty for staying out late
     Penalty for skipping school hours
     */
 }
@@ -92,7 +98,7 @@ class CandyWars {
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "current-location", value: newLocation }));
 
         // Update the description
-        let newDescription = `You're standing at the counter inside ${newLocation.name}`;
+        let newDescription = `${newLocation.name}`;
         newDescription += `\n\n${newLocation.getFullDescription()}`;
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 
