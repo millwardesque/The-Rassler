@@ -54,6 +54,6 @@
         }
     ],
     "startingLocation": "Home",
-    "startingWealth": 10,
-    "dayStartTime": 7
+    "startingWealth": 1,
+    "startHour": 7
 }

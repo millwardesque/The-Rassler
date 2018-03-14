@@ -12,12 +12,13 @@ class GameClockUI extends GameObject {
 
 	handleEvent(event) {
 		if (event.id == GameEvents.OnGameTimeChange) {
-			this.render(event.data);	
-		}		
+			this.render(event.data);
+		}
 	}
 
 	render(gameClock) {
 		let node = webUtils.cloneTemplate('gameClock');
+		node.querySelector('.day').textContent = gameClock.day;
 		node.querySelector('.hour').textContent = webUtils.padNumber(gameClock.hour, 2);
 		node.querySelector('.minute').textContent = webUtils.padNumber(gameClock.minute, 2);
 

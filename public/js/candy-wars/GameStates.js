@@ -42,7 +42,7 @@ class GameStates {
 
                 engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, null));
 
-                gameClock.setTime(engine.gameData.dayStartTime, 0);
+                gameClock.setTime(engine.gameData.startDay, engine.gameData.startHour, engine.gameData.startMinute);
 
                 resolve();
             }
@@ -159,11 +159,19 @@ class GameStates {
                     throw new Exception("No starting wealth was found in the game data.");
                 }
 
-                if ('dayStartTime' in response) {
-                    gameData.dayStartTime = response['dayStartTime'];
+                gameData.startDay = 0
+                if ('startDay' in response) {
+                    gameData.startDay = response['startDay'];
                 }
-                else {
-                    throw new Exception("No day-start time was found in the game data.");
+
+                gameData.startHour = 0
+                if ('startHour' in response) {
+                    gameData.startHour = response['startHour'];
+                }
+
+                gameData.startMinute = 0
+                if ('startMinute' in response) {
+                    gameData.startMinute = response['startMinute'];
                 }
 
                 resolve(gameData);

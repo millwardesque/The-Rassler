@@ -8,7 +8,7 @@ class MoneyLender extends (GameObject) {
     }
 
     getDescription() {
-        let description = `${this.name}: "Hi there! Want to borrow some money, or pay back a loan?"`;
+        let description = `${this.name}: "Hi there!"`;
 
         if (this.funds > 0) {
             description += `\n\nYou can borrow up to \$${this.funds}`;

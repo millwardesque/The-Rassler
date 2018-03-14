@@ -97,7 +97,7 @@ class CandyWars {
         // Process travel time.
         if (oldLocation) {
             let travelTime = oldLocation.travelTime(newLocation);
-            clock.addTime(travelTime, 0);
+            clock.addTime(0, travelTime, 0);
         }
 
         newLocation.getOccupants().forEach(occupant => {
