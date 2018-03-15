@@ -53,7 +53,25 @@
             "vendors": ["bob"]
         }
     ],
+    "scenes": [
+        {
+            "id": "end-of-day",
+            "nodes": [
+                {
+                    "id": "eod1",
+                    "description": "The day is over. You should head home before your family gets worried",
+                    "commands": [
+                        {
+                            "label": "Continue",
+                            "nextSceneNode": "<end>"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
     "startingLocation": "Home",
     "startingWealth": 1,
-    "startHour": 7
+    "startHour": 7,
+    "endHour": 18
 }

@@ -1,6 +1,6 @@
 class QuantityCommand extends Command {
-    constructor(id, label, nextSceneNode, quantity, actionName, onExecuteQuantityKey) {
-        super(id, label, nextSceneNode);
+    constructor(id, label, quantity, actionName, onExecuteQuantityKey) {
+        super(id, label);
 
         this.quantity = quantity;
         this.actionName = actionName;
@@ -9,7 +9,7 @@ class QuantityCommand extends Command {
         engine.eventDispatcher.addListener(GameEvents.ExecuteCommand, this);
     }
 
-    execute() { 
+    execute() {
         for (let task of this.onExecute) {
             if (this.onExecuteQuantityKey in task.value) {
                 task.value[this.onExecuteQuantityKey] = this.quantity;
@@ -27,7 +27,7 @@ class QuantityCommand extends Command {
      */
     static load(obj) {
         try {
-            let command = new QuantityCommand(obj.id, obj.label, obj.nextSceneNode, obj.quantity);
+            let command = new QuantityCommand(obj.id, obj.label, obj.quantity);
             if ('isEnabled' in obj) {
                 command.isEnabled = obj.isEnabled;
             }

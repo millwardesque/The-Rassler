@@ -30,9 +30,9 @@ class GameStates {
 				}
 
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ToggleCustomCommands, true));
-				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentTerritory', value: engine.gameData.territories[0] }));
-				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentAntagonist', value: engine.gameData.people[0] }));
-				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: 'currentBooker', value: engine.gameData.people[2] }));
+				engine.registry.set('currentTerritory', engine.gameData.territories[0]);
+				engine.registry.set('currentAntagonist', engine.gameData.people[0]);
+				engine.registry.set('currentBooker', engine.gameData.people[2]);
 
 				// Load the starting scene.
 				engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));
@@ -103,7 +103,7 @@ class GameStates {
 		return new Promise(async function (resolve, reject) {
 			try {
 				let gameData = {};
-				
+
 				// Load the main menu
 				gameData.scenes = [];
 				let response = await Storage.getStorageEngine().getItem('main-menu.json');

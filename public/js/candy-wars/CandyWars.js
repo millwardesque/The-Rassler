@@ -8,12 +8,12 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: Make a game out of everthing
-        Daily cycle and day-count in stats
-        Day ends at 6pm
+        Home: Sleep until morning
 
         Player has to return money by 6pm or game over.
         Restart on game over
 
+        Prices change daily
         Player can only sell candy at school at fixed times
         Player can wait at a location for an hour
         Adjust travel times to take less than an hour
@@ -51,12 +51,14 @@ class CandyWars {
         this.engine.eventDispatcher.addListener(CustomGameEvents.SellMerchandise, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.RepayDebt, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.BorrowFunds, this);
-
-        this.activeCommands = [];
+        this.engine.eventDispatcher.addListener(GameEvents.OnGameTimeChange, this);
+        this.engine.eventDispatcher.addListener(GameEvents.OnSceneEnd, this);
     }
 
     start() {
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'ingame'))
+        this.activeCommands = [];
+        this.hasSeenEndOfDayMessage = false;
     }
 
     handleEvent(event) {
@@ -78,6 +80,12 @@ class CandyWars {
         else if (event.id == CustomGameEvents.BorrowFunds) {
             this.borrowFunds(event.data);
         }
+        else if (event.id == GameEvents.OnGameTimeChange) {
+            this.onGameTimeChange(event.data);
+        }
+        else if (event.id == GameEvents.OnSceneEnd) {
+            this.onSceneEnd(event.data);
+        }
     }
 
     loadGameState(newGameState) {
@@ -94,12 +102,6 @@ class CandyWars {
         let oldLocation = this.engine.registry.findValue('current-location');
         let clock = this.engine.registry.findValue('clock');
 
-        // Process travel time.
-        if (oldLocation) {
-            let travelTime = oldLocation.travelTime(newLocation);
-            clock.addTime(0, travelTime, 0);
-        }
-
         newLocation.getOccupants().forEach(occupant => {
             if (typeof(occupant.generatePriceMods) === "function") {
                 occupant.generatePriceMods();
@@ -107,7 +109,7 @@ class CandyWars {
         });
 
         // Set the new location
-        this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "current-location", value: newLocation }));
+        this.engine.registry.set("current-location", newLocation);
 
         // Update the description
         let newDescription = `${newLocation.name}`;
@@ -115,6 +117,12 @@ class CandyWars {
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 
         this.rebuildCommands();
+
+        // Process travel time after everything else because the time change may introduce a new scene.
+        if (oldLocation) {
+            let travelTime = oldLocation.travelTime(newLocation);
+            clock.addTime(0, travelTime, 0);
+        }
     }
 
     buyMerchandise(purchaseOrder) {
@@ -188,6 +196,29 @@ class CandyWars {
         wealth.change(amountBorrowed);
 
         let newDescription = `You just borrowed \$${amountBorrowed.toFixed(2)}.`;
+        newDescription += `\n\n${location.getFullDescription()}`;
+        this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+
+        this.rebuildCommands();
+    }
+
+    onGameTimeChange(timeChange) {
+        let endHour = this.engine.registry.findValue('end-hour');
+        if (timeChange.current.hour >= endHour && !this.hasSeenEndOfDayMessage) {
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "end-of-day"));
+            this.hasSeenEndOfDayMessage = true;
+        }
+
+        if (timeChange.current.day != timeChange.oldDay) {
+            this.hasSeenEndOfDayMessage = false;
+        }
+    }
+
+    onSceneEnd() {
+        let location = this.engine.registry.findValue('current-location');
+
+        // Update the description
+        let newDescription = `${location.name}`;
         newDescription += `\n\n${location.getFullDescription()}`;
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 

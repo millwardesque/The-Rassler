@@ -31,19 +31,22 @@ class GameStates {
                 }
 
                 // Set up starting data
+                engine.registry.set("scenes", engine.gameData.scenes);
+
                 for (let location of engine.gameData.locations) {
-                    engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistryAppend, { key: "locations", value: location }));
+                    engine.registry.append("locations", location);
                 }
-                engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.ChangeLocation, { location: engine.gameData.startingLocation }));
+
 
                 let wealth = new Wealth('player-wealth');
-                engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.RegistrySet, { key: "wealth", value: wealth }));
+                engine.registry.set("wealth", wealth);
                 wealth.set(gameData.startingWealth);
 
+                engine.registry.set('end-hour', engine.gameData.endHour)
+
+                engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.ChangeLocation, { location: engine.gameData.startingLocation }));
                 engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, null));
-
                 gameClock.setTime(engine.gameData.startDay, engine.gameData.startHour, engine.gameData.startMinute);
-
                 resolve();
             }
             catch(err) {
@@ -152,6 +155,13 @@ class GameStates {
                     throw new Exception("No starting location was found in the game data.");
                 }
 
+                if ('scenes' in response) {
+                    gameData.scenes = [];
+                    for (let scene of response.scenes) {
+                        gameData.scenes.push(Scene.load(scene));
+                    }
+                }
+
                 if ('startingWealth' in response) {
                     gameData.startingWealth = response['startingWealth'];
                 }
@@ -172,6 +182,11 @@ class GameStates {
                 gameData.startMinute = 0
                 if ('startMinute' in response) {
                     gameData.startMinute = response['startMinute'];
+                }
+
+                gameData.endHour = null;
+                if ('endHour' in response) {
+                    gameData.endHour = response['endHour'];
                 }
 
                 resolve(gameData);

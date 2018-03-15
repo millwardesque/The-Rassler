@@ -15,13 +15,17 @@ class GameClock extends GameObject {
 	}
 
 	setTime(day, hour, minute) {
+		let oldDay = this.day;
+		let oldHour = this.hour;
+		let oldMinute = this.minute;
+
 		this.day = day;
 		this.hour = hour;
 		this.minute = minute;
 
 		this.normalizeDate();
 
-		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnGameTimeChange, this));
+		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnGameTimeChange, { current: this, oldDay: oldDay, oldHour: oldHour, oldMinute: oldMinute }));
 	}
 
 	addTime(deltaDays, deltaHours, deltaMinutes) {
@@ -32,10 +36,12 @@ class GameClock extends GameObject {
 		while (this.minute > 59) {
 			this.minute -= 60;
 			this.hour++;
+			hourChanged = true;
 		}
 		while (this.minute < 0) {
 			this.minute += 60;
 			this.hour--;
+			hourChanged = true;
 		}
 
 		while (this.hour > 23) {

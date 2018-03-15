@@ -12,7 +12,7 @@ class GameClockUI extends GameObject {
 
 	handleEvent(event) {
 		if (event.id == GameEvents.OnGameTimeChange) {
-			this.render(event.data);
+			this.render(event.data.current);
 		}
 	}
 

@@ -27,7 +27,7 @@ class Scene extends GameObject{
 			for (let node of this.nodes) {
 				if (node.id == sceneNodeId) {
 					engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnSceneNodeChange, node));
-					return;	
+					return;
 				}
 			}
 		}
@@ -37,7 +37,7 @@ class Scene extends GameObject{
 
 	endScene() {
 		engine.registry.set(`scene complete: ${this.id}`, true);
-		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.SelectNextScene, engine.gameData.scenes));
+		engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.OnSceneEnd, { scene: this }));
 	}
 
 	static load(sceneData) {
@@ -52,7 +52,13 @@ class Scene extends GameObject{
 					let command = node.commands[i];
 					command.id = `SceneNode-${node.id}-Command-${i}`;
 					command.isEnabled = false;
-					commands.push(Command.load(command));
+
+					if ('nextSceneNode' in command) {
+						commands.push(NextSceneCommand.load(command));
+					}
+					else {
+						commands.push(Command.load(command));
+					}
 				}
 				let sceneNode = new SceneNode(node.id, null, node.description, commands);
 				nodes.push(sceneNode);
@@ -62,7 +68,7 @@ class Scene extends GameObject{
 			if ("prerequisites" in sceneData) {
 				for (let prereq of sceneData.prerequisites) {
 					if ("key" in prereq && "value" in prereq) {
-						prerequisites.push(prereq);	
+						prerequisites.push(prereq);
 					}
 				}
 			}
