@@ -34,6 +34,7 @@
     "locations": [
         {
             "name": "Home",
+            "type": "Home",
             "description": "Home, sweet home! You live here. It's pretty rad.",
             "lenders": ["pool-chicken"]
         },
@@ -64,6 +65,23 @@
                         {
                             "label": "Continue",
                             "nextSceneNode": "<end>"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "game-over",
+            "nodes": [
+                {
+                    "id": "game-over1",
+                    "description": "Game over!",
+                    "commands": [
+                        {
+                            "label": "Restart game",
+                            "onExecute": [
+                                { "key": "Restart Game", "value": null}
+                            ]
                         }
                     ]
                 }

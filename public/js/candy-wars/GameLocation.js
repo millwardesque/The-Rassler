@@ -1,5 +1,5 @@
-class Location extends GameObject {
-    constructor(id, name, description, vendor) {
+class GameLocation extends GameObject {
+    constructor(id, name, description) {
         super(id);
 
         this.name = name;
@@ -31,6 +31,10 @@ class Location extends GameObject {
         }
 
         return description;
+    }
+
+    getCommands() {
+        return [];
     }
 
     travelTime(destination) {

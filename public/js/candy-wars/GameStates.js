@@ -111,7 +111,14 @@ class GameStates {
                 if ('locations' in response) {
                     gameData.locations = [];
                     for (let row of response.locations) {
-                        let location = new Location(row.name, row.name, row.description, row.vendor);
+                        let location = null;
+                        if ('type' in row && row['type'] == 'Home') {
+                            location = new Home(row.name, row.name, row.description);
+                        }
+                        else {
+                            location = new GameLocation(row.name, row.name, row.description);
+                        }
+
 
                         if (row['vendors']) {
                             for (let vendorId of row['vendors']) {

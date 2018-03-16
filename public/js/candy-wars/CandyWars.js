@@ -7,11 +7,8 @@ window.onload = async function() {
 
     /**
     TODO:
-    Milestone: Make a game out of everthing
-        Home: Sleep until morning
-
+    Milestone: Make a game out of everything
         Player has to return money by 6pm or game over.
-        Restart on game over
 
         Prices change daily
         Player can only sell candy at school at fixed times
@@ -43,7 +40,9 @@ class CandyWars {
         // Set the global 'engine' variable.
         // @TODO Make this less ugly throughout the codebase.
         engine = this.engine;
+    }
 
+    start() {
         this.engine.initialize();
         this.engine.eventDispatcher.addListener(GameEvents.LoadGameState, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.ChangeLocation, this);
@@ -53,12 +52,13 @@ class CandyWars {
         this.engine.eventDispatcher.addListener(CustomGameEvents.BorrowFunds, this);
         this.engine.eventDispatcher.addListener(GameEvents.OnGameTimeChange, this);
         this.engine.eventDispatcher.addListener(GameEvents.OnSceneEnd, this);
-    }
+        this.engine.eventDispatcher.addListener(CustomGameEvents.RestartGame, this);
+        this.engine.eventDispatcher.addListener(CustomGameEvents.Sleep, this);
 
-    start() {
-        this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'ingame'))
         this.activeCommands = [];
         this.hasSeenEndOfDayMessage = false;
+
+        this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.LoadGameState, 'ingame'))
     }
 
     handleEvent(event) {
@@ -85,6 +85,12 @@ class CandyWars {
         }
         else if (event.id == GameEvents.OnSceneEnd) {
             this.onSceneEnd(event.data);
+        }
+        else if (event.id == CustomGameEvents.Sleep) {
+            this.sleep(event.data);
+        }
+        else if (event.id == CustomGameEvents.RestartGame) {
+            this.restartGame();
         }
     }
 
@@ -204,6 +210,11 @@ class CandyWars {
 
     onGameTimeChange(timeChange) {
         let endHour = this.engine.registry.findValue('end-hour');
+
+        if (timeChange.current.hour == 8) {
+            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "game-over"));
+        }
+
         if (timeChange.current.hour >= endHour && !this.hasSeenEndOfDayMessage) {
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "end-of-day"));
             this.hasSeenEndOfDayMessage = true;
@@ -225,6 +236,23 @@ class CandyWars {
         this.rebuildCommands();
     }
 
+    sleep(sleepDuration) {
+        let location = this.engine.registry.findValue('current-location');
+        let clock = this.engine.registry.findValue('clock');
+        clock.addTime(sleepDuration.days, sleepDuration.hours, sleepDuration.minutes);
+
+        let newDescription = `${location.name}`;
+        newDescription += `\n\nYou wake up after a good sleep and feel mighty rested`;
+        newDescription += `\n\n${location.getFullDescription()}`;
+        this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
+
+        this.rebuildCommands();
+    }
+
+    restartGame() {
+        this.start();
+    }
+
     rebuildCommands() {
         let inventory = this.engine.registry.findValue('inventory');
         let currentLocation = this.engine.registry.findValue('current-location');
@@ -242,6 +270,9 @@ class CandyWars {
                 commands = commands.concat(occupant.getCommands());
             }
         }
+
+        // Get commands from location itself
+        commands = commands.concat(currentLocation.getCommands());
 
         // Generate location-move commands
         this.engine.registry.findValue('locations').forEach((otherLocation) => {

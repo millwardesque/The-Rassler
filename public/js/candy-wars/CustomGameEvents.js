@@ -8,6 +8,8 @@ let CustomGameEvents = {
 	OnInventoryChange: "On Inventory Change",
     OnEnterLocation: "On Enter Location",
     RepayDebt: "Repay Debt",
+    RestartGame: "Restart Game",
     SellMerchandise: "Sell Merchandise",
+    Sleep: "Sleep",
     UpdateWealth: "Update Wealth",
 }
