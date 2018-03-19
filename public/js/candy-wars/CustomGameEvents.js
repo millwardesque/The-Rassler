@@ -6,7 +6,7 @@ let CustomGameEvents = {
 	BuyMerchandise: "Buy Merchandise",
     ChangeLocation: "Change Location",
 	OnInventoryChange: "On Inventory Change",
-    OnEnterLocation: "On Enter Location",
+    OnLocationEnter: "On Location Enter",
     RepayDebt: "Repay Debt",
     RestartGame: "Restart Game",
     SellMerchandise: "Sell Merchandise",

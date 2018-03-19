@@ -12,10 +12,22 @@ class GameUtils {
 				}
 				else {
 					throw new Error(`No replacement value for ${match} was found`);
-				}				
+				}
 			}
 		}
 
 		return processed;
+	}
+
+	static cleanAndProcessText(text) {
+        // Remove any injected HTML
+        text = webUtils.stripHtml(text);
+
+        // Render new-lines
+        text = text.replace(/\n/g, "<br />");
+
+        // Render placeholders
+        text = GameUtils.processTemplate(text);
+        return text;
 	}
 }

@@ -7,18 +7,17 @@ window.onload = async function() {
 
     /**
     TODO:
-    Milestone: Make a game out of everything
-        Prices change daily
-        Player can only sell candy at school at fixed times
-        Player can wait at a location for an hour
-        Adjust travel times to take less than an hour
+    Milestone: UI / Playability improvement
+     Merge buy / sell / pricing / inventory into one row
+     Separate description into separate updateable parts (dialog, status, location description)
+     Drop-down to choose location
 
-        Move buy/sell/borrow/repay event handling into appropriate classes
+    Prices change daily
+    Player can only sell candy at school at fixed times
+    Player can wait at a location for an hour
+    Adjust travel times to take less than an hour
 
-    Generic text label listener / updater
-    Separate description into separate updateable parts (location name, dialog, status, location description)
-    Merge buy / sell commands
-    Drop-down to choose location
+
 
     Time-of-day description (e.g. "Parents have just left for the day"
     Add price spikes and drops
@@ -26,6 +25,7 @@ window.onload = async function() {
 
     Generate random travel time between locations on start
     Create CommandUI classes to allow custom commands to handle their own rendering / retrieval
+    Move buy/sell/borrow/repay event handling into appropriate classes
 
     Ideas:
     Buy territory?
@@ -121,8 +121,7 @@ class CandyWars {
         this.engine.registry.set("current-location", newLocation);
 
         // Update the description
-        let newDescription = `${newLocation.name}`;
-        newDescription += `\n\n${newLocation.getFullDescription()}`;
+        let newDescription = `${newLocation.getFullDescription()}`;
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 
         this.rebuildCommands();
@@ -132,6 +131,8 @@ class CandyWars {
             let travelTime = oldLocation.travelTime(newLocation);
             clock.addTime(0, travelTime, 0);
         }
+
+        this.engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnLocationEnter, newLocation));
     }
 
     buyMerchandise(purchaseOrder) {
@@ -242,8 +243,7 @@ class CandyWars {
         let location = this.engine.registry.findValue('current-location');
 
         // Update the description
-        let newDescription = `${location.name}`;
-        newDescription += `\n\n${location.getFullDescription()}`;
+        let newDescription = `${location.getFullDescription()}`;
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 
         this.rebuildCommands();
@@ -254,8 +254,7 @@ class CandyWars {
         let clock = this.engine.registry.findValue('clock');
         clock.addTime(sleepDuration.days, sleepDuration.hours, sleepDuration.minutes);
 
-        let newDescription = `${location.name}`;
-        newDescription += `\n\nYou wake up after a good sleep and feel mighty rested`;
+        let newDescription = `You wake up after a good sleep and feel mighty rested`;
         newDescription += `\n\n${location.getFullDescription()}`;
         this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
 

@@ -17,21 +17,11 @@ class DescriptionUI extends GameObject {
         }
         else if (event.id == GameEvents.UpdateDescription) {
             this.render(event.data);
-        }   
+        }
     }
 
     render(description) {
         webUtils.removeAllChildren(this.container);
-
-        // Remove any injected HTML
-        description = webUtils.stripHtml(description);
-
-        // Render new-lines
-        description = description.replace(/\n/g, "<br />");
-
-        // Render placeholders
-        description = GameUtils.processTemplate(description);
-
-        this.container.innerHTML = description;
+        this.container.innerHTML = GameUtils.cleanAndProcessText(description);
     }
 }

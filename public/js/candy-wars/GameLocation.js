@@ -14,8 +14,6 @@ class GameLocation extends GameObject {
                 return;
             }
         }
-
-        this.debug(`Adding occupant ${newOccupant.id}`)
         this.occupants.push(newOccupant);
     }
 
