@@ -3,6 +3,10 @@
     <head>
         <title>Candy Wars</title>
 
+         <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <link rel="stylesheet" href="/css/vendors/bootstrap-4.0.0.min.css" />
         <link href="/css/sandbox.css" rel="stylesheet" />
 
@@ -74,10 +78,9 @@
         <div class="container-fluid">
             <div class="row">
                 <main class="col-12">
-                    <h2>Status</h2>
-                    <div class="status">
-                        <div id="gameClock-container"></div>
-                        <div id="wealth-container">
+                    <div id="status" class="row bg-secondary mb-2 pt-2 pb-2 text-white">
+                        <div id="gameClock-container" class="col-sm-2"></div>
+                        <div id="wealth-container" class="col-sm-2">
                             Wealth: <span class="wealth"></span>
                         </div>
                     </div>

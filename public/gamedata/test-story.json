@@ -1,207 +1,207 @@
 {
-	"scenes": [
-		{
-			"id": "test-scene-1",
-			"prerequisites": [
-				{ "key": "scene complete: test-scene-1", "value": null }
-			],
-			"nodes": [
-				{ 
-					"id": "t1",
-					"description": "You're standing in front of the door to the locker room. It's your first time here since joining [% currentTerritory.name %].",
-					"commands": [ 
-						{ 
-							"label": "Gently push door open",
-							"nextSceneNode": "t2a"
-						}
-					]
-				},
-				{ 
-					"id": "t2a",
-					"description": "You slide the door open and timidly poke your head in.\nA man bellows at you from across the room.\n[% currentAntagonist.fullName %]: \"Way to be on time, kid.\nGreat impression on your first day.\"",
-					"commands": [ 
-						{ 
-							"label": "Ignore [% currentAntagonist.firstName %] and walk to locker",
-							"nextSceneNode": "t3a"
-						}
-					]
-				},
-				{ 
-					"id": "t3a",
-					"description": "[% currentAntagonist.fullName %]: \"Don't ignore me, punk!\"",
-					"commands": [ 
-						{ 
-							"label": "Keep ignoring [% currentAntagonist.firstName %]",
-							"nextSceneNode": "t3b"
-						},
-						{ 
-							"label": "Apologize",
-							"nextSceneNode": "t4a"
-						}
-					]
-				},
-				{ 
-					"id": "t3b",
-					"description": "[% currentAntagonist.fullName %] grabs you by the shoulder and spins you around\n[% currentAntagonist.fullName %]: \"HEY! You got a hearin' problem, boy?\"",
-					"commands": [ 
-						{ 
-							"label": "Apologize",
-							"nextSceneNode": "t4a"
-						},
-						{ 
-							"label": "Say nothing",
-							"nextSceneNode": "t4b"
-						}
-					]
-				},
-				{ 
-					"id": "t4a",
-					"description": "Player: \"Sorry, I -\"\n[% currentAntagonist.fullName %]: \"Yeah, you'd damn well better apologize boy. Now pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
-					"commands": [ 
-						{ 
-							"label": "Pick up [% currentAntagonist.firstName %]'s hat",
-							"nextSceneNode": "t5a"
-						},
-						{ 
-							"label": "Continue getting changed",
-							"nextSceneNode": "t5b"
-						}
-					]
-				},
-				{ 
-					"id": "t4b",
-					"description": "[% currentAntagonist.fullName %]: \"Oh great, deaf and mute. You're gonna be a blast to work with in the ring.\nI bet you can't even follow simple directions. Pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
-					"commands": [ 
-						{ 
-							"label": "Pick up [% currentAntagonist.firstName %]'s hat",
-							"nextSceneNode": "t5a"
-						},
-						{ 
-							"label": "Continue getting changed",
-							"nextSceneNode": "t5b"
-						}
-					]
-				},
-				{ 
-					"id": "t5a",
-					"description": "[% currentAntagonist.fullName %]: \"That's a good boy. Now, put it on my head. GENTLY.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
-					"commands": [ 
-						{ 
-							"label": "Smash hat on [% currentAntagonist.firstName %]'s head.",
-							"nextSceneNode": "t6a"
-						}
-					]
-				},
-				{ 
-					"id": "t5b",
-					"description": "[% currentAntagonist.fullName %]: \"I SAID PICK. UP. MY. HAT.\"\n[% currentAntagonist.fullName %] gestures towards his hat, resting on the ground near your feet.\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
-					"commands": [ 
-						{ 
-							"label": "Pick up [% currentAntagonist.firstName %]'s hat.",
-							"nextSceneNode": "t7a"
-						}
-					]
-				},
-				{ 
-					"id": "t6a",
-					"description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
-					"commands": [ 
-						{ 
-							"label": "Finish getting ready",
-							"nextSceneNode": "<end>",
-							"onExecute": [
-								{ "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
-							]
-						}
-					]
-				},
-				{ 
-					"id": "t7a",
-					"description": "You pick up [% currentAntagonist.firstName %]'s hat.",
-					"commands": [ 
-						{ 
-							"label": "Throw it in the trash.",
-							"nextSceneNode": "t8a"
-						}
-					]
-				},
-				{ 
-					"id": "t8a",
-					"description": "You cram [% currentAntagonist.firstName %]'s hat in the mostly full trashcan, covering it in all sorts of God-knows-what but leaving enough of it sticking out the top so he'll notice.",
-					"commands": [ 
-						{ 
-							"label": "Finish getting ready",
-							"nextSceneNode": "<end>",
-							"onExecute": [
-								{ "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "test-scene-2",
-			"prerequisites": [
-				{ "key": "scene complete: test-scene-2", "value": null },
-				{ "key": "scene complete: test-scene-1", "value": true }
-			],
-			"nodes": [
-				{ 
-					"id": "t1",
-					"description": "You're waiting at the gorilla position for your first match. Your music starts pumping.",
-					"commands": [ 
-						{ 
-							"label": "Run through the curtain and down to the ring",
-							"nextSceneNode": "t2a"
-						}
-					]
-				},
-				{ 
-					"id": "t2a",
-					"description": "The crowd cheers.\nAnd then you trip over your own feet, brain yourself on the ring steps, and pass out.",
-					"commands": [ 
-						{ 
-							"label": "<end scene>",
-							"nextSceneNode": "<end>",
-							"onExecute": [
-								{ "key": "Add Game Time", "value": { "hour": 4, "minute": 5}}
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "test-scene-3",
-			"prerequisites": [
-				{ "key": "scene complete: test-scene-3", "value": null },
-				{ "key": "scene complete: test-scene-2", "value": true }
-			],
-			"nodes": [
-				{ 
-					"id": "t1",
-					"description": "Your first [% currentTerritory.name %] show is over! It didn't go too badly, all things considered. What do you want to do now?",
-					"commands": [ 
-						{ 
-							"label": "Go get some food",
-							"nextSceneNode": "t2a"
-						}
-					]
-				},
-				{ 
-					"id": "t2a",
-					"description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
-					"commands": [ 
-						{ 
-							"label": "Main menu",
-							"onExecute": [
-								{ "key": "Load Game State", "value": "main menu" }
-							]
-						}
-					]
-				}
-			]
-		}
-	]
+    "scenes": [
+        {
+            "id": "test-scene-1",
+            "prerequisites": [
+                { "key": "scene complete: test-scene-1", "value": null }
+            ],
+            "nodes": [
+                {
+                    "id": "t1",
+                    "description": "You're standing in front of the door to the locker room. It's your first time here since joining [% currentTerritory.name %].",
+                    "commands": [
+                        {
+                            "label": "Gently push door open",
+                            "nextSceneNode": "t2a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t2a",
+                    "description": "You slide the door open and timidly poke your head in.\nA man bellows at you from across the room.\n[% currentAntagonist.fullName %]: \"Way to be on time, kid.\nGreat impression on your first day.\"",
+                    "commands": [
+                        {
+                            "label": "Ignore [% currentAntagonist.firstName %] and walk to locker",
+                            "nextSceneNode": "t3a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t3a",
+                    "description": "[% currentAntagonist.fullName %]: \"Don't ignore me, punk!\"",
+                    "commands": [
+                        {
+                            "label": "Keep ignoring [% currentAntagonist.firstName %]",
+                            "nextSceneNode": "t3b"
+                        },
+                        {
+                            "label": "Apologize",
+                            "nextSceneNode": "t4a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t3b",
+                    "description": "[% currentAntagonist.fullName %] grabs you by the shoulder and spins you around\n[% currentAntagonist.fullName %]: \"HEY! You got a hearin' problem, boy?\"",
+                    "commands": [
+                        {
+                            "label": "Apologize",
+                            "nextSceneNode": "t4a"
+                        },
+                        {
+                            "label": "Say nothing",
+                            "nextSceneNode": "t4b"
+                        }
+                    ]
+                },
+                {
+                    "id": "t4a",
+                    "description": "Player: \"Sorry, I -\"\n[% currentAntagonist.fullName %]: \"Yeah, you'd damn well better apologize boy. Now pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
+                    "commands": [
+                        {
+                            "label": "Pick up [% currentAntagonist.firstName %]'s hat",
+                            "nextSceneNode": "t5a"
+                        },
+                        {
+                            "label": "Continue getting changed",
+                            "nextSceneNode": "t5b"
+                        }
+                    ]
+                },
+                {
+                    "id": "t4b",
+                    "description": "[% currentAntagonist.fullName %]: \"Oh great, deaf and mute. You're gonna be a blast to work with in the ring.\nI bet you can't even follow simple directions. Pick up my hat.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
+                    "commands": [
+                        {
+                            "label": "Pick up [% currentAntagonist.firstName %]'s hat",
+                            "nextSceneNode": "t5a"
+                        },
+                        {
+                            "label": "Continue getting changed",
+                            "nextSceneNode": "t5b"
+                        }
+                    ]
+                },
+                {
+                    "id": "t5a",
+                    "description": "[% currentAntagonist.fullName %]: \"That's a good boy. Now, put it on my head. GENTLY.\"\n[% currentAntagonist.fullName %] throws his hat on the ground at your feet.",
+                    "commands": [
+                        {
+                            "label": "Smash hat on [% currentAntagonist.firstName %]'s head.",
+                            "nextSceneNode": "t6a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t5b",
+                    "description": "[% currentAntagonist.fullName %]: \"I SAID PICK. UP. MY. HAT.\"\n[% currentAntagonist.fullName %] gestures towards his hat, resting on the ground near your feet.\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
+                    "commands": [
+                        {
+                            "label": "Pick up [% currentAntagonist.firstName %]'s hat.",
+                            "nextSceneNode": "t7a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t6a",
+                    "description": "The locker room goes mostly quiet. Small chuckles can be heard.\n[% currentAntagonist.fullName %]: \"Kid... You. Will. Regret. This.\"\n\n[% currentBooker.fullName %] walks in to the room clutching a piece of paper.\n[% currentBooker.fullName %]: \"[% currentAntagonist.lastName %]! Get the hell out to the ring, your music is already playing!\"\n\n[% currentAntagonist.fullName %] glares at you, then hurriedly stomps out the door.",
+                    "commands": [
+                        {
+                            "label": "Finish getting ready",
+                            "nextSceneNode": "<end>",
+                            "onExecute": [
+                                { "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "t7a",
+                    "description": "You pick up [% currentAntagonist.firstName %]'s hat.",
+                    "commands": [
+                        {
+                            "label": "Throw it in the trash.",
+                            "nextSceneNode": "t8a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t8a",
+                    "description": "You cram [% currentAntagonist.firstName %]'s hat in the mostly full trashcan, covering it in all sorts of God-knows-what but leaving enough of it sticking out the top so he'll notice.",
+                    "commands": [
+                        {
+                            "label": "Finish getting ready",
+                            "nextSceneNode": "<end>",
+                            "onExecute": [
+                                { "key": "Add Game Time", "value": { "hour": 1, "minute": 20}}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "test-scene-2",
+            "prerequisites": [
+                { "key": "scene complete: test-scene-2", "value": null },
+                { "key": "scene complete: test-scene-1", "value": true }
+            ],
+            "nodes": [
+                {
+                    "id": "t1",
+                    "description": "You're waiting at the gorilla position for your first match. Your music starts pumping.",
+                    "commands": [
+                        {
+                            "label": "Run through the curtain and down to the ring",
+                            "nextSceneNode": "t2a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t2a",
+                    "description": "The crowd cheers.\nAnd then you trip over your own feet, brain yourself on the ring steps, and pass out.",
+                    "commands": [
+                        {
+                            "label": "<end scene>",
+                            "nextSceneNode": "<end>",
+                            "onExecute": [
+                                { "key": "Add Game Time", "value": { "hour": 4, "minute": 5}}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "test-scene-3",
+            "prerequisites": [
+                { "key": "scene complete: test-scene-3", "value": null },
+                { "key": "scene complete: test-scene-2", "value": true }
+            ],
+            "nodes": [
+                {
+                    "id": "t1",
+                    "description": "Your first [% currentTerritory.name %] show is over! It didn't go too badly, all things considered. What do you want to do now?",
+                    "commands": [
+                        {
+                            "label": "Go get some food",
+                            "nextSceneNode": "t2a"
+                        }
+                    ]
+                },
+                {
+                    "id": "t2a",
+                    "description": "You find a fastfood joint next door and order six burgers. You've earned it, after all.",
+                    "commands": [
+                        {
+                            "label": "Main menu",
+                            "onExecute": [
+                                { "key": "Load Game State", "value": "main menu" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

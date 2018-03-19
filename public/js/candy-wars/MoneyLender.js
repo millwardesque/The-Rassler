@@ -20,6 +20,10 @@ class MoneyLender extends (GameObject) {
         return description;
     }
 
+    debtOwed() {
+        return this.fundsOutstanding;
+    }
+
     isOwedDebt() {
         return this.fundsOutstanding > 0;
     }

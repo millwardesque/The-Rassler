@@ -8,8 +8,6 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: Make a game out of everything
-        Player has to return money by 6pm or game over.
-
         Prices change daily
         Player can only sell candy at school at fixed times
         Player can wait at a location for an hour
@@ -17,12 +15,15 @@ window.onload = async function() {
 
         Move buy/sell/borrow/repay event handling into appropriate classes
 
-    Time-of-day description (e.g. "Parents have just laft for the day"
+    Generic text label listener / updater
+    Separate description into separate updateable parts (location name, dialog, status, location description)
     Merge buy / sell commands
-    Separate description into separate updateable parts (dialog, status, location description)
+    Drop-down to choose location
+
+    Time-of-day description (e.g. "Parents have just left for the day"
     Add price spikes and drops
     Package engine source into sub-folder
-    Drop-down to choose location
+
     Generate random travel time between locations on start
     Create CommandUI classes to allow custom commands to handle their own rendering / retrieval
 
@@ -30,6 +31,8 @@ window.onload = async function() {
     Buy territory?
     Bullies who steal money and/or inventory
     Penalty for skipping school hours
+    Buy bike to go to other places
+    Police search for you if out after dark
     */
 }
 
@@ -211,11 +214,21 @@ class CandyWars {
     onGameTimeChange(timeChange) {
         let endHour = this.engine.registry.findValue('end-hour');
 
-        if (timeChange.current.hour == 8) {
-            this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "game-over"));
-        }
+        if (timeChange.current.hour > endHour) {
+            let debtOwed = 0;
+            this.engine.registry.findValue('locations').forEach((location) => {
+                location.getOccupants().forEach((occupant) => {
+                    if (occupant instanceof MoneyLender) {
+                        debtOwed += occupant.debtOwed;
+                    }
+                });
+            });
 
-        if (timeChange.current.hour >= endHour && !this.hasSeenEndOfDayMessage) {
+            if (debtOwed) {
+                this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "game-over"));
+            }
+        }
+        else if (timeChange.current.hour >= endHour && !this.hasSeenEndOfDayMessage) {
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ActivateScene, "end-of-day"));
             this.hasSeenEndOfDayMessage = true;
         }
