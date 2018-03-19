@@ -86,8 +86,9 @@ class Vendor extends GameObject {
 
         // Player-buy commands
         for (let item of this.merchandise) {
-            let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, 1, 'Buy', 'quantity');
-            command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: this.merchandiseSellPrice(item.name) }});
+            let buyPrice = this.merchandiseSellPrice(item.name);
+            let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, 1, `Buy @ \$${buyPrice}`, 'quantity');
+            command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: buyPrice }});
             commands.push(command);
         }
 
@@ -95,8 +96,9 @@ class Vendor extends GameObject {
         for (let name in inventoryItems) {
             if (this.buys(name)) {
                 let value = inventoryItems[name];
-                let command = new QuantityCommand(`sell-${name}`, `${name}`, 1, 'Sell', 'quantity');
-                command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: this.merchandiseBuyPrice(name) }});
+                let sellPrice = this.merchandiseSellPrice(name);
+                let command = new QuantityCommand(`sell-${name}`, `${name}`, 1, `Sell @ \$${sellPrice}`, 'quantity');
+                command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: sellPrice }});
                 commands.push(command);
             }
         }
