@@ -83,7 +83,8 @@
                     <div id="status" class="row sticky-top bg-secondary mb-2 pt-2 pb-2 text-white">
                         <div id="gameClock-container" class="col-sm-2"></div>
                         <div id="wealth-container" class="col-sm-2">
-                            Wealth: <span class="wealth"></span>
+                            Wealth: <span class="wealth"></span><br />
+                            Borrowed: <span class="borrowed"></span>
                         </div>
 
                         <div id="location-container" class="col-sm-6">
@@ -91,9 +92,21 @@
                         </div>
                     </div>
 
+                    <ul>
+                        <li class="merchandise-command list-group-item list-group-item-action">
+                            <form class="form-inline">
+                                <div class="form-group mr-sm-2 mb-2">
+                                    <input type="text" id="quantity-command" class="form-control"></input>
+                                </div>
+                                <button class="btn btn-primary mb-2 mr-sm-1" type="submit" value="buy">Buy @ $4.03</button>
+                                <button class="btn btn-primary mb-2" type="submit" value="sell">Sell @ $3.01</button>
+                            </form>
+
+                        </li>
+                    </ul>
+
                     <h2>Description</h2>
                     <div id="description"></div>
-
 
                     <h2>Inventory</h2>
                     <ul id="inventory" class="list-group">

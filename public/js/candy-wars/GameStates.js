@@ -17,8 +17,8 @@ class GameStates {
                 let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
                 let descriptionUI = new DescriptionUI("Description UI", document.querySelector('#description'));
                 let inventoryUI = new InventoryUI("Inventory UI", document.querySelector('#inventory'));
-                let wealthUI = new WealthUI("Wealth UI", document.querySelector('#wealth-container .wealth'));
-                let locationUI = new GameLocationUI("Location", document.querySelector('#location-container'))
+                let wealthUI = new WealthUI("Wealth UI", document.querySelector('#wealth-container'));
+                let locationUI = new GameLocationUI("Location", document.querySelector('#location-container'));
 
                 // Load the game data.
                 let gameData;

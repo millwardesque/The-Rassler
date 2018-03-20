@@ -97,7 +97,7 @@ class Vendor extends GameObject {
             if (this.buys(name)) {
                 let value = inventoryItems[name];
                 let sellPrice = this.merchandiseSellPrice(name);
-                let command = new QuantityCommand(`sell-${name}`, `${name}`, 1, `Sell @ \$${sellPrice}`, 'quantity');
+                let command = new QuantityCommand(`sell-${name}`, `${name}`, 1, `Sell @ \$${sellPrice} (up to ${value})`, 'quantity');
                 command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: sellPrice }});
                 commands.push(command);
             }

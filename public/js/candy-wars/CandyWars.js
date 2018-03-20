@@ -190,6 +190,7 @@ class CandyWars {
         let wealth = this.engine.registry.findValue('wealth');
         let amountPaid = repayOrder.lender.repayDebt(repayOrder.amount);
         wealth.change(-amountPaid);
+        wealth.changeBorrowed(-amountPaid);
 
         let newDescription = `You just repaid \$${amountPaid.toFixed(2)}.`;
         newDescription += `\n\n${location.getFullDescription()}`;
@@ -204,6 +205,7 @@ class CandyWars {
 
         let amountBorrowed = borrowOrder.lender.borrowFunds(borrowOrder.amount);
         wealth.change(amountBorrowed);
+        wealth.changeBorrowed(amountBorrowed);
 
         let newDescription = `You just borrowed \$${amountBorrowed.toFixed(2)}.`;
         newDescription += `\n\n${location.getFullDescription()}`;

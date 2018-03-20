@@ -68,7 +68,7 @@ class CommandsUI extends GameObject{
      */
     renderQuantityCommand(command) {
         let commandNode = webUtils.cloneTemplate('quantity-command');
-        let randomId = Math.floor(Math.random * 10000000);
+        let randomId = Math.floor(Math.random() * 1000000000);
         let formId = "quantity-command-form_" + randomId;
         let fieldId = "quantity-command_" + randomId;
 
