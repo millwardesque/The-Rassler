@@ -87,7 +87,7 @@ class Vendor extends GameObject {
 
         // Gather list of items which the player has and this vendor buys.
         for (let item in inventoryItems) {
-            if (this.buys(item)) {
+            if (this.buys(item) && inventoryItems[item] > 0) {
                 if (!(item in itemList)) {
                     itemList[item] = [];
                 }
@@ -115,39 +115,6 @@ class Vendor extends GameObject {
             let command = new QuantityCommand(`vendor-${item}`, item, 1, actions, 'quantity');
             commands.push(command);
         }
-
-        /*
-        // Player-buy commands
-        for (let item of this.merchandise) {
-            let buyPrice = this.merchandiseSellPrice(item.name);
-            let command = new QuantityCommand(`buy-${item.id}`, `${item.name}`, 1, `Buy @ \$${buyPrice}`, 'quantity');
-            command.onExecute.push({ key: CustomGameEvents.BuyMerchandise, value: { merchandise: item, quantity: 1, unitPrice: buyPrice }});
-            commands.push(command);
-        }
-
-        // Player-sell commands
-        for (let name in inventoryItems) {
-            if (this.buys(name)) {
-                let value = inventoryItems[name];
-                let sellPrice = this.merchandiseSellPrice(name);
-                let command = new QuantityCommand(`sell-${name}`, `${name}`, 1, `Sell @ \$${sellPrice} (up to ${value})`, 'quantity');
-                command.onExecute.push({ key: CustomGameEvents.SellMerchandise, value: { itemName: name, quantity: 1, unitPrice: sellPrice }});
-                commands.push(command);
-            }
-        }
-
-        // Sort by name.
-        commands.sort((a, b) => {
-            if (a.label < b.label) {
-                return -1;
-            }
-            else if (a.label > b.label) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
-        });*/
 
         return commands;
     }

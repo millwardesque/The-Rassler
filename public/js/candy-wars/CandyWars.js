@@ -8,6 +8,7 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: UI / Playability improvement
+     Allow disabling (but showing) buy/sell buttons when not available
      Drop-down to choose location
      Add background photos for locations
 
@@ -25,7 +26,6 @@ window.onload = async function() {
     Move buy/sell/borrow/repay event handling into appropriate classes
 
     Separate description into separate updateable parts (dialog, status, location description)
-    Allow disabling (but showing) buy/sell buttons when not available
 
     Ideas:
     Buy territory?
