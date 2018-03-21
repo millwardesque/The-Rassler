@@ -8,8 +8,6 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: UI / Playability improvement
-     Update vendor to properly use new multi-action quantity command.
-     Merge buy / sell / pricing / inventory into one row
      Drop-down to choose location
      Add background photos for locations
 
@@ -27,6 +25,7 @@ window.onload = async function() {
     Move buy/sell/borrow/repay event handling into appropriate classes
 
     Separate description into separate updateable parts (dialog, status, location description)
+    Allow disabling (but showing) buy/sell buttons when not available
 
     Ideas:
     Buy territory?
@@ -147,9 +146,9 @@ class CandyWars {
         let location = this.engine.registry.findValue('current-location');
         if (wealth.wealth >= totalCost) {
             let inventory = this.engine.registry.findValue('inventory');
-            inventory.add(purchaseOrder.merchandise.name, purchaseOrder.quantity);
+            inventory.add(purchaseOrder.itemName, purchaseOrder.quantity);
 
-            let newDescription = `You just bought ${purchaseOrder.quantity} ${purchaseOrder.merchandise.name} for \$${totalCost.toFixed(2)}. Enjoy!`;
+            let newDescription = `You just bought ${purchaseOrder.quantity} ${purchaseOrder.itemName} for \$${totalCost.toFixed(2)}. Enjoy!`;
             newDescription += `\n\n${location.getFullDescription()}`;
             this.engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.UpdateDescription, newDescription));
             wealth.change(-totalCost);

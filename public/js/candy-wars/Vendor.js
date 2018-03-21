@@ -77,23 +77,46 @@ class Vendor extends GameObject {
     getCommands() {
         let inventoryItems = engine.registry.findValue('inventory').all();
         let commands = [];
+        let wealth = engine.registry.findValue('wealth');
 
         // Gather list of items this vendor sells.
         let itemList = this.merchandise.reduce((all, item) => {
-            all[item.name] = ['buy'];
+            all[item.name] = ['player-buy'];
             return all;
-        })
+        }, {});
 
         // Gather list of items which the player has and this vendor buys.
-        for (let key in inventoryItems) {
-            let item = inventoryItems[key];
-            if (!(item in itemList)) {
-                itemList[item] = [];
-            }
+        for (let item in inventoryItems) {
+            if (this.buys(item)) {
+                if (!(item in itemList)) {
+                    itemList[item] = [];
+                }
 
-            itemList[item].push('sell');
+                itemList[item].push('player-sell');
+            }
         }
 
+        for (let item of Object.keys(itemList).sort()) {
+            let actionTypes = itemList[item];
+            let actions = {};
+
+            if (actionTypes.includes('player-buy')) {
+                let buyPrice = this.merchandiseSellPrice(item);
+                let maxQuantity = Math.floor(wealth.wealth / buyPrice);
+                actions['player-buy'] = { label: `Buy @ \$${buyPrice} (up to ${maxQuantity})`, onExecute: { key: CustomGameEvents.BuyMerchandise, value: { itemName: item, quantity: 1, unitPrice: buyPrice }}};
+            }
+
+            if (actionTypes.includes('player-sell')) {
+                let numAvailable = inventoryItems[item];
+                let sellPrice = this.merchandiseBuyPrice(item);
+                actions['player-sell'] = { label: `Sell @ \$${sellPrice} (up to ${numAvailable})`, onExecute: { key: CustomGameEvents.SellMerchandise, value: { itemName: item, quantity: 1, unitPrice: sellPrice }}};
+            }
+
+            let command = new QuantityCommand(`vendor-${item}`, item, 1, actions, 'quantity');
+            commands.push(command);
+        }
+
+        /*
         // Player-buy commands
         for (let item of this.merchandise) {
             let buyPrice = this.merchandiseSellPrice(item.name);
@@ -124,7 +147,7 @@ class Vendor extends GameObject {
             else {
                 return 0;
             }
-        });
+        });*/
 
         return commands;
     }
