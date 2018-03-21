@@ -48,20 +48,17 @@ class MoneyLender extends (GameObject) {
     }
 
     getCommands() {
-        let commands = [];
-
-        if (this.isOwedDebt()) {
-            let command = new QuantityCommand(`repay-debt`, `Repay debt`, 1, `Repay (\$${this.debtOwed()} owed)`, 'amount');
-            command.onExecute.push({ key: CustomGameEvents.RepayDebt, value: { lender: this, amount: 1 }});
-            commands.push(command);
-        }
+        let actions = {};
 
         if (this.funds > 0) {
-            let command = new QuantityCommand(`borrow-funds`, `Borrow funds`, 1, `Borrow (up to \$${this.funds})`, 'amount');
-            command.onExecute.push({ key: CustomGameEvents.BorrowFunds, value: { lender: this, amount: 1 }});
-            commands.push(command);
+            actions['borrow'] = { label: `Borrow (up to \$${this.funds})`, onExecute: { key: CustomGameEvents.BorrowFunds, value: { lender: this, amount: 1 }}};
         }
 
-        return commands;
+        if (this.isOwedDebt()) {
+            actions['repay'] = { label: `Repay (\$${this.debtOwed()} owed)`, onExecute: { key: CustomGameEvents.RepayDebt, value: { lender: this, amount: 1 }}};
+        }
+        let command = new QuantityCommand(`loans`, `Loans`, 1, actions, 'amount');
+
+        return [command];
     }
 }

@@ -8,16 +8,15 @@ window.onload = async function() {
     /**
     TODO:
     Milestone: UI / Playability improvement
+     Update vendor to properly use new multi-action quantity command.
      Merge buy / sell / pricing / inventory into one row
-     Separate description into separate updateable parts (dialog, status, location description)
      Drop-down to choose location
+     Add background photos for locations
 
     Prices change daily
     Player can only sell candy at school at fixed times
     Player can wait at a location for an hour
     Adjust travel times to take less than an hour
-
-
 
     Time-of-day description (e.g. "Parents have just left for the day"
     Add price spikes and drops
@@ -26,6 +25,8 @@ window.onload = async function() {
     Generate random travel time between locations on start
     Create CommandUI classes to allow custom commands to handle their own rendering / retrieval
     Move buy/sell/borrow/repay event handling into appropriate classes
+
+    Separate description into separate updateable parts (dialog, status, location description)
 
     Ideas:
     Buy territory?

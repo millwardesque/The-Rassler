@@ -32,76 +32,12 @@ class CommandsUI extends GameObject{
     render(commands) {
         webUtils.removeAllChildren(this.container);
         for (let command of commands) {
-            if (command instanceof QuantityCommand) {
-                this.renderQuantityCommand(command)
-            }
-            else {
-                this.renderCommand(command);
-            }
+            command.render(this.container);
         }
 
         if (this.canUseCustomCommands) {
             this.renderCustomCommand();
         }
-    }
-
-    /**
-     * Renders a prescribed command (e.g. a line of dialogue the user could speak)
-     */
-    renderCommand(command) {
-        let commandNode = webUtils.cloneTemplate('command');
-        let label = GameUtils.processTemplate(command.label);
-        commandNode.querySelector('.label').textContent = label;
-
-        commandNode.addEventListener('click', function(clickEvent) {
-            clickEvent.preventDefault();
-            clickEvent.stopPropagation();
-
-            engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
-        });
-
-        this.container.appendChild(commandNode);
-    }
-
-    /**
-     * Renders a quantity command form.
-     */
-    renderQuantityCommand(command) {
-        let commandNode = webUtils.cloneTemplate('quantity-command');
-        let randomId = Math.floor(Math.random() * 1000000000);
-        let formId = "quantity-command-form_" + randomId;
-        let fieldId = "quantity-command_" + randomId;
-
-        let form = commandNode.querySelector('form');
-        form.id = formId;
-
-        let field = commandNode.querySelector('#quantity-command');
-        field.id = fieldId;
-
-        form.querySelector('label').textContent = command.label;
-        form.querySelector('button[type="submit"]').textContent = command.actionName;
-
-        form.addEventListener('submit', (submitEvent) => {
-            submitEvent.preventDefault();
-            submitEvent.stopPropagation();
-
-            let quantity = Number(webUtils.stripHtml(field.value));
-            if (quantity == "") {
-                return;
-            }
-
-            if (!Number.isInteger(quantity)) {
-                console.log(`Supplied quantity ${quantity} isn't a number. Ignoring.`);
-            }
-            else {
-                command.quantity = quantity;
-                engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, command));
-            }
-
-            field.value = "";
-        });
-
-        this.container.appendChild(commandNode);
     }
 
     /**

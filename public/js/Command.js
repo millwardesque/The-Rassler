@@ -21,6 +21,21 @@ class Command extends GameObject {
         }
     }
 
+    render(container) {
+        let commandNode = webUtils.cloneTemplate('command');
+        let label = GameUtils.processTemplate(this.label);
+        commandNode.querySelector('.label').textContent = label;
+
+        commandNode.addEventListener('click', clickEvent => {
+            clickEvent.preventDefault();
+            clickEvent.stopPropagation();
+
+            engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, this));
+        });
+
+        container.appendChild(commandNode);
+    }
+
     /**
      * Loads a command via an object literal instead of a list of params
      */

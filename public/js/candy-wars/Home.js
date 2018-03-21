@@ -6,8 +6,10 @@ class Home extends GameLocation {
     getCommands() {
         let commands = super.getCommands();
 
-        let command = new QuantityCommand(`sleep`, `Hours`, 1, 'Sleep', 'hours');
-        command.onExecute.push({ key: CustomGameEvents.Sleep, value: { days: 0, hours: 1, minutes: 0} });
+        let actions = {
+            'sleep': { label: `Sleep`, onExecute: { key: CustomGameEvents.Sleep, value: { days: 0, hours: 1, minutes: 0} }},
+        };
+        let command = new QuantityCommand(`sleep`, `Hours`, 1, actions, 'hours');
         commands.push(command);
 
         return commands;

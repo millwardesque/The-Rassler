@@ -1,9 +1,9 @@
 class QuantityCommand extends Command {
-    constructor(id, label, quantity, actionName, onExecuteQuantityKey) {
+    constructor(id, label, quantity, actions, onExecuteQuantityKey) {
         super(id, label);
 
         this.quantity = quantity;
-        this.actionName = actionName;
+        this.actions = actions;
         this.onExecuteQuantityKey = onExecuteQuantityKey;
 
         engine.eventDispatcher.addListener(GameEvents.ExecuteCommand, this);
@@ -22,23 +22,50 @@ class QuantityCommand extends Command {
         super.execute();
     }
 
-    /**
-     * Loads a command via an object literal instead of a list of params
-     */
-    static load(obj) {
-        try {
-            let command = new QuantityCommand(obj.id, obj.label, obj.quantity);
-            if ('isEnabled' in obj) {
-                command.isEnabled = obj.isEnabled;
-            }
+    render(container) {
+        let commandNode = webUtils.cloneTemplate('quantity-command');
+        let randomId = Math.floor(Math.random() * 1000000000);
+        let formId = "quantity-command-form_" + randomId;
+        let fieldId = "quantity-command_" + randomId;
 
-            if ('onExecute' in obj) {
-                command.onExecute = obj.onExecute;
-            }
-            return command;
+        let form = commandNode.querySelector('form');
+        form.id = formId;
+
+        let field = commandNode.querySelector('#quantity-command');
+        field.id = fieldId;
+
+        form.querySelector('label').textContent = this.label;
+
+        // Create all the buttons.
+        for (let action in this.actions) {
+            let actionButton = webUtils.cloneTemplate('quantity-command-submit');
+            actionButton.value = action;
+            actionButton.textContent = this.actions[action].label;
+
+            actionButton.addEventListener('click', clickEvent => {
+                clickEvent.preventDefault();
+                clickEvent.stopPropagation();
+
+                let quantity = Number(webUtils.stripHtml(field.value));
+                if (quantity == "") {
+                    return;
+                }
+
+                if (!Number.isInteger(quantity)) {
+                    console.log(`Supplied quantity ${quantity} isn't a number. Ignoring.`);
+                }
+                else {
+                    this.quantity = quantity;
+                    this.onExecute.push(this.actions[action].onExecute);
+                    engine.eventDispatcher.dispatchEvent(new GameEvent(GameEvents.ExecuteCommand, this));
+                }
+
+                field.value = "";
+            });
+
+            form.appendChild(actionButton);
         }
-        catch(err) {
-            throw new Error(`Unable to load quantity command from object: ${err}`);
-        }
+
+        container.appendChild(commandNode);
     }
 }

@@ -10,12 +10,6 @@ class Vendor extends GameObject {
 
     getDescription() {
         let description = `${this.name}: "Hi there! What can I get for you?"`;
-        if (this.merchandise.length) {
-            description += `\n\nMerchandise`;
-            for (let item of this.merchandise) {
-                description += `\n${item.name}: Buy @ \$${this.merchandiseBuyPrice(item.name)} / Sell @ \$${this.merchandiseSellPrice(item.name)}`;
-            }
-        }
         return description;
     }
 
@@ -84,6 +78,22 @@ class Vendor extends GameObject {
         let inventoryItems = engine.registry.findValue('inventory').all();
         let commands = [];
 
+        // Gather list of items this vendor sells.
+        let itemList = this.merchandise.reduce((all, item) => {
+            all[item.name] = ['buy'];
+            return all;
+        })
+
+        // Gather list of items which the player has and this vendor buys.
+        for (let key in inventoryItems) {
+            let item = inventoryItems[key];
+            if (!(item in itemList)) {
+                itemList[item] = [];
+            }
+
+            itemList[item].push('sell');
+        }
+
         // Player-buy commands
         for (let item of this.merchandise) {
             let buyPrice = this.merchandiseSellPrice(item.name);
@@ -102,6 +112,19 @@ class Vendor extends GameObject {
                 commands.push(command);
             }
         }
+
+        // Sort by name.
+        commands.sort((a, b) => {
+            if (a.label < b.label) {
+                return -1;
+            }
+            else if (a.label > b.label) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        });
 
         return commands;
     }
