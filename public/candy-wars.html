@@ -14,6 +14,8 @@
         <script src="/js/vendors/popper-1.12.9.min.js"></script>
         <script src="/js/vendors/bootstrap-4.0.0.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
         <script src="/js/WebUtils.js"></script>
         <script src="/js/Log.js"></script>
         <script src="/js/GameObject.js"></script>
@@ -38,10 +40,9 @@
         <script src="/js/CommandParser.js"></script>
 
         <script src="/js/CommandsUI.js"></script>
-        <script src="/js/DescriptionUI.js"></script>
         <script src="/js/TextUI.js"></script>
-        <script src="/js/GameClockUI.js"></script>
 
+        <script src="/js/candy-wars/GameUI.js"></script>
         <script src="/js/candy-wars/CandyWars.js"></script>
         <script src="/js/candy-wars/CustomGameEvents.js"></script>
         <script src="/js/candy-wars/GameLocation.js"></script>
@@ -49,7 +50,6 @@
         <script src="/js/candy-wars/GameStates.js"></script>
         <script src="/js/candy-wars/Home.js"></script>
         <script src="/js/candy-wars/Inventory.js"></script>
-        <script src="/js/candy-wars/InventoryUI.js"></script>
         <script src="/js/candy-wars/Merchandise.js"></script>
         <script src="/js/candy-wars/MoneyLender.js"></script>
         <script src="/js/candy-wars/Vendor.js"></script>
@@ -79,9 +79,11 @@
 
         <div class="container-fluid">
             <div class="row">
-                <main class="col-12">
+                <main class="col-12" id="game-canvas">
                     <div id="status" class="row sticky-top bg-secondary mb-2 pt-2 pb-2 text-white">
-                        <div id="gameClock-container" class="col-sm-2"></div>
+                        <div id="gameClock-container" class="col-sm-2">
+                            <game-clock v-bind:game-clock="gameClock"></game-clock>
+                        </div>
                         <div id="wealth-container" class="col-sm-3">
                             Wealth: <span class="wealth"></span><br />
                             Borrowed: <span class="borrowed"></span>
@@ -93,11 +95,15 @@
                     </div>
 
                     <h2>Description</h2>
-                    <div id="description"></div>
+                    <description v-bind:description="description"></description>
 
                     <h2>Inventory</h2>
-                    <ul id="inventory" class="list-group">
+                    <ul id="inventory" v-if="inventory.keys().length > 0" class="list-group">
+                        <inventory-item v-for="(quantity, name) in inventory" v-bind:name="name" v-bind:quantity="quantity" :key="item.name"></inventory-item>
                     </ul>
+                    <div v-else>
+                        You have nothing in your inventory.
+                    </div>
 
                     <h2>Commands</h2>
                     <ul id="commands" class="list-group">
@@ -142,10 +148,6 @@
             <li class="template inventory-item list-group-item">
                 <span class="name"></span><span class="quantity"></span>
             </li>
-
-            <div class="template gameClock">
-                Day <span class="day"></span> - <span class="hour"></span>:<span class="minute"></span>
-            </div>
         </div>
     </body>
 </html>

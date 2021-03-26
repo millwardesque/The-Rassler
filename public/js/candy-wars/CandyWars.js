@@ -46,7 +46,7 @@ class CandyWars {
     }
 
     start() {
-        this.engine.initialize();
+        this.engine.initialize('#game-canvas');
         this.engine.eventDispatcher.addListener(GameEvents.LoadGameState, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.ChangeLocation, this);
         this.engine.eventDispatcher.addListener(CustomGameEvents.BuyMerchandise, this);

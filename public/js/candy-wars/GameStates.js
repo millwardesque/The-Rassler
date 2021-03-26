@@ -13,10 +13,8 @@ class GameStates {
                 engine.registry.set('inventory', inventory);
 
                 // Set up UI
-                let clockUI = new GameClockUI("Clock UI", document.querySelector('#gameClock-container'));
+                let gameUI = new GameUI("Game UI", document.querySelector('#game-canvas'));
                 let commandsUI = new CommandsUI("Commands UI", document.querySelector('#commands'));
-                let descriptionUI = new DescriptionUI("Description UI", document.querySelector('#description'));
-                let inventoryUI = new InventoryUI("Inventory UI", document.querySelector('#inventory'));
                 let wealthUI = new WealthUI("Wealth UI", document.querySelector('#wealth-container'));
                 let locationUI = new GameLocationUI("Location", document.querySelector('#location-container'));
 
@@ -46,7 +44,7 @@ class GameStates {
                 engine.registry.set('end-hour', engine.gameData.endHour)
 
                 engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.ChangeLocation, { location: engine.gameData.startingLocation }));
-                engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, null));
+                engine.eventDispatcher.dispatchEvent(new GameEvent(CustomGameEvents.OnInventoryChange, inventory));
                 gameClock.setTime(engine.gameData.startDay, engine.gameData.startHour, engine.gameData.startMinute);
                 resolve();
             }

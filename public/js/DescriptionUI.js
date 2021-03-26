@@ -1,12 +1,9 @@
 class DescriptionUI extends GameObject {
-    constructor(id, container) {
+    constructor(id) {
         super(id);
+        this.description = '';
 
-        if (container == null) {
-            throw new Error("Null container passed to constructor.");
-        }
-
-        this.container = container;
+        engine.vue.$set(this, 'description', this.description)
         engine.eventDispatcher.addListener(GameEvents.OnSceneNodeChange, this);
         engine.eventDispatcher.addListener(GameEvents.UpdateDescription, this);
     }
